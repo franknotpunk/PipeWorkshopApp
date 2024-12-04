@@ -1,5 +1,6 @@
 ﻿using EasyModbus;
 using System;
+using System.Net;
 
 namespace PipeWorkshopApp.Services
 {
@@ -7,9 +8,15 @@ namespace PipeWorkshopApp.Services
     {
         private ModbusClient _modbusClient;
         private int _registerAddress;
+        private string ipAddress;
+        private int port;
+        private int registerAddress;
 
         public ModbusService(string ipAddress, int port, int registerAddress)
         {
+            this.port = port;
+            this.ipAddress = ipAddress;
+            this.registerAddress = registerAddress;
             _modbusClient = new ModbusClient(ipAddress, port);
             _registerAddress = registerAddress;
 
@@ -68,7 +75,7 @@ namespace PipeWorkshopApp.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка Modbus: {ex.Message}");
+                throw new Exception($"Ошибка Modbus: {ex.Message} {this.ipAddress}:{this.port} {this.registerAddress}");
                 // Обработка ошибок чтения/записи регистра
                 return false;
             }

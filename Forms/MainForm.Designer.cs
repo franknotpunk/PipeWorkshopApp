@@ -554,6 +554,7 @@
             // listBoxLog
             // 
             listBoxLog.FormattingEnabled = true;
+            listBoxLog.HorizontalScrollbar = true;
             listBoxLog.Location = new Point(1240, 523);
             listBoxLog.Name = "listBoxLog";
             listBoxLog.Size = new Size(333, 379);

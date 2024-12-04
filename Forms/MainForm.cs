@@ -33,12 +33,11 @@ namespace PipeWorkshopApp
             // Инициализация участков
             InitializeSections();
 
+            
+
             // Загрузка настроек и инициализация Modbus-сервисов
             LoadSettings();
-            InitializeModbusServices();
-
-            // Запуск HTTP-сервера
-            StartHttpServer();
+           
 
             listBoxSharoshka.ContextMenuStrip = contextMenu;
             listBoxNK.ContextMenuStrip = contextMenu;
@@ -48,8 +47,11 @@ namespace PipeWorkshopApp
             listBoxMarkirovka.ContextMenuStrip = contextMenu;
             listBoxRejectedPipes.ContextMenuStrip = contextMenu;
 
+            listBoxLog.KeyDown += listBoxLog_KeyDown;
+
 
         }
+
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -193,11 +195,15 @@ namespace PipeWorkshopApp
                 {
                     try
                     {
+                        Thread.Sleep(3000);
                         // Участок "Создание"
                         if (_modbusServices["Создание"].CheckTrigger())
                         {
                             AddNewPipe();
+                            LogMessage($"триггер отработал");
                         }
+
+                        Thread.Sleep(500);
 
                         // "Шарошка" - триггер годной трубы
                         if (_modbusServices["Шарошка_Good"].CheckTrigger())
@@ -209,6 +215,8 @@ namespace PipeWorkshopApp
                             }
                         }
 
+                        Thread.Sleep(500);
+
                         // "Шарошка" - триггер брака
                         if (_modbusServices["Шарошка_Reject"].CheckTrigger())
                         {
@@ -218,6 +226,8 @@ namespace PipeWorkshopApp
                                 RejectPipe(pipe, "Шарошка");
                             }
                         }
+
+                        Thread.Sleep(500);
 
                         // Участок "НК"
                         if (_modbusServices["НК"].CheckTrigger())
@@ -249,6 +259,8 @@ namespace PipeWorkshopApp
                             }
                         }
 
+                        Thread.Sleep(500);
+
                         // Участок "Токарка"
                         if (_modbusServices["Токарка"].CheckTrigger())
                         {
@@ -259,6 +271,8 @@ namespace PipeWorkshopApp
                                 MovePipeToNextQueue(pipe, "Токарка");
                             }
                         }
+
+                        Thread.Sleep(500);
 
                         // Участок "Отворот"
                         if (_modbusServices["Отворот"].CheckTrigger())
@@ -280,6 +294,8 @@ namespace PipeWorkshopApp
                             }
                         }
 
+                        Thread.Sleep(500);
+
                         // Участок "Опрессовка" годная
                         if (_modbusServices["Опрессовка_Good"].CheckTrigger())
                         {
@@ -290,6 +306,9 @@ namespace PipeWorkshopApp
                                 MovePipeToNextQueue(pipe, "Опрессовка");
                             }
                         }
+
+                        Thread.Sleep(500);
+
                         // Участок "Опрессовка" брак
                         if (_modbusServices["Опрессовка_Reject"].CheckTrigger())
                         {
@@ -300,6 +319,8 @@ namespace PipeWorkshopApp
                                 RejectPipe(pipe, "Опрессовка");
                             }
                         }
+
+                        Thread.Sleep(500);
 
                         // Участок "Маркировка"
                         if (_modbusServices["Маркировка"].CheckTrigger())
@@ -312,10 +333,13 @@ namespace PipeWorkshopApp
                             }
                         }
 
+                        Thread.Sleep(500);
+
                         if (_modbusServices["Карманы"].CheckTrigger())
                         {
                             //todo: тут мы будем решать в какой карман попадать трубе. И будет сохранять инфу в базу данных именно что по карманам.
                         }
+
 
                         await Task.Delay(500); // Пауза между итерациями цикла
                     }
@@ -325,8 +349,9 @@ namespace PipeWorkshopApp
                         // Обработка ошибок
                     }
 
-                    LogMessage("Основной цикл остановлен.");
+                   
                 }
+                LogMessage("Основной цикл остановлен.");
             }, token);
         }
 
@@ -405,7 +430,7 @@ namespace PipeWorkshopApp
             }
             else
             {
-                string message = $"Нет трубы в очереди '{sectionName}'. Возможно, неправильное чтение или несрабатывание триггера.";
+                string message = $"Нет трубы в очереди '{sectionName}' чтобы переместить ее в следущую очередь. Возможно, неправильное чтение или несрабатывание триггера.";
                 LogMessage(message);
                 return null;
             }
@@ -507,7 +532,7 @@ namespace PipeWorkshopApp
             textBoxKarman_Port.Text = Properties.Settings.Default["Карманы_Port"].ToString();
             textBoxKarman_Register.Text = Properties.Settings.Default["Карманы_Register"].ToString();
 
-            // Повторите для других участков
+            InitializeModbusServices();
         }
 
         private void SaveSettings()
@@ -625,6 +650,10 @@ namespace PipeWorkshopApp
 
         private void button_start_Click(object sender, EventArgs e)
         {
+            InitializeModbusServices();
+
+            // Запуск HTTP-сервера
+            StartHttpServer();
             StartMainLoop();
             LogMessage("Приложение запущено.");
         }
@@ -743,5 +772,35 @@ namespace PipeWorkshopApp
         {
             LoadSettings();
         }
+
+        private void listBoxLog_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                CopySelectedItemsToClipboard();
+                e.SuppressKeyPress = true; // Предотвращаем дальнейшую обработку нажатия клавиш
+            }
+        }
+
+        private void CopySelectedItemsToClipboard()
+        {
+            if (listBoxLog.SelectedItems.Count > 0)
+            {
+                // Собираем выбранные элементы в строку, разделённую переводами строк
+                var selectedItems = listBoxLog.SelectedItems.Cast<object>()
+                                    .Select(item => item.ToString());
+                string clipboardText = string.Join(Environment.NewLine, selectedItems);
+
+                // Копируем текст в буфер обмена
+                Clipboard.SetText(clipboardText);
+
+                LogMessage("Выбранные элементы скопированы в буфер обмена.");
+            }
+            else
+            {
+                LogMessage("Нет выбранных элементов для копирования.");
+            }
+        }
+
     }
 }
