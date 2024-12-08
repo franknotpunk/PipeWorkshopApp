@@ -44,9 +44,9 @@
             textBoxSharoshkaReject_IP = new TextBox();
             textBoxSharoshkaReject_Register = new TextBox();
             groupBox_Otvorot = new GroupBox();
-            textBoxНК_Port = new TextBox();
-            textBoxНК_IP = new TextBox();
-            textBoxНК_Register = new TextBox();
+            textBoxНКGood_Port = new TextBox();
+            textBoxНКGood_IP = new TextBox();
+            textBoxНКGood_Register = new TextBox();
             groupBox_Pressed = new GroupBox();
             textBoxTokarka_Port = new TextBox();
             textBoxTokarka_IP = new TextBox();
@@ -83,6 +83,13 @@
             panelCounters = new FlowLayoutPanel();
             buttonResetState = new Button();
             labelGlobalStats = new Label();
+            НК_Reject = new GroupBox();
+            textBoxНКReject_Port = new TextBox();
+            textBoxНКReject_IP = new TextBox();
+            textBoxНКReject_Register = new TextBox();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
@@ -94,18 +101,19 @@
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
             contextMenu.SuspendLayout();
+            НК_Reject.SuspendLayout();
             SuspendLayout();
             // 
             // textBoxServerIP
             // 
-            textBoxServerIP.Location = new Point(541, 95);
+            textBoxServerIP.Location = new Point(357, 54);
             textBoxServerIP.Name = "textBoxServerIP";
             textBoxServerIP.Size = new Size(332, 23);
             textBoxServerIP.TabIndex = 7;
             // 
             // textBoxServerPort
             // 
-            textBoxServerPort.Location = new Point(12, 95);
+            textBoxServerPort.Location = new Point(12, 54);
             textBoxServerPort.Name = "textBoxServerPort";
             textBoxServerPort.Size = new Size(332, 23);
             textBoxServerPort.TabIndex = 8;
@@ -211,43 +219,43 @@
             // 
             // groupBox_Otvorot
             // 
-            groupBox_Otvorot.Controls.Add(textBoxНК_Port);
-            groupBox_Otvorot.Controls.Add(textBoxНК_IP);
-            groupBox_Otvorot.Controls.Add(textBoxНК_Register);
+            groupBox_Otvorot.Controls.Add(textBoxНКGood_Port);
+            groupBox_Otvorot.Controls.Add(textBoxНКGood_IP);
+            groupBox_Otvorot.Controls.Add(textBoxНКGood_Register);
             groupBox_Otvorot.Location = new Point(896, 221);
             groupBox_Otvorot.Name = "groupBox_Otvorot";
             groupBox_Otvorot.Size = new Size(332, 57);
             groupBox_Otvorot.TabIndex = 11;
             groupBox_Otvorot.TabStop = false;
-            groupBox_Otvorot.Text = "НК";
+            groupBox_Otvorot.Text = "НК_Good";
             // 
-            // textBoxНК_Port
+            // textBoxНКGood_Port
             // 
-            textBoxНК_Port.Location = new Point(184, 22);
-            textBoxНК_Port.Name = "textBoxНК_Port";
-            textBoxНК_Port.Size = new Size(64, 23);
-            textBoxНК_Port.TabIndex = 1;
+            textBoxНКGood_Port.Location = new Point(184, 22);
+            textBoxНКGood_Port.Name = "textBoxНКGood_Port";
+            textBoxНКGood_Port.Size = new Size(64, 23);
+            textBoxНКGood_Port.TabIndex = 1;
             // 
-            // textBoxНК_IP
+            // textBoxНКGood_IP
             // 
-            textBoxНК_IP.Location = new Point(6, 22);
-            textBoxНК_IP.Name = "textBoxНК_IP";
-            textBoxНК_IP.Size = new Size(172, 23);
-            textBoxНК_IP.TabIndex = 0;
+            textBoxНКGood_IP.Location = new Point(6, 22);
+            textBoxНКGood_IP.Name = "textBoxНКGood_IP";
+            textBoxНКGood_IP.Size = new Size(172, 23);
+            textBoxНКGood_IP.TabIndex = 0;
             // 
-            // textBoxНК_Register
+            // textBoxНКGood_Register
             // 
-            textBoxНК_Register.Location = new Point(254, 22);
-            textBoxНК_Register.Name = "textBoxНК_Register";
-            textBoxНК_Register.Size = new Size(64, 23);
-            textBoxНК_Register.TabIndex = 2;
+            textBoxНКGood_Register.Location = new Point(254, 22);
+            textBoxНКGood_Register.Name = "textBoxНКGood_Register";
+            textBoxНКGood_Register.Size = new Size(64, 23);
+            textBoxНКGood_Register.TabIndex = 2;
             // 
             // groupBox_Pressed
             // 
             groupBox_Pressed.Controls.Add(textBoxTokarka_Port);
             groupBox_Pressed.Controls.Add(textBoxTokarka_IP);
             groupBox_Pressed.Controls.Add(textBoxTokarka_Register);
-            groupBox_Pressed.Location = new Point(896, 284);
+            groupBox_Pressed.Location = new Point(896, 347);
             groupBox_Pressed.Name = "groupBox_Pressed";
             groupBox_Pressed.Size = new Size(332, 57);
             groupBox_Pressed.TabIndex = 11;
@@ -280,7 +288,7 @@
             groupBox_Marker.Controls.Add(textBoxOtvorot_Port);
             groupBox_Marker.Controls.Add(textBoxOtvorot_IP);
             groupBox_Marker.Controls.Add(textBoxOtvorot_Register);
-            groupBox_Marker.Location = new Point(896, 347);
+            groupBox_Marker.Location = new Point(896, 410);
             groupBox_Marker.Name = "groupBox_Marker";
             groupBox_Marker.Size = new Size(332, 57);
             groupBox_Marker.TabIndex = 11;
@@ -310,7 +318,7 @@
             // 
             // button_save
             // 
-            button_save.Location = new Point(896, 662);
+            button_save.Location = new Point(900, 725);
             button_save.Name = "button_save";
             button_save.Size = new Size(154, 54);
             button_save.TabIndex = 12;
@@ -320,7 +328,7 @@
             // 
             // button_load
             // 
-            button_load.Location = new Point(1056, 662);
+            button_load.Location = new Point(1060, 725);
             button_load.Name = "button_load";
             button_load.Size = new Size(154, 54);
             button_load.TabIndex = 13;
@@ -333,7 +341,7 @@
             groupBox1.Controls.Add(textBoxOpressovkaGood_Port);
             groupBox1.Controls.Add(textBoxOpressovkaGood_IP);
             groupBox1.Controls.Add(textBoxOpressovkaGood_Register);
-            groupBox1.Location = new Point(896, 410);
+            groupBox1.Location = new Point(896, 473);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(332, 57);
             groupBox1.TabIndex = 12;
@@ -366,7 +374,7 @@
             groupBox2.Controls.Add(textBoxMarkirovka_Port);
             groupBox2.Controls.Add(textBoxMarkirovka_IP);
             groupBox2.Controls.Add(textBoxMarkirovka_Register);
-            groupBox2.Location = new Point(896, 536);
+            groupBox2.Location = new Point(896, 599);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(332, 57);
             groupBox2.TabIndex = 12;
@@ -399,7 +407,7 @@
             groupBox3.Controls.Add(textBoxKarman_Port);
             groupBox3.Controls.Add(textBoxKarman_IP);
             groupBox3.Controls.Add(textBoxKarman_Register);
-            groupBox3.Location = new Point(896, 599);
+            groupBox3.Location = new Point(896, 662);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(332, 57);
             groupBox3.TabIndex = 12;
@@ -432,7 +440,7 @@
             groupBox4.Controls.Add(textBoxOpressovkaReject_Port);
             groupBox4.Controls.Add(textBoxOpressovkaReject_IP);
             groupBox4.Controls.Add(textBoxOpressovkaReject_Register);
-            groupBox4.Location = new Point(896, 473);
+            groupBox4.Location = new Point(896, 536);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(332, 57);
             groupBox4.TabIndex = 13;
@@ -462,7 +470,7 @@
             // 
             // button_start
             // 
-            button_start.Location = new Point(897, 722);
+            button_start.Location = new Point(901, 785);
             button_start.Name = "button_start";
             button_start.Size = new Size(153, 53);
             button_start.TabIndex = 23;
@@ -472,7 +480,7 @@
             // 
             // button_stop
             // 
-            button_stop.Location = new Point(1056, 722);
+            button_stop.Location = new Point(1060, 785);
             button_stop.Name = "button_stop";
             button_stop.Size = new Size(153, 53);
             button_stop.TabIndex = 24;
@@ -500,7 +508,7 @@
             // 
             // listViewLog
             // 
-            listViewLog.Location = new Point(453, 396);
+            listViewLog.Location = new Point(453, 459);
             listViewLog.Name = "listViewLog";
             listViewLog.Size = new Size(437, 379);
             listViewLog.TabIndex = 25;
@@ -508,7 +516,7 @@
             // 
             // listViewRejected
             // 
-            listViewRejected.Location = new Point(12, 396);
+            listViewRejected.Location = new Point(12, 459);
             listViewRejected.Name = "listViewRejected";
             listViewRejected.Size = new Size(435, 379);
             listViewRejected.TabIndex = 27;
@@ -518,12 +526,12 @@
             // 
             panelCounters.Location = new Point(12, 146);
             panelCounters.Name = "panelCounters";
-            panelCounters.Size = new Size(633, 244);
+            panelCounters.Size = new Size(633, 307);
             panelCounters.TabIndex = 28;
             // 
             // buttonResetState
             // 
-            buttonResetState.Location = new Point(719, 338);
+            buttonResetState.Location = new Point(736, 399);
             buttonResetState.Name = "buttonResetState";
             buttonResetState.Size = new Size(154, 54);
             buttonResetState.TabIndex = 30;
@@ -540,11 +548,75 @@
             labelGlobalStats.TabIndex = 31;
             labelGlobalStats.Text = "label1";
             // 
+            // НК_Reject
+            // 
+            НК_Reject.Controls.Add(textBoxНКReject_Port);
+            НК_Reject.Controls.Add(textBoxНКReject_IP);
+            НК_Reject.Controls.Add(textBoxНКReject_Register);
+            НК_Reject.Location = new Point(896, 284);
+            НК_Reject.Name = "НК_Reject";
+            НК_Reject.Size = new Size(332, 57);
+            НК_Reject.TabIndex = 12;
+            НК_Reject.TabStop = false;
+            НК_Reject.Text = "НК";
+            // 
+            // textBoxНКReject_Port
+            // 
+            textBoxНКReject_Port.Location = new Point(184, 22);
+            textBoxНКReject_Port.Name = "textBoxНКReject_Port";
+            textBoxНКReject_Port.Size = new Size(64, 23);
+            textBoxНКReject_Port.TabIndex = 1;
+            // 
+            // textBoxНКReject_IP
+            // 
+            textBoxНКReject_IP.Location = new Point(6, 22);
+            textBoxНКReject_IP.Name = "textBoxНКReject_IP";
+            textBoxНКReject_IP.Size = new Size(172, 23);
+            textBoxНКReject_IP.TabIndex = 0;
+            // 
+            // textBoxНКReject_Register
+            // 
+            textBoxНКReject_Register.Location = new Point(254, 22);
+            textBoxНКReject_Register.Name = "textBoxНКReject_Register";
+            textBoxНКReject_Register.Size = new Size(64, 23);
+            textBoxНКReject_Register.TabIndex = 2;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(14, 29);
+            label1.Name = "label1";
+            label1.Size = new Size(215, 15);
+            label1.TabIndex = 32;
+            label1.Text = "IP на котором запущено приложение";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(357, 29);
+            label2.Name = "label2";
+            label2.Size = new Size(227, 15);
+            label2.TabIndex = 33;
+            label2.Text = "Port на котором запущено приложение";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 120);
+            label3.Name = "label3";
+            label3.Size = new Size(55, 15);
+            label3.TabIndex = 34;
+            label3.Text = "Очереди";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1243, 794);
+            ClientSize = new Size(1243, 945);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(НК_Reject);
             Controls.Add(labelGlobalStats);
             Controls.Add(buttonResetState);
             Controls.Add(panelCounters);
@@ -589,6 +661,8 @@
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             contextMenu.ResumeLayout(false);
+            НК_Reject.ResumeLayout(false);
+            НК_Reject.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -609,9 +683,9 @@
         private TextBox textBoxSharoshkaReject_IP;
         private TextBox textBoxSharoshkaReject_Register;
         private GroupBox groupBox_Otvorot;
-        private TextBox textBoxНК_Port;
-        private TextBox textBoxНК_IP;
-        private TextBox textBoxНК_Register;
+        private TextBox textBoxНКGood_Port;
+        private TextBox textBoxНКGood_IP;
+        private TextBox textBoxНКGood_Register;
         private GroupBox groupBox_Pressed;
         private TextBox textBoxTokarka_Port;
         private TextBox textBoxTokarka_IP;
@@ -648,5 +722,12 @@
         private FlowLayoutPanel panelCounters;
         private Button buttonResetState;
         private Label labelGlobalStats;
+        private GroupBox НК_Reject;
+        private TextBox textBoxНКReject_Port;
+        private TextBox textBoxНКReject_IP;
+        private TextBox textBoxНКReject_Register;
+        private Label label1;
+        private Label label2;
+        private Label label3;
     }
 }

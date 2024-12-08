@@ -134,42 +134,6 @@ namespace PipeWorkshopApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string НК_IP {
-            get {
-                return ((string)(this["НК_IP"]));
-            }
-            set {
-                this["НК_IP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int НК_Port {
-            get {
-                return ((int)(this["НК_Port"]));
-            }
-            set {
-                this["НК_Port"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int НК_Register {
-            get {
-                return ((int)(this["НК_Register"]));
-            }
-            set {
-                this["НК_Register"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Токарка_IP {
             get {
                 return ((string)(this["Токарка_IP"]));
@@ -410,48 +374,84 @@ namespace PipeWorkshopApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string NDT_DeviceURL1 {
-            get {
-                return ((string)(this["NDT_DeviceURL1"]));
-            }
-            set {
-                this["NDT_DeviceURL1"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string NDT_DeviceURL2 {
-            get {
-                return ((string)(this["NDT_DeviceURL2"]));
-            }
-            set {
-                this["NDT_DeviceURL2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string NDT_DeviceURL3 {
-            get {
-                return ((string)(this["NDT_DeviceURL3"]));
-            }
-            set {
-                this["NDT_DeviceURL3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Otvorot_DeviceURL4 {
             get {
                 return ((string)(this["Otvorot_DeviceURL4"]));
             }
             set {
                 this["Otvorot_DeviceURL4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string НК_Good_IP {
+            get {
+                return ((string)(this["НК_Good_IP"]));
+            }
+            set {
+                this["НК_Good_IP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int НК_Good_Port {
+            get {
+                return ((int)(this["НК_Good_Port"]));
+            }
+            set {
+                this["НК_Good_Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int НК_Good_Register {
+            get {
+                return ((int)(this["НК_Good_Register"]));
+            }
+            set {
+                this["НК_Good_Register"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string НК_Reject_IP {
+            get {
+                return ((string)(this["НК_Reject_IP"]));
+            }
+            set {
+                this["НК_Reject_IP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int НК_Reject_Port {
+            get {
+                return ((int)(this["НК_Reject_Port"]));
+            }
+            set {
+                this["НК_Reject_Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int НК_Reject_Register {
+            get {
+                return ((int)(this["НК_Reject_Register"]));
+            }
+            set {
+                this["НК_Reject_Register"] = value;
             }
         }
     }

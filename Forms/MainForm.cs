@@ -235,10 +235,16 @@ namespace PipeWorkshopApp
                     (int)Properties.Settings.Default["Øàğîøêà_Reject_Register"]
                 );
 
-                _modbusServices["ÍÊ"] = new ModbusService(
-                    Properties.Settings.Default["ÍÊ_IP"] as string,
-                    (int)Properties.Settings.Default["ÍÊ_Port"],
-                    (int)Properties.Settings.Default["ÍÊ_Register"]
+                _modbusServices["ÍÊ_Good"] = new ModbusService(
+                    Properties.Settings.Default["ÍÊ_Good_IP"] as string,
+                    (int)Properties.Settings.Default["ÍÊ_Good_Port"],
+                    (int)Properties.Settings.Default["ÍÊ_Good_Register"]
+                );
+
+                _modbusServices["ÍÊ_Reject"] = new ModbusService(
+                    Properties.Settings.Default["ÍÊ_Reject_IP"] as string,
+                    (int)Properties.Settings.Default["ÍÊ_Reject_Port"],
+                    (int)Properties.Settings.Default["ÍÊ_Reject_Register"]
                 );
 
                 _modbusServices["Òîêàğêà"] = new ModbusService(
@@ -300,9 +306,13 @@ namespace PipeWorkshopApp
             textBoxSharoshkaReject_Port.Text = Properties.Settings.Default["Øàğîøêà_Reject_Port"].ToString();
             textBoxSharoshkaReject_Register.Text = Properties.Settings.Default["Øàğîøêà_Reject_Register"].ToString();
 
-            textBoxÍÊ_IP.Text = Properties.Settings.Default["ÍÊ_IP"] as string;
-            textBoxÍÊ_Port.Text = Properties.Settings.Default["ÍÊ_Port"].ToString();
-            textBoxÍÊ_Register.Text = Properties.Settings.Default["ÍÊ_Register"].ToString();
+            textBoxÍÊGood_IP.Text = Properties.Settings.Default["ÍÊ_Good_IP"] as string;
+            textBoxÍÊGood_Port.Text = Properties.Settings.Default["ÍÊ_Good_Port"].ToString();
+            textBoxÍÊGood_Register.Text = Properties.Settings.Default["ÍÊ_Good_Register"].ToString();
+
+            textBoxÍÊReject_IP.Text = Properties.Settings.Default["ÍÊ_Reject_IP"] as string;
+            textBoxÍÊReject_Port.Text = Properties.Settings.Default["ÍÊ_Reject_Port"].ToString();
+            textBoxÍÊReject_Register.Text = Properties.Settings.Default["ÍÊ_Reject_Register"].ToString();
 
             textBoxTokarka_IP.Text = Properties.Settings.Default["Òîêàğêà_IP"] as string;
             textBoxTokarka_Port.Text = Properties.Settings.Default["Òîêàğêà_Port"].ToString();
@@ -345,9 +355,13 @@ namespace PipeWorkshopApp
             Properties.Settings.Default["Øàğîøêà_Reject_Port"] = int.Parse(textBoxSharoshkaReject_Port.Text);
             Properties.Settings.Default["Øàğîøêà_Reject_Register"] = int.Parse(textBoxSharoshkaReject_Register.Text);
 
-            Properties.Settings.Default["ÍÊ_IP"] = textBoxÍÊ_IP.Text;
-            Properties.Settings.Default["ÍÊ_Port"] = int.Parse(textBoxÍÊ_Port.Text);
-            Properties.Settings.Default["ÍÊ_Register"] = int.Parse(textBoxÍÊ_Register.Text);
+            Properties.Settings.Default["ÍÊ_Good_IP"] = textBoxÍÊGood_IP.Text;
+            Properties.Settings.Default["ÍÊ_Good_Port"] = int.Parse(textBoxÍÊGood_Port.Text);
+            Properties.Settings.Default["ÍÊ_Good_Register"] = int.Parse(textBoxÍÊGood_Register.Text);
+
+            Properties.Settings.Default["ÍÊ_Reject_IP"] = textBoxÍÊReject_IP.Text;
+            Properties.Settings.Default["ÍÊ_Reject_Port"] = int.Parse(textBoxÍÊReject_Port.Text);
+            Properties.Settings.Default["ÍÊ_Reject_Register"] = int.Parse(textBoxÍÊReject_Register.Text);
 
             Properties.Settings.Default["Òîêàğêà_IP"] = textBoxTokarka_IP.Text;
             Properties.Settings.Default["Òîêàğêà_Port"] = int.Parse(textBoxTokarka_Port.Text);
@@ -608,6 +622,9 @@ namespace PipeWorkshopApp
             int totalRemove = _manualRemovals.Values.Sum();
             int totalInKarmany = _sectionCounters["Êàğìàíû"];
             int totalInBrak = _sectionCounters["Áğàê"];
+
+            labelGlobalStats.Height = 30;
+            labelGlobalStats.Font = new Font(labelGlobalStats.Font.FontFamily, 12.0f, FontStyle.Bold);
 
             // Äîïóñòèì, ó íàñ åñòü labelGlobalStats íà ôîğìå
             labelGlobalStats.Text =
