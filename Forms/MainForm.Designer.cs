@@ -29,12 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            listBoxSharoshka = new ListBox();
-            listBoxNK = new ListBox();
-            listBoxTokarka = new ListBox();
-            listBoxOtvrot = new ListBox();
-            listBoxOpressovka = new ListBox();
-            listBoxMarkirovka = new ListBox();
             textBoxServerIP = new TextBox();
             textBoxServerPort = new TextBox();
             textBoxCreation_Register = new TextBox();
@@ -63,7 +57,6 @@
             textBoxOtvorot_Register = new TextBox();
             button_save = new Button();
             button_load = new Button();
-            listBoxRejectedPipes = new ListBox();
             groupBox1 = new GroupBox();
             textBoxOpressovkaGood_Port = new TextBox();
             textBoxOpressovkaGood_IP = new TextBox();
@@ -80,16 +73,16 @@
             textBoxOpressovkaReject_Port = new TextBox();
             textBoxOpressovkaReject_IP = new TextBox();
             textBoxOpressovkaReject_Register = new TextBox();
-            textBoxNTD1 = new TextBox();
-            textBoxNTD2 = new TextBox();
-            textBoxNTD3 = new TextBox();
-            textBoxNTD4 = new TextBox();
-            listBoxLog = new ListBox();
             button_start = new Button();
             button_stop = new Button();
             contextMenu = new ContextMenuStrip(components);
             addPipeToolStripMenuItem = new ToolStripMenuItem();
             deletePipeToolStripMenuItem = new ToolStripMenuItem();
+            listViewLog = new ListView();
+            listViewRejected = new ListView();
+            panelCounters = new FlowLayoutPanel();
+            buttonResetState = new Button();
+            labelGlobalStats = new Label();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
@@ -103,64 +96,16 @@
             contextMenu.SuspendLayout();
             SuspendLayout();
             // 
-            // listBoxSharoshka
-            // 
-            listBoxSharoshka.FormattingEnabled = true;
-            listBoxSharoshka.Location = new Point(29, 30);
-            listBoxSharoshka.Name = "listBoxSharoshka";
-            listBoxSharoshka.Size = new Size(263, 424);
-            listBoxSharoshka.TabIndex = 1;
-            // 
-            // listBoxNK
-            // 
-            listBoxNK.FormattingEnabled = true;
-            listBoxNK.Location = new Point(308, 30);
-            listBoxNK.Name = "listBoxNK";
-            listBoxNK.Size = new Size(263, 424);
-            listBoxNK.TabIndex = 2;
-            // 
-            // listBoxTokarka
-            // 
-            listBoxTokarka.FormattingEnabled = true;
-            listBoxTokarka.Location = new Point(587, 30);
-            listBoxTokarka.Name = "listBoxTokarka";
-            listBoxTokarka.Size = new Size(263, 424);
-            listBoxTokarka.TabIndex = 3;
-            // 
-            // listBoxOtvrot
-            // 
-            listBoxOtvrot.FormattingEnabled = true;
-            listBoxOtvrot.Location = new Point(29, 477);
-            listBoxOtvrot.Name = "listBoxOtvrot";
-            listBoxOtvrot.Size = new Size(263, 424);
-            listBoxOtvrot.TabIndex = 4;
-            // 
-            // listBoxOpressovka
-            // 
-            listBoxOpressovka.FormattingEnabled = true;
-            listBoxOpressovka.Location = new Point(308, 477);
-            listBoxOpressovka.Name = "listBoxOpressovka";
-            listBoxOpressovka.Size = new Size(263, 424);
-            listBoxOpressovka.TabIndex = 5;
-            // 
-            // listBoxMarkirovka
-            // 
-            listBoxMarkirovka.FormattingEnabled = true;
-            listBoxMarkirovka.Location = new Point(587, 477);
-            listBoxMarkirovka.Name = "listBoxMarkirovka";
-            listBoxMarkirovka.Size = new Size(263, 424);
-            listBoxMarkirovka.TabIndex = 6;
-            // 
             // textBoxServerIP
             // 
-            textBoxServerIP.Location = new Point(896, 366);
+            textBoxServerIP.Location = new Point(541, 95);
             textBoxServerIP.Name = "textBoxServerIP";
             textBoxServerIP.Size = new Size(332, 23);
             textBoxServerIP.TabIndex = 7;
             // 
             // textBoxServerPort
             // 
-            textBoxServerPort.Location = new Point(1234, 366);
+            textBoxServerPort.Location = new Point(12, 95);
             textBoxServerPort.Name = "textBoxServerPort";
             textBoxServerPort.Size = new Size(332, 23);
             textBoxServerPort.TabIndex = 8;
@@ -335,7 +280,7 @@
             groupBox_Marker.Controls.Add(textBoxOtvorot_Port);
             groupBox_Marker.Controls.Add(textBoxOtvorot_IP);
             groupBox_Marker.Controls.Add(textBoxOtvorot_Register);
-            groupBox_Marker.Location = new Point(1234, 32);
+            groupBox_Marker.Location = new Point(896, 347);
             groupBox_Marker.Name = "groupBox_Marker";
             groupBox_Marker.Size = new Size(332, 57);
             groupBox_Marker.TabIndex = 11;
@@ -365,7 +310,7 @@
             // 
             // button_save
             // 
-            button_save.Location = new Point(1258, 395);
+            button_save.Location = new Point(896, 662);
             button_save.Name = "button_save";
             button_save.Size = new Size(154, 54);
             button_save.TabIndex = 12;
@@ -375,7 +320,7 @@
             // 
             // button_load
             // 
-            button_load.Location = new Point(1419, 393);
+            button_load.Location = new Point(1056, 662);
             button_load.Name = "button_load";
             button_load.Size = new Size(154, 54);
             button_load.TabIndex = 13;
@@ -383,20 +328,12 @@
             button_load.UseVisualStyleBackColor = true;
             button_load.Click += button_load_Click;
             // 
-            // listBoxRejectedPipes
-            // 
-            listBoxRejectedPipes.FormattingEnabled = true;
-            listBoxRejectedPipes.Location = new Point(895, 523);
-            listBoxRejectedPipes.Name = "listBoxRejectedPipes";
-            listBoxRejectedPipes.Size = new Size(333, 379);
-            listBoxRejectedPipes.TabIndex = 14;
-            // 
             // groupBox1
             // 
             groupBox1.Controls.Add(textBoxOpressovkaGood_Port);
             groupBox1.Controls.Add(textBoxOpressovkaGood_IP);
             groupBox1.Controls.Add(textBoxOpressovkaGood_Register);
-            groupBox1.Location = new Point(1234, 95);
+            groupBox1.Location = new Point(896, 410);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(332, 57);
             groupBox1.TabIndex = 12;
@@ -429,7 +366,7 @@
             groupBox2.Controls.Add(textBoxMarkirovka_Port);
             groupBox2.Controls.Add(textBoxMarkirovka_IP);
             groupBox2.Controls.Add(textBoxMarkirovka_Register);
-            groupBox2.Location = new Point(1234, 221);
+            groupBox2.Location = new Point(896, 536);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(332, 57);
             groupBox2.TabIndex = 12;
@@ -462,7 +399,7 @@
             groupBox3.Controls.Add(textBoxKarman_Port);
             groupBox3.Controls.Add(textBoxKarman_IP);
             groupBox3.Controls.Add(textBoxKarman_Register);
-            groupBox3.Location = new Point(1234, 284);
+            groupBox3.Location = new Point(896, 599);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(332, 57);
             groupBox3.TabIndex = 12;
@@ -495,7 +432,7 @@
             groupBox4.Controls.Add(textBoxOpressovkaReject_Port);
             groupBox4.Controls.Add(textBoxOpressovkaReject_IP);
             groupBox4.Controls.Add(textBoxOpressovkaReject_Register);
-            groupBox4.Location = new Point(1234, 158);
+            groupBox4.Location = new Point(896, 473);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(332, 57);
             groupBox4.TabIndex = 13;
@@ -523,46 +460,9 @@
             textBoxOpressovkaReject_Register.Size = new Size(64, 23);
             textBoxOpressovkaReject_Register.TabIndex = 2;
             // 
-            // textBoxNTD1
-            // 
-            textBoxNTD1.Location = new Point(896, 395);
-            textBoxNTD1.Name = "textBoxNTD1";
-            textBoxNTD1.Size = new Size(332, 23);
-            textBoxNTD1.TabIndex = 15;
-            // 
-            // textBoxNTD2
-            // 
-            textBoxNTD2.Location = new Point(896, 424);
-            textBoxNTD2.Name = "textBoxNTD2";
-            textBoxNTD2.Size = new Size(332, 23);
-            textBoxNTD2.TabIndex = 17;
-            // 
-            // textBoxNTD3
-            // 
-            textBoxNTD3.Location = new Point(896, 453);
-            textBoxNTD3.Name = "textBoxNTD3";
-            textBoxNTD3.Size = new Size(332, 23);
-            textBoxNTD3.TabIndex = 19;
-            // 
-            // textBoxNTD4
-            // 
-            textBoxNTD4.Location = new Point(896, 482);
-            textBoxNTD4.Name = "textBoxNTD4";
-            textBoxNTD4.Size = new Size(332, 23);
-            textBoxNTD4.TabIndex = 21;
-            // 
-            // listBoxLog
-            // 
-            listBoxLog.FormattingEnabled = true;
-            listBoxLog.HorizontalScrollbar = true;
-            listBoxLog.Location = new Point(1240, 523);
-            listBoxLog.Name = "listBoxLog";
-            listBoxLog.Size = new Size(333, 379);
-            listBoxLog.TabIndex = 22;
-            // 
             // button_start
             // 
-            button_start.Location = new Point(1259, 464);
+            button_start.Location = new Point(897, 722);
             button_start.Name = "button_start";
             button_start.Size = new Size(153, 53);
             button_start.TabIndex = 23;
@@ -572,7 +472,7 @@
             // 
             // button_stop
             // 
-            button_stop.Location = new Point(1420, 464);
+            button_stop.Location = new Point(1056, 722);
             button_stop.Name = "button_stop";
             button_stop.Size = new Size(153, 53);
             button_stop.TabIndex = 24;
@@ -585,39 +485,76 @@
             contextMenu.Items.AddRange(new ToolStripItem[] { addPipeToolStripMenuItem, deletePipeToolStripMenuItem });
             contextMenu.Name = "contextMenuStrip1";
             contextMenu.Size = new Size(131, 48);
-            contextMenu.Opening += contextMenu_Opening;
             // 
             // addPipeToolStripMenuItem
             // 
             addPipeToolStripMenuItem.Name = "addPipeToolStripMenuItem";
             addPipeToolStripMenuItem.Size = new Size(130, 22);
             addPipeToolStripMenuItem.Text = "AddPipe";
-            addPipeToolStripMenuItem.Click += AddPipeToolStripMenuItem_Click;
             // 
             // deletePipeToolStripMenuItem
             // 
             deletePipeToolStripMenuItem.Name = "deletePipeToolStripMenuItem";
             deletePipeToolStripMenuItem.Size = new Size(130, 22);
             deletePipeToolStripMenuItem.Text = "DeletePipe";
-            deletePipeToolStripMenuItem.Click += DeletePipeToolStripMenuItem_Click;
+            // 
+            // listViewLog
+            // 
+            listViewLog.Location = new Point(453, 396);
+            listViewLog.Name = "listViewLog";
+            listViewLog.Size = new Size(437, 379);
+            listViewLog.TabIndex = 25;
+            listViewLog.UseCompatibleStateImageBehavior = false;
+            // 
+            // listViewRejected
+            // 
+            listViewRejected.Location = new Point(12, 396);
+            listViewRejected.Name = "listViewRejected";
+            listViewRejected.Size = new Size(435, 379);
+            listViewRejected.TabIndex = 27;
+            listViewRejected.UseCompatibleStateImageBehavior = false;
+            // 
+            // panelCounters
+            // 
+            panelCounters.Location = new Point(12, 146);
+            panelCounters.Name = "panelCounters";
+            panelCounters.Size = new Size(878, 57);
+            panelCounters.TabIndex = 28;
+            // 
+            // buttonResetState
+            // 
+            buttonResetState.Location = new Point(736, 338);
+            buttonResetState.Name = "buttonResetState";
+            buttonResetState.Size = new Size(154, 54);
+            buttonResetState.TabIndex = 30;
+            buttonResetState.Text = "RESET";
+            buttonResetState.UseVisualStyleBackColor = true;
+            // 
+            // labelGlobalStats
+            // 
+            labelGlobalStats.AutoSize = true;
+            labelGlobalStats.Location = new Point(736, 284);
+            labelGlobalStats.Name = "labelGlobalStats";
+            labelGlobalStats.Size = new Size(38, 15);
+            labelGlobalStats.TabIndex = 31;
+            labelGlobalStats.Text = "label1";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1797, 914);
+            ClientSize = new Size(1243, 794);
+            Controls.Add(labelGlobalStats);
+            Controls.Add(buttonResetState);
+            Controls.Add(panelCounters);
+            Controls.Add(listViewRejected);
+            Controls.Add(listViewLog);
             Controls.Add(button_stop);
             Controls.Add(button_start);
-            Controls.Add(listBoxLog);
-            Controls.Add(textBoxNTD4);
-            Controls.Add(textBoxNTD3);
-            Controls.Add(textBoxNTD2);
-            Controls.Add(textBoxNTD1);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Controls.Add(listBoxRejectedPipes);
             Controls.Add(button_load);
             Controls.Add(button_save);
             Controls.Add(groupBox_Marker);
@@ -628,12 +565,6 @@
             Controls.Add(groupBox_sharoska);
             Controls.Add(textBoxServerPort);
             Controls.Add(textBoxServerIP);
-            Controls.Add(listBoxMarkirovka);
-            Controls.Add(listBoxOpressovka);
-            Controls.Add(listBoxOtvrot);
-            Controls.Add(listBoxTokarka);
-            Controls.Add(listBoxNK);
-            Controls.Add(listBoxSharoshka);
             Name = "MainForm";
             Text = "Form1";
             groupBox_sharoska.ResumeLayout(false);
@@ -662,12 +593,6 @@
         }
 
         #endregion
-        private ListBox listBoxSharoshka;
-        private ListBox listBoxNK;
-        private ListBox listBoxTokarka;
-        private ListBox listBoxOtvrot;
-        private ListBox listBoxOpressovka;
-        private ListBox listBoxMarkirovka;
         private TextBox textBoxServerIP;
         private TextBox textBoxServerPort;
         private TextBox textBoxCreation_Register;
@@ -696,7 +621,6 @@
         private TextBox textBoxOtvorot_Register;
         private Button button_save;
         private Button button_load;
-        private ListBox listBoxRejectedPipes;
         private GroupBox groupBox1;
         private TextBox textBoxOpressovkaGood_Port;
         private TextBox textBoxOpressovkaGood_IP;
@@ -713,15 +637,15 @@
         private TextBox textBoxOpressovkaReject_Port;
         private TextBox textBoxOpressovkaReject_IP;
         private TextBox textBoxOpressovkaReject_Register;
-        private TextBox textBoxNTD1;
-        private TextBox textBoxNTD2;
-        private TextBox textBoxNTD3;
-        private TextBox textBoxNTD4;
-        private ListBox listBoxLog;
         private Button button_start;
         private Button button_stop;
         private ContextMenuStrip contextMenu;
         private ToolStripMenuItem addPipeToolStripMenuItem;
         private ToolStripMenuItem deletePipeToolStripMenuItem;
+        private ListView listViewLog;
+        private ListView listViewRejected;
+        private FlowLayoutPanel panelCounters;
+        private Button buttonResetState;
+        private Label labelGlobalStats;
     }
 }

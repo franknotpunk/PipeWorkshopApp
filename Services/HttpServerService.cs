@@ -6,7 +6,6 @@ using EmbedIO.Actions;
 using System.Net;
 using System.Text.Json;
 using PipeWorkshopApp.Models;
-using PipeWorkshopApp.Services;
 
 namespace PipeWorkshopApp.Services
 {
@@ -26,7 +25,6 @@ namespace PipeWorkshopApp.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка при запуске сервера: {ex.Message}");
-                // Здесь можно добавить обработку ошибки запуска сервера
             }
         }
 
@@ -46,26 +44,20 @@ namespace PipeWorkshopApp.Services
                 }))
                 .WithModule(new ActionModule("/marking", HttpVerbs.Post, async context =>
                 {
-                    // Чтение тела запроса
                     using var reader = new System.IO.StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
                     string body = await reader.ReadToEndAsync();
 
-                    // Десериализация данных от маркировщика
                     MarkingData markingData = null;
                     try
                     {
                         markingData = JsonSerializer.Deserialize<MarkingData>(body);
-
-                        // Обработка данных маркировки
                         ProcessMarkingData(markingData);
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Ошибка обработки данных маркировки: {ex.Message}");
-                        // Здесь можно добавить обработку ошибок десериализации
                     }
 
-                    // Отправка ответа с кодом 200 без тела
                     context.Response.StatusCode = 200;
                     context.Response.ContentLength64 = 0;
                     context.Response.OutputStream.Close();
@@ -74,12 +66,10 @@ namespace PipeWorkshopApp.Services
             return server;
         }
 
-        // Событие для уведомления о получении данных маркировки
         public event EventHandler<MarkingData> MarkingDataReceived;
 
         private void ProcessMarkingData(MarkingData markingData)
         {
-            // Вызываем событие для обработки данных в главной форме
             MarkingDataReceived?.Invoke(this, markingData);
         }
     }
