@@ -10,6 +10,8 @@ using System.Net.Http;
 using PipeWorkshopApp.Properties;
 using System.ComponentModel;
 using System.Drawing;
+using System.Text.Json;
+using System.IO;
 
 namespace PipeWorkshopApp
 {
@@ -18,17 +20,19 @@ namespace PipeWorkshopApp
         private HttpServerService _httpServerService;
         private CancellationTokenSource _cancellationTokenSource;
 
-        private Dictionary<string, int> _sectionCounters; // Счётчики труб на участках
-        private int _rejectedCount = 0; // Количество забракованных труб
+        private Dictionary<string, int> _sectionCounters;    // Счётчики труб на участках
+        private Dictionary<string, int> _manualAdditions;    // Ручные добавления по участкам
+        private Dictionary<string, int> _manualRemovals;     // Ручные удаления по участкам
 
-        private Dictionary<string, int> _manualAdditions; // Ручные добавления
-        private Dictionary<string, int> _manualRemovals;  // Ручные удаления
+        private int _rejectedCount = 0; // Количество бракованных труб
 
         private Dictionary<string, Label> _sectionLabels; // Лейблы для участков
         private ContextMenuStrip _contextMenuSection;
         private string _currentRightClickSection;
 
         private Dictionary<string, ModbusService> _modbusServices = new Dictionary<string, ModbusService>();
+
+        private string _stateFilePath = "state.json"; // Файл для сохранения состояния
 
         public MainForm()
         {
@@ -41,16 +45,15 @@ namespace PipeWorkshopApp
             InitializeManualTrackers();
             InitializeContextMenu();
 
-            // Настраиваем listViewLog
+            // Логи
             listViewLog.Columns.Add("Сообщение", -2);
             listViewLog.View = View.Details;
 
-            // Настраиваем listViewRejected
-            listViewRejected.Columns.Add("Время", 100);
-            listViewRejected.Columns.Add("Участок", 100);
+            // Бракованные трубы
+            listViewRejected.Columns.Add("Время", 200);
+            listViewRejected.Columns.Add("Участок", 200);
             listViewRejected.View = View.Details;
 
-            // Создаем лейблы
             CreateSectionLabels();
 
             listViewLog.KeyDown += listViewLog_KeyDown;
@@ -58,14 +61,16 @@ namespace PipeWorkshopApp
             LoadSettings();
             InitializeModbusServices();
 
+            LoadState(); // Загружаем состояние из файла
             UpdateSectionLabels();
+            UpdateGlobalStats();
 
-            // Подпишемся на событие изменения размера формы, чтобы обновлять ширину лейблов
             this.Resize += MainForm_Resize;
         }
 
         private void InitializeCounters()
         {
+            // Добавляем "Брак" тоже в список участков
             _sectionCounters = new Dictionary<string, int>
             {
                 {"Шарошка", 0},
@@ -74,7 +79,8 @@ namespace PipeWorkshopApp
                 {"Отворот", 0},
                 {"Опрессовка", 0},
                 {"Маркировка", 0},
-                {"Карманы", 0}
+                {"Карманы", 0},
+                {"Брак", 0}
             };
         }
 
@@ -108,10 +114,8 @@ namespace PipeWorkshopApp
         private void CreateSectionLabels()
         {
             _sectionLabels = new Dictionary<string, Label>();
-            string[] sections = { "Шарошка", "НК", "Токарка", "Отворот", "Опрессовка", "Маркировка", "Карманы" };
+            string[] sections = { "Шарошка", "НК", "Токарка", "Отворот", "Опрессовка", "Маркировка", "Карманы", "Брак" };
 
-            // Настраиваем panelCounters
-            // Предполагается, что panelCounters - FlowLayoutPanel на форме
             panelCounters.FlowDirection = FlowDirection.TopDown;
             panelCounters.WrapContents = true;
             panelCounters.AutoSize = true;
@@ -127,6 +131,13 @@ namespace PipeWorkshopApp
                 lbl.TextAlign = ContentAlignment.MiddleLeft;
                 lbl.ContextMenuStrip = _contextMenuSection;
 
+                // Если это "Брак", меняем стиль
+                if (section == "Брак")
+                {
+                    lbl.BackColor = Color.LightCoral;
+                    lbl.ForeColor = Color.White;
+                }
+
                 panelCounters.Controls.Add(lbl);
                 _sectionLabels[section] = lbl;
             }
@@ -136,7 +147,6 @@ namespace PipeWorkshopApp
 
         private void AdjustLabelWidths()
         {
-            // Распределяем ширину лейблов
             int width = panelCounters.ClientSize.Width - panelCounters.Padding.Left - panelCounters.Padding.Right;
             foreach (var lbl in _sectionLabels.Values)
             {
@@ -167,11 +177,10 @@ namespace PipeWorkshopApp
             if (string.IsNullOrEmpty(_currentRightClickSection)) return;
 
             string section = _currentRightClickSection;
-
             int newCount = _sectionCounters[section] + delta;
             if (newCount < 0)
             {
-                LogMessage($"Невозможно удалить {Math.Abs(delta)} трубу(ы) с '{section}', так как там всего {_sectionCounters[section]}.");
+                LogMessage($"Невозможно удалить {Math.Abs(delta)} трубу(ы) с '{section}', там всего {_sectionCounters[section]}.");
                 return;
             }
 
@@ -189,6 +198,7 @@ namespace PipeWorkshopApp
             }
 
             UpdateSectionLabels();
+            UpdateGlobalStats();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -197,6 +207,8 @@ namespace PipeWorkshopApp
             _httpServerService.StopServer();
             foreach (var modbusService in _modbusServices.Values)
                 modbusService.Disconnect();
+
+            SaveState(); // Сохраняем состояние при закрытии
         }
 
         private void InitializeModbusServices()
@@ -271,6 +283,99 @@ namespace PipeWorkshopApp
             }
         }
 
+        private void LoadSettings()
+        {
+            textBoxServerIP.Text = Properties.Settings.Default.ServerIP;
+            textBoxServerPort.Text = Properties.Settings.Default.ServerPort.ToString();
+
+            textBoxCreation_IP.Text = Properties.Settings.Default["Создание_IP"] as string;
+            textBoxCreation_Port.Text = Properties.Settings.Default["Создание_Port"].ToString();
+            textBoxCreation_Register.Text = Properties.Settings.Default["Создание_Register"].ToString();
+
+            textBoxSharoshkaGood_IP.Text = Properties.Settings.Default["Шарошка_Good_IP"] as string;
+            textBoxSharoshkaGood_Port.Text = Properties.Settings.Default["Шарошка_Good_Port"].ToString();
+            textBoxSharoshkaGood_Register.Text = Properties.Settings.Default["Шарошка_Good_Register"].ToString();
+
+            textBoxSharoshkaReject_IP.Text = Properties.Settings.Default["Шарошка_Reject_IP"] as string;
+            textBoxSharoshkaReject_Port.Text = Properties.Settings.Default["Шарошка_Reject_Port"].ToString();
+            textBoxSharoshkaReject_Register.Text = Properties.Settings.Default["Шарошка_Reject_Register"].ToString();
+
+            textBoxНК_IP.Text = Properties.Settings.Default["НК_IP"] as string;
+            textBoxНК_Port.Text = Properties.Settings.Default["НК_Port"].ToString();
+            textBoxНК_Register.Text = Properties.Settings.Default["НК_Register"].ToString();
+
+            textBoxTokarka_IP.Text = Properties.Settings.Default["Токарка_IP"] as string;
+            textBoxTokarka_Port.Text = Properties.Settings.Default["Токарка_Port"].ToString();
+            textBoxTokarka_Register.Text = Properties.Settings.Default["Токарка_Register"].ToString();
+
+            textBoxOtvorot_IP.Text = Properties.Settings.Default["Отворот_IP"] as string;
+            textBoxOtvorot_Port.Text = Properties.Settings.Default["Отворот_Port"].ToString();
+            textBoxOtvorot_Register.Text = Properties.Settings.Default["Отворот_Register"].ToString();
+
+            textBoxOpressovkaGood_IP.Text = Properties.Settings.Default["Опрессовка_Good_IP"] as string;
+            textBoxOpressovkaGood_Port.Text = Properties.Settings.Default["Опрессовка_Good_Port"].ToString();
+            textBoxOpressovkaGood_Register.Text = Properties.Settings.Default["Опрессовка_Good_Register"].ToString();
+
+            textBoxOpressovkaReject_IP.Text = Properties.Settings.Default["Опрессовка_Reject_IP"] as string;
+            textBoxOpressovkaReject_Port.Text = Properties.Settings.Default["Опрессовка_Reject_Port"].ToString();
+            textBoxOpressovkaReject_Register.Text = Properties.Settings.Default["Опрессовка_Reject_Register"].ToString();
+
+            textBoxMarkirovka_IP.Text = Properties.Settings.Default["Маркировка_IP"] as string;
+            textBoxMarkirovka_Port.Text = Properties.Settings.Default["Маркировка_Port"].ToString();
+            textBoxMarkirovka_Register.Text = Properties.Settings.Default["Маркировка_Register"].ToString();
+
+            textBoxKarman_IP.Text = Properties.Settings.Default["Карманы_IP"] as string;
+            textBoxKarman_Port.Text = Properties.Settings.Default["Карманы_Port"].ToString();
+            textBoxKarman_Register.Text = Properties.Settings.Default["Карманы_Register"].ToString();
+        }
+
+        private void SaveSettings()
+        {
+            Properties.Settings.Default.ServerIP = textBoxServerIP.Text;
+
+            Properties.Settings.Default["Создание_IP"] = textBoxCreation_IP.Text;
+            Properties.Settings.Default["Создание_Port"] = int.Parse(textBoxCreation_Port.Text);
+            Properties.Settings.Default["Создание_Register"] = int.Parse(textBoxCreation_Register.Text);
+
+            Properties.Settings.Default["Шарошка_Good_IP"] = textBoxSharoshkaGood_IP.Text;
+            Properties.Settings.Default["Шарошка_Good_Port"] = int.Parse(textBoxSharoshkaGood_Port.Text);
+            Properties.Settings.Default["Шарошка_Good_Register"] = int.Parse(textBoxSharoshkaGood_Register.Text);
+
+            Properties.Settings.Default["Шарошка_Reject_IP"] = textBoxSharoshkaReject_IP.Text;
+            Properties.Settings.Default["Шарошка_Reject_Port"] = int.Parse(textBoxSharoshkaReject_Port.Text);
+            Properties.Settings.Default["Шарошка_Reject_Register"] = int.Parse(textBoxSharoshkaReject_Register.Text);
+
+            Properties.Settings.Default["НК_IP"] = textBoxНК_IP.Text;
+            Properties.Settings.Default["НК_Port"] = int.Parse(textBoxНК_Port.Text);
+            Properties.Settings.Default["НК_Register"] = int.Parse(textBoxНК_Register.Text);
+
+            Properties.Settings.Default["Токарка_IP"] = textBoxTokarka_IP.Text;
+            Properties.Settings.Default["Токарка_Port"] = int.Parse(textBoxTokarka_Port.Text);
+            Properties.Settings.Default["Токарка_Register"] = int.Parse(textBoxTokarka_Register.Text);
+
+            Properties.Settings.Default["Отворот_IP"] = textBoxOtvorot_IP.Text;
+            Properties.Settings.Default["Отворот_Port"] = int.Parse(textBoxOtvorot_Port.Text);
+            Properties.Settings.Default["Отворот_Register"] = int.Parse(textBoxOtvorot_Register.Text);
+
+            Properties.Settings.Default["Опрессовка_Good_IP"] = textBoxOpressovkaGood_IP.Text;
+            Properties.Settings.Default["Опрессовка_Good_Port"] = int.Parse(textBoxOpressovkaGood_Port.Text);
+            Properties.Settings.Default["Опрессовка_Good_Register"] = int.Parse(textBoxOpressovkaGood_Register.Text);
+
+            Properties.Settings.Default["Опрессовка_Reject_IP"] = textBoxOpressovkaReject_IP.Text;
+            Properties.Settings.Default["Опрессовка_Reject_Port"] = int.Parse(textBoxOpressovkaReject_Port.Text);
+            Properties.Settings.Default["Опрессовка_Reject_Register"] = int.Parse(textBoxOpressovkaReject_Register.Text);
+
+            Properties.Settings.Default["Маркировка_IP"] = textBoxMarkirovka_IP.Text;
+            Properties.Settings.Default["Маркировка_Port"] = int.Parse(textBoxMarkirovka_Port.Text);
+            Properties.Settings.Default["Маркировка_Register"] = int.Parse(textBoxMarkirovka_Register.Text);
+
+            Properties.Settings.Default["Карманы_IP"] = textBoxKarman_IP.Text;
+            Properties.Settings.Default["Карманы_Port"] = int.Parse(textBoxKarman_Port.Text);
+            Properties.Settings.Default["Карманы_Register"] = int.Parse(textBoxKarman_Register.Text);
+
+            Properties.Settings.Default.Save();
+        }
+
         private void StartHttpServer()
         {
             string ipAddress = Properties.Settings.Default.ServerIP;
@@ -295,6 +400,7 @@ namespace PipeWorkshopApp
                             _sectionCounters["Шарошка"]++;
                             LogMessage($"Труба добавлена на 'Шарошка'. Всего: {_sectionCounters["Шарошка"]}");
                             UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         Thread.Sleep(500);
@@ -302,6 +408,7 @@ namespace PipeWorkshopApp
                         {
                             MovePipe("Шарошка", "НК");
                             UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         Thread.Sleep(500);
@@ -309,6 +416,7 @@ namespace PipeWorkshopApp
                         {
                             RejectPipe("Шарошка");
                             UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         Thread.Sleep(500);
@@ -331,6 +439,7 @@ namespace PipeWorkshopApp
                                 RejectPipe("НК");
 
                             UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         Thread.Sleep(500);
@@ -338,6 +447,7 @@ namespace PipeWorkshopApp
                         {
                             MovePipe("Токарка", "Отворот");
                             UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         Thread.Sleep(500);
@@ -349,6 +459,7 @@ namespace PipeWorkshopApp
                             else RejectPipe("Отворот");
 
                             UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         Thread.Sleep(500);
@@ -356,6 +467,7 @@ namespace PipeWorkshopApp
                         {
                             MovePipe("Опрессовка", "Маркировка");
                             UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         Thread.Sleep(500);
@@ -363,6 +475,7 @@ namespace PipeWorkshopApp
                         {
                             RejectPipe("Опрессовка");
                             UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         Thread.Sleep(500);
@@ -455,6 +568,7 @@ namespace PipeWorkshopApp
                 LogMessage($"Маркировка завершена для трубы {markingData.PipeId}. 'Маркировка': {_sectionCounters["Маркировка"]}, 'Карманы': {_sectionCounters["Карманы"]}");
                 SaveMarkedPipeData(markingData);
                 UpdateSectionLabels();
+                UpdateGlobalStats();
             }
             else
             {
@@ -476,99 +590,6 @@ namespace PipeWorkshopApp
             LogMessage($"Данные о маркировке сохранены в БД для трубы {markingData.PipeId}.");
         }
 
-        private void LoadSettings()
-        {
-            textBoxServerIP.Text = Properties.Settings.Default.ServerIP;
-            textBoxServerPort.Text = Properties.Settings.Default.ServerPort.ToString();
-
-            textBoxCreation_IP.Text = Properties.Settings.Default["Создание_IP"] as string;
-            textBoxCreation_Port.Text = Properties.Settings.Default["Создание_Port"].ToString();
-            textBoxCreation_Register.Text = Properties.Settings.Default["Создание_Register"].ToString();
-
-            textBoxSharoshkaGood_IP.Text = Properties.Settings.Default["Шарошка_Good_IP"] as string;
-            textBoxSharoshkaGood_Port.Text = Properties.Settings.Default["Шарошка_Good_Port"].ToString();
-            textBoxSharoshkaGood_Register.Text = Properties.Settings.Default["Шарошка_Good_Register"].ToString();
-
-            textBoxSharoshkaReject_IP.Text = Properties.Settings.Default["Шарошка_Reject_IP"] as string;
-            textBoxSharoshkaReject_Port.Text = Properties.Settings.Default["Шарошка_Reject_Port"].ToString();
-            textBoxSharoshkaReject_Register.Text = Properties.Settings.Default["Шарошка_Reject_Register"].ToString();
-
-            textBoxНК_IP.Text = Properties.Settings.Default["НК_IP"] as string;
-            textBoxНК_Port.Text = Properties.Settings.Default["НК_Port"].ToString();
-            textBoxНК_Register.Text = Properties.Settings.Default["НК_Register"].ToString();
-
-            textBoxTokarka_IP.Text = Properties.Settings.Default["Токарка_IP"] as string;
-            textBoxTokarka_Port.Text = Properties.Settings.Default["Токарка_Port"].ToString();
-            textBoxTokarka_Register.Text = Properties.Settings.Default["Токарка_Register"].ToString();
-
-            textBoxOtvorot_IP.Text = Properties.Settings.Default["Отворот_IP"] as string;
-            textBoxOtvorot_Port.Text = Properties.Settings.Default["Отворот_Port"].ToString();
-            textBoxOtvorot_Register.Text = Properties.Settings.Default["Отворот_Register"].ToString();
-
-            textBoxOpressovkaGood_IP.Text = Properties.Settings.Default["Опрессовка_Good_IP"] as string;
-            textBoxOpressovkaGood_Port.Text = Properties.Settings.Default["Опрессовка_Good_Port"].ToString();
-            textBoxOpressovkaGood_Register.Text = Properties.Settings.Default["Опрессовка_Good_Register"].ToString();
-
-            textBoxOpressovkaReject_IP.Text = Properties.Settings.Default["Опрессовка_Reject_IP"] as string;
-            textBoxOpressovkaReject_Port.Text = Properties.Settings.Default["Опрессовка_Reject_Port"].ToString();
-            textBoxOpressovkaReject_Register.Text = Properties.Settings.Default["Опрессовка_Reject_Register"].ToString();
-
-            textBoxMarkirovka_IP.Text = Properties.Settings.Default["Маркировка_IP"] as string;
-            textBoxMarkirovka_Port.Text = Properties.Settings.Default["Маркировка_Port"].ToString();
-            textBoxMarkirovka_Register.Text = Properties.Settings.Default["Маркировка_Register"].ToString();
-
-            textBoxKarman_IP.Text = Properties.Settings.Default["Карманы_IP"] as string;
-            textBoxKarman_Port.Text = Properties.Settings.Default["Карманы_Port"].ToString();
-            textBoxKarman_Register.Text = Properties.Settings.Default["Карманы_Register"].ToString();
-        }
-
-        private void SaveSettings()
-        {
-            Properties.Settings.Default.ServerIP = textBoxServerIP.Text;
-  
-            Properties.Settings.Default["Создание_IP"] = textBoxCreation_IP.Text;
-            Properties.Settings.Default["Создание_Port"] = int.Parse(textBoxCreation_Port.Text);
-            Properties.Settings.Default["Создание_Register"] = int.Parse(textBoxCreation_Register.Text);
-
-            Properties.Settings.Default["Шарошка_Good_IP"] = textBoxSharoshkaGood_IP.Text;
-            Properties.Settings.Default["Шарошка_Good_Port"] = int.Parse(textBoxSharoshkaGood_Port.Text);
-            Properties.Settings.Default["Шарошка_Good_Register"] = int.Parse(textBoxSharoshkaGood_Register.Text);
-
-            Properties.Settings.Default["Шарошка_Reject_IP"] = textBoxSharoshkaReject_IP.Text;
-            Properties.Settings.Default["Шарошка_Reject_Port"] = int.Parse(textBoxSharoshkaReject_Port.Text);
-            Properties.Settings.Default["Шарошка_Reject_Register"] = int.Parse(textBoxSharoshkaReject_Register.Text);
-
-            Properties.Settings.Default["НК_IP"] = textBoxНК_IP.Text;
-            Properties.Settings.Default["НК_Port"] = int.Parse(textBoxНК_Port.Text);
-            Properties.Settings.Default["НК_Register"] = int.Parse(textBoxНК_Register.Text);
-
-            Properties.Settings.Default["Токарка_IP"] = textBoxTokarka_IP.Text;
-            Properties.Settings.Default["Токарка_Port"] = int.Parse(textBoxTokarka_Port.Text);
-            Properties.Settings.Default["Токарка_Register"] = int.Parse(textBoxTokarka_Register.Text);
-
-            Properties.Settings.Default["Отворот_IP"] = textBoxOtvorot_IP.Text;
-            Properties.Settings.Default["Отворот_Port"] = int.Parse(textBoxOtvorot_Port.Text);
-            Properties.Settings.Default["Отворот_Register"] = int.Parse(textBoxOtvorot_Register.Text);
-
-            Properties.Settings.Default["Опрессовка_Good_IP"] = textBoxOpressovkaGood_IP.Text;
-            Properties.Settings.Default["Опрессовка_Good_Port"] = int.Parse(textBoxOpressovkaGood_Port.Text);
-            Properties.Settings.Default["Опрессовка_Good_Register"] = int.Parse(textBoxOpressovkaGood_Register.Text);
-
-            Properties.Settings.Default["Опрессовка_Reject_IP"] = textBoxOpressovkaReject_IP.Text;
-            Properties.Settings.Default["Опрессовка_Reject_Port"] = int.Parse(textBoxOpressovkaReject_Port.Text);
-            Properties.Settings.Default["Опрессовка_Reject_Register"] = int.Parse(textBoxOpressovkaReject_Register.Text);
-
-            Properties.Settings.Default["Маркировка_IP"] = textBoxMarkirovka_IP.Text;
-            Properties.Settings.Default["Маркировка_Port"] = int.Parse(textBoxMarkirovka_Port.Text);
-            Properties.Settings.Default["Маркировка_Register"] = int.Parse(textBoxMarkirovka_Register.Text);
-
-            Properties.Settings.Default["Карманы_IP"] = textBoxKarman_IP.Text;
-            Properties.Settings.Default["Карманы_Port"] = int.Parse(textBoxKarman_Port.Text);
-            Properties.Settings.Default["Карманы_Register"] = int.Parse(textBoxKarman_Register.Text);
-
-            Properties.Settings.Default.Save();
-        }
-
         private void UpdateSectionLabels()
         {
             foreach (var section in _sectionLabels.Keys)
@@ -577,44 +598,102 @@ namespace PipeWorkshopApp
                 int addCount = _manualAdditions[section];
                 int removeCount = _manualRemovals[section];
 
-                _sectionLabels[section].Text = $"{section}: {count}         (руками:{addCount - removeCount})"; //todo: на что то более осмысленное
-            }
-
-            // Можно дополнительно вывести количество бракованных труб в какой-то Label, если нужно
-            // labelRejectedCount.Text = "Бракованных: " + _rejectedCount;
-        }
-
-        private void listViewLog_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control && e.KeyCode == Keys.C)
-            {
-                CopySelectedItemsToClipboard();
-                e.SuppressKeyPress = true;
+                _sectionLabels[section].Text = $"{section}: {count}         (руками:{addCount - removeCount})";
             }
         }
 
-        private void CopySelectedItemsToClipboard()
+        private void UpdateGlobalStats()
         {
-            throw new NotImplementedException();
+            int totalAdd = _manualAdditions.Values.Sum();
+            int totalRemove = _manualRemovals.Values.Sum();
+            int totalInKarmany = _sectionCounters["Карманы"];
+            int totalInBrak = _sectionCounters["Брак"];
+
+            // Допустим, у нас есть labelGlobalStats на форме
+            labelGlobalStats.Text =
+                $"Глобальная статистика:\n" +
+                $"Ручное редактирование: {totalAdd - totalRemove}\n" +
+                $"Всего в Карманы: {totalInKarmany}\n" +
+                $"Ручное добавление в Брак: {totalInBrak}\n" +
+                $"Всего бракованных: {_rejectedCount + totalInBrak}";
         }
 
-        private void LogMessage(string message)
+        private void LoadState()
         {
-            if (listViewLog.InvokeRequired)
+            if (!File.Exists(_stateFilePath)) return;
+
+            try
             {
-                listViewLog.Invoke(new Action(() =>
+                var json = File.ReadAllText(_stateFilePath);
+                var state = JsonSerializer.Deserialize<SaveState>(json);
+
+                if (state != null)
                 {
-                    var item = new ListViewItem(DateTime.Now.ToString("HH:mm:ss") + " - " + message);
-                    listViewLog.Items.Add(item);
-                    listViewLog.EnsureVisible(listViewLog.Items.Count - 1);
-                }));
+                    _sectionCounters = state.SectionCounters;
+                    _manualAdditions = state.ManualAdditions;
+                    _manualRemovals = state.ManualRemovals;
+                    _rejectedCount = state.RejectedCount;
+
+                    listViewRejected.Items.Clear();
+                    foreach (var rec in state.RejectedRecords)
+                    {
+                        var item = new ListViewItem(rec.Time);
+                        item.SubItems.Add(rec.Section);
+                        listViewRejected.Items.Add(item);
+                    }
+
+                    LogMessage("Состояние загружено.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var item = new ListViewItem(DateTime.Now.ToString("HH:mm:ss") + " - " + message);
-                listViewLog.Items.Add(item);
-                listViewLog.EnsureVisible(listViewLog.Items.Count - 1);
+                LogMessage($"Ошибка при загрузке состояния: {ex.Message}");
             }
+        }
+
+        private void SaveState()
+        {
+            var state = new SaveState
+            {
+                SectionCounters = _sectionCounters,
+                ManualAdditions = _manualAdditions,
+                ManualRemovals = _manualRemovals,
+                RejectedCount = _rejectedCount,
+                RejectedRecords = listViewRejected.Items.Cast<ListViewItem>()
+                    .Select(it => new RejectedRecord { Time = it.Text, Section = it.SubItems[1].Text })
+                    .ToList()
+            };
+
+            try
+            {
+                var json = JsonSerializer.Serialize(state, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_stateFilePath, json);
+                LogMessage("Состояние сохранено.");
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Ошибка при сохранении состояния: {ex.Message}");
+            }
+        }
+
+        private void buttonResetState_Click(object sender, EventArgs e)
+        {
+            // Сброс состояния
+            foreach (var key in _sectionCounters.Keys.ToList())
+                _sectionCounters[key] = 0;
+
+            foreach (var key in _manualAdditions.Keys.ToList())
+                _manualAdditions[key] = 0;
+
+            foreach (var key in _manualRemovals.Keys.ToList())
+                _manualRemovals[key] = 0;
+
+            _rejectedCount = 0;
+            listViewRejected.Items.Clear();
+
+            UpdateSectionLabels();
+            UpdateGlobalStats();
+            LogMessage("Состояние сброшено.");
         }
 
         private void button_start_Click(object sender, EventArgs e)
@@ -640,5 +719,65 @@ namespace PipeWorkshopApp
             LoadSettings();
             InitializeModbusServices();
         }
+
+        private void listViewLog_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                CopySelectedItemsToClipboard();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void CopySelectedItemsToClipboard()
+        {
+            if (listViewLog.SelectedItems.Count > 0)
+            {
+                var lines = listViewLog.SelectedItems.Cast<ListViewItem>()
+                              .Select(item => item.Text);
+                string clipboardText = string.Join(Environment.NewLine, lines);
+                Clipboard.SetText(clipboardText);
+                LogMessage("Выбранные элементы скопированы в буфер обмена.");
+            }
+            else
+            {
+                LogMessage("Нет выбранных элементов для копирования.");
+            }
+        }
+
+        private void LogMessage(string message)
+        {
+            if (listViewLog.InvokeRequired)
+            {
+                listViewLog.Invoke(new Action(() =>
+                {
+                    var item = new ListViewItem(DateTime.Now.ToString("HH:mm:ss") + " - " + message);
+                    listViewLog.Items.Add(item);
+                    listViewLog.EnsureVisible(listViewLog.Items.Count - 1);
+                }));
+            }
+            else
+            {
+                var item = new ListViewItem(DateTime.Now.ToString("HH:mm:ss") + " - " + message);
+                listViewLog.Items.Add(item);
+                listViewLog.EnsureVisible(listViewLog.Items.Count - 1);
+            }
+        }
+
+    }
+
+    public class SaveState
+    {
+        public Dictionary<string, int> SectionCounters { get; set; }
+        public Dictionary<string, int> ManualAdditions { get; set; }
+        public Dictionary<string, int> ManualRemovals { get; set; }
+        public int RejectedCount { get; set; }
+        public List<RejectedRecord> RejectedRecords { get; set; } = new List<RejectedRecord>();
+    }
+
+    public class RejectedRecord
+    {
+        public string Time { get; set; }
+        public string Section { get; set; }
     }
 }

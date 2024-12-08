@@ -518,22 +518,23 @@
             // 
             panelCounters.Location = new Point(12, 146);
             panelCounters.Name = "panelCounters";
-            panelCounters.Size = new Size(878, 57);
+            panelCounters.Size = new Size(633, 244);
             panelCounters.TabIndex = 28;
             // 
             // buttonResetState
             // 
-            buttonResetState.Location = new Point(736, 338);
+            buttonResetState.Location = new Point(719, 338);
             buttonResetState.Name = "buttonResetState";
             buttonResetState.Size = new Size(154, 54);
             buttonResetState.TabIndex = 30;
             buttonResetState.Text = "RESET";
             buttonResetState.UseVisualStyleBackColor = true;
+            buttonResetState.Click += buttonResetState_Click;
             // 
             // labelGlobalStats
             // 
             labelGlobalStats.AutoSize = true;
-            labelGlobalStats.Location = new Point(736, 284);
+            labelGlobalStats.Location = new Point(651, 146);
             labelGlobalStats.Name = "labelGlobalStats";
             labelGlobalStats.Size = new Size(38, 15);
             labelGlobalStats.TabIndex = 31;
