@@ -454,5 +454,17 @@ namespace PipeWorkshopApp.Properties {
                 this["НК_Reject_Register"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TriggerDelay {
+            get {
+                return ((int)(this["TriggerDelay"]));
+            }
+            set {
+                this["TriggerDelay"] = value;
+            }
+        }
     }
 }

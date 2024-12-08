@@ -291,6 +291,8 @@ namespace PipeWorkshopApp
 
         private void LoadSettings()
         {
+            textBoxTriggerDelay.Text = Properties.Settings.Default.TriggerDelay.ToString();
+
             textBoxServerIP.Text = Properties.Settings.Default.ServerIP;
             textBoxServerPort.Text = Properties.Settings.Default.ServerPort.ToString();
 
@@ -342,6 +344,7 @@ namespace PipeWorkshopApp
         private void SaveSettings()
         {
             Properties.Settings.Default.ServerIP = textBoxServerIP.Text;
+            Properties.Settings.Default.TriggerDelay = int.Parse(textBoxTriggerDelay.Text);
 
             Properties.Settings.Default["Создание_IP"] = textBoxCreation_IP.Text;
             Properties.Settings.Default["Создание_Port"] = int.Parse(textBoxCreation_Port.Text);
@@ -408,7 +411,7 @@ namespace PipeWorkshopApp
                 {
                     try
                     {
-                        Thread.Sleep(3000);
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Создание"].CheckTrigger())
                         {
                             _sectionCounters["Шарошка"]++;
@@ -417,7 +420,7 @@ namespace PipeWorkshopApp
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Шарошка_Good"].CheckTrigger())
                         {
                             MovePipe("Шарошка", "НК");
@@ -425,7 +428,7 @@ namespace PipeWorkshopApp
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Шарошка_Reject"].CheckTrigger())
                         {
                             RejectPipe("Шарошка");
@@ -433,30 +436,23 @@ namespace PipeWorkshopApp
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(500);
-                        if (_modbusServices["НК"].CheckTrigger())
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
+                        if (_modbusServices["НК_Good"].CheckTrigger())
                         {
-                            var urls = new[]
-                            {
-                                Properties.Settings.Default["NDT_DeviceURL1"] as string,
-                                Properties.Settings.Default["NDT_DeviceURL2"] as string,
-                                Properties.Settings.Default["NDT_DeviceURL3"] as string,
-                            };
-
-                            var tasks = urls.Select(url => SendGetRequest(url)).ToArray();
-                            bool[] results = await Task.WhenAll(tasks);
-                            bool isPipeGood = results.All(r => r);
-
-                            if (isPipeGood)
-                                MovePipe("НК", "Токарка");
-                            else
-                                RejectPipe("НК");
-
+                            MovePipe("НК", "Токарка");
                             UpdateSectionLabels();
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
+                        if (_modbusServices["НК_Reject"].CheckTrigger())
+                        {
+                            RejectPipe("Шарошка");
+                            UpdateSectionLabels();
+                            UpdateGlobalStats();
+                        }
+
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Токарка"].CheckTrigger())
                         {
                             MovePipe("Токарка", "Отворот");
@@ -464,19 +460,15 @@ namespace PipeWorkshopApp
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Отворот"].CheckTrigger())
                         {
-                            bool isPipeGood = await SendGetRequest(Properties.Settings.Default["Otvorot_DeviceURL4"] as string);
-
-                            if (isPipeGood) MovePipe("Отворот", "Опрессовка");
-                            else RejectPipe("Отворот");
-
+                            MovePipe("Отворот", "Опрессовка");
                             UpdateSectionLabels();
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Опрессовка_Good"].CheckTrigger())
                         {
                             MovePipe("Опрессовка", "Маркировка");
@@ -484,7 +476,7 @@ namespace PipeWorkshopApp
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Опрессовка_Reject"].CheckTrigger())
                         {
                             RejectPipe("Опрессовка");
@@ -492,7 +484,8 @@ namespace PipeWorkshopApp
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(500);
+
+                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Карманы"].CheckTrigger())
                         {
                             // Пока ничего не делаем
@@ -553,26 +546,7 @@ namespace PipeWorkshopApp
             }
         }
 
-        private async Task<bool> SendGetRequest(string url)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    var response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-
-                    string responseData = await response.Content.ReadAsStringAsync();
-                    return responseData.Trim().ToLower() == "good";
-                }
-                catch (Exception ex)
-                {
-                    LogMessage($"Ошибка при отправке GET-запроса: {ex.Message}");
-                    return false;
-                }
-            }
-        }
-
+       
         private void HttpServerService_MarkingDataReceived(object sender, MarkingData markingData)
         {
             if (_sectionCounters["Маркировка"] > 0)

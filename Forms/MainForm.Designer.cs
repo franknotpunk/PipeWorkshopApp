@@ -90,6 +90,8 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
+            label4 = new Label();
+            textBoxTriggerDelay = new TextBox();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
@@ -608,11 +610,29 @@
             label3.TabIndex = 34;
             label3.Text = "Очереди";
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(708, 29);
+            label4.Name = "label4";
+            label4.Size = new Size(120, 15);
+            label4.TabIndex = 35;
+            label4.Text = "Частота опроса ПЛК";
+            // 
+            // textBoxTriggerDelay
+            // 
+            textBoxTriggerDelay.Location = new Point(708, 54);
+            textBoxTriggerDelay.Name = "textBoxTriggerDelay";
+            textBoxTriggerDelay.Size = new Size(182, 23);
+            textBoxTriggerDelay.TabIndex = 36;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1243, 945);
+            ClientSize = new Size(1243, 866);
+            Controls.Add(textBoxTriggerDelay);
+            Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -729,5 +749,7 @@
         private Label label1;
         private Label label2;
         private Label label3;
+        private Label label4;
+        private TextBox textBoxTriggerDelay;
     }
 }
