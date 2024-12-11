@@ -553,13 +553,12 @@ namespace PipeWorkshopApp
         private void HttpServerService_MarkingDataReceived(object sender, MarkingData markingData)
         {
 
-            LogMessage(markingData.Test);
 
             if (_sectionCounters["Маркировка"] > 0)
             {
                 _sectionCounters["Маркировка"]--;
                 _sectionCounters["Карманы"]++;
-                LogMessage($"Маркировка завершена для трубы {markingData.PipeId}. 'Маркировка': {_sectionCounters["Маркировка"]}, 'Карманы': {_sectionCounters["Карманы"]}");
+                LogMessage($"Маркировка завершена для трубы {markingData.PipeNumber}. 'Маркировка': {_sectionCounters["Маркировка"]}, 'Карманы': {_sectionCounters["Карманы"]}");
                 SaveMarkedPipeData(markingData);
             }
             else
@@ -575,13 +574,17 @@ namespace PipeWorkshopApp
             using var dbContext = new AppDbContext();
             var pipeData = new PipeData
             {
-                Id = markingData.PipeId,
-                MarkingInfo = markingData.Info
+                PipeNumber = markingData.PipeNumber,
+                Diameter = markingData.Diameter,
+                Material = markingData.Material,
+                Group = markingData.Group,
+                PipeLength = markingData.PipeLength,
+                Thickness = markingData.Thickness,
             };
             dbContext.Pipes.Add(pipeData);
             dbContext.SaveChanges();
 
-            LogMessage($"Данные о маркировке сохранены в БД для трубы {markingData.PipeId}.");
+            LogMessage($"Данные о маркировке сохранены в БД для трубы {markingData.PipeNumber}.");
         }
 
         private void UpdateSectionLabels()

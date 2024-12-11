@@ -2,9 +2,12 @@
 {
     public class PipeData
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public bool IsRejected { get; set; } = false;
-        public string RejectionStage { get; set; }
-        public string MarkingInfo { get; set; } // Информация от маркировщика
+        public int Id { get; set; }
+        public string PipeNumber { get; set; }    // Номер трубы (из textBoxPipeNumber)
+        public string Diameter { get; set; }       // Диаметр (из comboBoxDiameter)
+        public string Material { get; set; }       // Материал ("CR" или "", в зависимости от comboBoxMaterial)
+        public string Group { get; set; }          // Группа (из comboBoxGroup)
+        public string PipeLength { get; set; }     // Длина трубы, считанная по Modbus (из getLength())
+        public string Thickness { get; set; }      // Толщина стенки (из comboBoxThickness)
     }
 }

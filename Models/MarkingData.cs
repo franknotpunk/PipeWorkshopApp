@@ -4,11 +4,11 @@ namespace PipeWorkshopApp.Models
 {
     public class MarkingData
     {
-        public Guid PipeId { get; set; }  // Уникальный идентификатор трубы
-        public string Info { get; set; }  // Информация от маркировщика
-
-        public string Test {  get; set; }
-
-        // Здесь можно добавить дополнительные поля, если потребуется
+        public string PipeNumber { get; set; }    // Номер трубы (из textBoxPipeNumber)
+        public string Diameter { get; set; }       // Диаметр (из comboBoxDiameter)
+        public string Material { get; set; }       // Материал ("CR" или "", в зависимости от comboBoxMaterial)
+        public string Group { get; set; }          // Группа (из comboBoxGroup)
+        public string PipeLength { get; set; }     // Длина трубы, считанная по Modbus (из getLength())
+        public string Thickness { get; set; }      // Толщина стенки (из comboBoxThickness)
     }
 }
