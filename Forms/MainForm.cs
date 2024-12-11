@@ -19,6 +19,7 @@ namespace PipeWorkshopApp
     {
         private HttpServerService _httpServerService;
         private CancellationTokenSource _cancellationTokenSource;
+        public event EventHandler<string> LogMessageReceived;
 
         private Dictionary<string, int> _sectionCounters;    // Счётчики труб на участках
         private Dictionary<string, int> _manualAdditions;    // Ручные добавления по участкам
@@ -39,6 +40,10 @@ namespace PipeWorkshopApp
             InitializeComponent();
 
             _httpServerService = new HttpServerService();
+            _httpServerService.LogMessageReceived += (sender, msg) =>
+            {
+                LogMessage(msg); // Вызов вашего метода LogMessage, который обновляет listViewLog в форме
+            };
             _httpServerService.MarkingDataReceived += HttpServerService_MarkingDataReceived;
 
             InitializeCounters();
@@ -556,13 +561,13 @@ namespace PipeWorkshopApp
                 _sectionCounters["Карманы"]++;
                 LogMessage($"Маркировка завершена для трубы {markingData.PipeId}. 'Маркировка': {_sectionCounters["Маркировка"]}, 'Карманы': {_sectionCounters["Карманы"]}");
                 SaveMarkedPipeData(markingData);
-                UpdateSectionLabels();
-                UpdateGlobalStats();
             }
             else
             {
                 LogMessage("Нет труб на участке 'Маркировка' для завершения маркировки.");
             }
+            UpdateSectionLabels();
+            UpdateGlobalStats();
         }
 
         private void SaveMarkedPipeData(MarkingData markingData)
@@ -756,6 +761,7 @@ namespace PipeWorkshopApp
                 listViewLog.EnsureVisible(listViewLog.Items.Count - 1);
             }
         }
+
 
     }
 

@@ -12,6 +12,7 @@ namespace PipeWorkshopApp.Services
     public class HttpServerService
     {
         private WebServer _server;
+        public event EventHandler<string> LogMessageReceived;
 
         public Task StartServer(string ipAddress, int port)
         {
@@ -46,7 +47,7 @@ namespace PipeWorkshopApp.Services
                 {
                     await context.SendStringAsync("Сервер работает!", "text/plain", Encoding.UTF8);
                 }))
-                .WithModule(new ActionModule("/marking", HttpVerbs.Post, async context =>
+                .WithModule(new ActionModule("/", HttpVerbs.Post, async context =>
                 {
                     using var reader = new System.IO.StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
                     string body = await reader.ReadToEndAsync();
@@ -59,6 +60,7 @@ namespace PipeWorkshopApp.Services
                     }
                     catch (Exception ex)
                     {
+                        Log($"Ошибка обработки данных маркировки: {ex.Message}");
                         Console.WriteLine($"Ошибка обработки данных маркировки: {ex.Message}");
                     }
 
@@ -75,6 +77,10 @@ namespace PipeWorkshopApp.Services
         private void ProcessMarkingData(MarkingData markingData)
         {
             MarkingDataReceived?.Invoke(this, markingData);
+        }
+        private void Log(string message)
+        {
+            LogMessageReceived?.Invoke(this, message);
         }
     }
 }
