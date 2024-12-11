@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text.Json;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace PipeWorkshopApp
 {
@@ -71,7 +72,11 @@ namespace PipeWorkshopApp
             UpdateGlobalStats();
 
             this.Resize += MainForm_Resize;
-            LogMessage("aboba");
+
+            using (var dbContext = new AppDbContext())
+            {
+                dbContext.Database.Migrate();
+            }
         }
 
         private void InitializeCounters()
