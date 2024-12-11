@@ -66,6 +66,7 @@ namespace PipeWorkshopApp
             UpdateGlobalStats();
 
             this.Resize += MainForm_Resize;
+            LogMessage("aboba");
         }
 
         private void InitializeCounters()
@@ -343,8 +344,10 @@ namespace PipeWorkshopApp
 
         private void SaveSettings()
         {
-            Properties.Settings.Default.ServerIP = textBoxServerIP.Text;
             Properties.Settings.Default.TriggerDelay = int.Parse(textBoxTriggerDelay.Text);
+
+            Properties.Settings.Default.ServerIP = textBoxServerIP.Text;
+            Properties.Settings.Default.ServerPort = int.Parse(textBoxServerPort.Text);
 
             Properties.Settings.Default["Создание_IP"] = textBoxCreation_IP.Text;
             Properties.Settings.Default["Создание_Port"] = int.Parse(textBoxCreation_Port.Text);
@@ -393,12 +396,6 @@ namespace PipeWorkshopApp
             Properties.Settings.Default.Save();
         }
 
-        private void StartHttpServer()
-        {
-            string ipAddress = Properties.Settings.Default.ServerIP;
-            int port = Properties.Settings.Default.ServerPort;
-            _ = _httpServerService.StartServer(ipAddress, port);
-        }
 
         private void StartMainLoop()
         {
@@ -488,7 +485,8 @@ namespace PipeWorkshopApp
                         Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Карманы"].CheckTrigger())
                         {
-                            // Пока ничего не делаем
+                            LogMessage("Заглушка, логика карманов будет реализованна позже");
+                            // todo: тут ебучая логика карманов, СДЕЛАТЬ!!!!
                         }
 
                         await Task.Delay(500);
@@ -549,6 +547,9 @@ namespace PipeWorkshopApp
        
         private void HttpServerService_MarkingDataReceived(object sender, MarkingData markingData)
         {
+
+            LogMessage(markingData.Test);
+
             if (_sectionCounters["Маркировка"] > 0)
             {
                 _sectionCounters["Маркировка"]--;
@@ -687,9 +688,10 @@ namespace PipeWorkshopApp
             LogMessage("Состояние сброшено.");
         }
 
-        private void button_start_Click(object sender, EventArgs e)
+        private async void button_start_Click(object sender, EventArgs e)
         {
-            StartHttpServer();
+            await _httpServerService.StartServer(Properties.Settings.Default.ServerIP, Properties.Settings.Default.ServerPort);
+            // Сервер будет запущен, не блокируя UI
             StartMainLoop();
             LogMessage("Приложение запущено.");
         }

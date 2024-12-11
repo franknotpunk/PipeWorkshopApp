@@ -13,19 +13,23 @@ namespace PipeWorkshopApp.Services
     {
         private WebServer _server;
 
-        public async Task StartServer(string ipAddress, int port)
+        public Task StartServer(string ipAddress, int port)
         {
             string url = $"http://{ipAddress}:{port}/";
             _server = CreateWebServer(url);
 
-            try
+            // Запускаем сервер в отдельном Task, не блокируя UI
+            return Task.Run(async () =>
             {
-                await _server.RunAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка при запуске сервера: {ex.Message}");
-            }
+                try
+                {
+                    await _server.RunAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при запуске сервера: {ex.Message}");
+                }
+            });
         }
 
         public void StopServer()

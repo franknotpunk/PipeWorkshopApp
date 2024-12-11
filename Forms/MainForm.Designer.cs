@@ -108,14 +108,14 @@
             // 
             // textBoxServerIP
             // 
-            textBoxServerIP.Location = new Point(357, 54);
+            textBoxServerIP.Location = new Point(12, 54);
             textBoxServerIP.Name = "textBoxServerIP";
             textBoxServerIP.Size = new Size(332, 23);
             textBoxServerIP.TabIndex = 7;
             // 
             // textBoxServerPort
             // 
-            textBoxServerPort.Location = new Point(12, 54);
+            textBoxServerPort.Location = new Point(350, 54);
             textBoxServerPort.Name = "textBoxServerPort";
             textBoxServerPort.Size = new Size(332, 23);
             textBoxServerPort.TabIndex = 8;
