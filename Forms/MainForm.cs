@@ -549,11 +549,24 @@ namespace PipeWorkshopApp
             }
         }
 
-       
+
         private void HttpServerService_MarkingDataReceived(object sender, MarkingData markingData)
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    ProcessMarkingDataOnUIThread(markingData);
+                }));
+            }
+            else
+            {
+                ProcessMarkingDataOnUIThread(markingData);
+            }
+        }
 
-
+        private void ProcessMarkingDataOnUIThread(MarkingData markingData)
+        {
             if (_sectionCounters["Маркировка"] > 0)
             {
                 _sectionCounters["Маркировка"]--;
@@ -568,6 +581,7 @@ namespace PipeWorkshopApp
             UpdateSectionLabels();
             UpdateGlobalStats();
         }
+
 
         private void SaveMarkedPipeData(MarkingData markingData)
         {
