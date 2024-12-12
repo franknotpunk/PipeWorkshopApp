@@ -51,9 +51,56 @@ namespace PipeWorkshopApp
         private int _karman4BatchNumber;
         private int _karman4BatchCount;
 
-        public MainForm()
+       
+
+
+
+
+
+public MainForm()
         {
             InitializeComponent();
+
+            comboBoxK1Diameter.Items.AddRange(new object[] { "60", "73", "89" });
+            comboBoxK1Diameter.SelectedIndex = 0;
+
+            comboBoxK1Material.Items.AddRange(new object[] { "CR", "รั" });
+            comboBoxK1Material.SelectedIndex = 0;
+
+            comboBoxK1Group.Items.AddRange(new object[] { "E", "L" });
+            comboBoxK1Group.SelectedIndex = 0;
+
+            comboBoxK2Diameter.Items.AddRange(new object[] { "60", "73", "89" });
+            comboBoxK2Diameter.SelectedIndex = 0;
+
+            comboBoxK2Material.Items.AddRange(new object[] { "CR", "รั" });
+            comboBoxK2Material.SelectedIndex = 0;
+
+            comboBoxK2Group.Items.AddRange(new object[] { "E", "L" });
+            comboBoxK2Group.SelectedIndex = 0;
+
+            comboBoxK3Diameter.Items.AddRange(new object[] { "60", "73", "89" });
+            comboBoxK3Diameter.SelectedIndex = 0;
+
+            comboBoxK3Material.Items.AddRange(new object[] { "CR", "รั" });
+            comboBoxK3Material.SelectedIndex = 0;
+
+            comboBoxK3Group.Items.AddRange(new object[] { "E", "L" });
+            comboBoxK3Group.SelectedIndex = 0;
+
+            comboBoxK4Diameter.Items.AddRange(new object[] { "60", "73", "89" });
+            comboBoxK4Diameter.SelectedIndex = 0;
+
+            comboBoxK4Material.Items.AddRange(new object[] { "CR", "รั" });
+            comboBoxK4Material.SelectedIndex = 0;
+
+            comboBoxK4Group.Items.AddRange(new object[] { "E", "L" });
+            comboBoxK4Group.SelectedIndex = 0;
+
+
+
+
+
 
             _httpServerService = new HttpServerService();
             _httpServerService.LogMessageReceived += (sender, msg) =>
