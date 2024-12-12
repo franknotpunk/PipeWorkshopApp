@@ -431,7 +431,7 @@ namespace PipeWorkshopApp
 
 
             Properties.Settings.Default["textBoxKarmanIp1"] = textBoxKarmanIp1.Text;
-            Properties.Settings.Default["textBoxKarmanProt1"] = int.Parse(textBoxKarmanPort1.Text);
+            Properties.Settings.Default["textBoxKarmanPort1"] = int.Parse(textBoxKarmanPort1.Text);
             Properties.Settings.Default["textBoxKarmanRegister1"] = int.Parse(textBoxKarmanRegister1.Text);
 
             Properties.Settings.Default["textBoxKarmanIp2"] = textBoxKarmanIp2.Text;

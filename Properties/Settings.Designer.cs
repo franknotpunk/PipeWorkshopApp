@@ -578,7 +578,7 @@ namespace PipeWorkshopApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int textBoxKarmanProt1 {
+        public int textBoxKarmanPort1 {
             get {
                 return ((int)(this["textBoxKarmanProt1"]));
             }
