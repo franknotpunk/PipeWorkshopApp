@@ -650,12 +650,12 @@ namespace PipeWorkshopApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int textBoxKarmanProt3 {
+        public int textBoxKarmanPort3 {
             get {
-                return ((int)(this["textBoxKarmanProt3"]));
+                return ((int)(this["textBoxKarmanPort3"]));
             }
             set {
-                this["textBoxKarmanProt3"] = value;
+                this["textBoxKarmanPort3"] = value;
             }
         }
         
@@ -686,12 +686,12 @@ namespace PipeWorkshopApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int textBoxKarmanProt4 {
+        public int textBoxKarmanPort4 {
             get {
-                return ((int)(this["textBoxKarmanProt4"]));
+                return ((int)(this["textBoxKarmanPort4"]));
             }
             set {
-                this["textBoxKarmanProt4"] = value;
+                this["textBoxKarmanPort4"] = value;
             }
         }
         

@@ -377,7 +377,7 @@ namespace PipeWorkshopApp
             textBoxKarmanRegister3.Text = Properties.Settings.Default["textBoxKarmanRegister3"].ToString();
 
             textBoxKarmanIp4.Text = Properties.Settings.Default["textBoxKarmanIp4"] as string;
-            textBoxKarmanPort4.Text = Properties.Settings.Default["textBoxKarmanProt4"].ToString();
+            textBoxKarmanPort4.Text = Properties.Settings.Default["textBoxKarmanPort4"].ToString();
             textBoxKarmanRegister4.Text = Properties.Settings.Default["textBoxKarmanRegister4"].ToString();
 
 
@@ -439,11 +439,11 @@ namespace PipeWorkshopApp
             Properties.Settings.Default["textBoxKarmanRegister2"] = int.Parse(textBoxKarmanRegister2.Text);
 
             Properties.Settings.Default["textBoxKarmanIp3"] = textBoxKarmanIp3.Text;
-            Properties.Settings.Default["textBoxKarmanProt3"] = int.Parse(textBoxKarmanPort3.Text);
+            Properties.Settings.Default["textBoxKarmanPort3"] = int.Parse(textBoxKarmanPort3.Text);
             Properties.Settings.Default["textBoxKarmanRegister3"] = int.Parse(textBoxKarmanRegister3.Text);
 
             Properties.Settings.Default["textBoxKarmanIp4"] = textBoxKarmanIp4.Text;
-            Properties.Settings.Default["textBoxKarmanProt4"] = int.Parse(textBoxKarmanPort4.Text);
+            Properties.Settings.Default["textBoxKarmanPort4"] = int.Parse(textBoxKarmanPort4.Text);
             Properties.Settings.Default["textBoxKarmanRegister4"] = int.Parse(textBoxKarmanRegister4.Text);
 
             Properties.Settings.Default.Save();

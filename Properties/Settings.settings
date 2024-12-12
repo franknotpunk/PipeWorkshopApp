@@ -158,7 +158,7 @@
     <Setting Name="textBoxKarmanIp3" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="textBoxKarmanProt3" Type="System.Int32" Scope="User">
+    <Setting Name="textBoxKarmanPort3" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="textBoxKarmanRegister3" Type="System.Int32" Scope="User">
@@ -167,7 +167,7 @@
     <Setting Name="textBoxKarmanIp4" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="textBoxKarmanProt4" Type="System.Int32" Scope="User">
+    <Setting Name="textBoxKarmanPort4" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="textBoxKarmanRegister4" Type="System.Int32" Scope="User">
