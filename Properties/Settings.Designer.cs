@@ -580,10 +580,10 @@ namespace PipeWorkshopApp.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanPort1 {
             get {
-                return ((int)(this["textBoxKarmanProt1"]));
+                return ((int)(this["textBoxKarmanPort1"]));
             }
             set {
-                this["textBoxKarmanProt1"] = value;
+                this["textBoxKarmanPort1"] = value;
             }
         }
         
