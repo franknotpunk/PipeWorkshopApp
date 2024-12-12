@@ -466,5 +466,101 @@ namespace PipeWorkshopApp.Properties {
                 this["TriggerDelay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int Karman1BatchNumber {
+            get {
+                return ((int)(this["Karman1BatchNumber"]));
+            }
+            set {
+                this["Karman1BatchNumber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Karman1BatchCount {
+            get {
+                return ((int)(this["Karman1BatchCount"]));
+            }
+            set {
+                this["Karman1BatchCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int Karman2BatchNumber {
+            get {
+                return ((int)(this["Karman2BatchNumber"]));
+            }
+            set {
+                this["Karman2BatchNumber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Karman2BatchCount {
+            get {
+                return ((int)(this["Karman2BatchCount"]));
+            }
+            set {
+                this["Karman2BatchCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int Karman3BatchNumber {
+            get {
+                return ((int)(this["Karman3BatchNumber"]));
+            }
+            set {
+                this["Karman3BatchNumber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Karman3BatchCount {
+            get {
+                return ((int)(this["Karman3BatchCount"]));
+            }
+            set {
+                this["Karman3BatchCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int Karman4BatchNumber {
+            get {
+                return ((int)(this["Karman4BatchNumber"]));
+            }
+            set {
+                this["Karman4BatchNumber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Karman4BatchCount {
+            get {
+                return ((int)(this["Karman4BatchCount"]));
+            }
+            set {
+                this["Karman4BatchCount"] = value;
+            }
+        }
     }
 }

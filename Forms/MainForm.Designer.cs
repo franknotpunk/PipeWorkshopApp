@@ -47,10 +47,6 @@
             textBoxНКGood_Port = new TextBox();
             textBoxНКGood_IP = new TextBox();
             textBoxНКGood_Register = new TextBox();
-            groupBox_Pressed = new GroupBox();
-            textBoxTokarka_Port = new TextBox();
-            textBoxTokarka_IP = new TextBox();
-            textBoxTokarka_Register = new TextBox();
             groupBox_Marker = new GroupBox();
             textBoxOtvorot_Port = new TextBox();
             textBoxOtvorot_IP = new TextBox();
@@ -61,10 +57,6 @@
             textBoxOpressovkaGood_Port = new TextBox();
             textBoxOpressovkaGood_IP = new TextBox();
             textBoxOpressovkaGood_Register = new TextBox();
-            groupBox2 = new GroupBox();
-            textBoxMarkirovka_Port = new TextBox();
-            textBoxMarkirovka_IP = new TextBox();
-            textBoxMarkirovka_Register = new TextBox();
             groupBox3 = new GroupBox();
             textBoxKarman_Port = new TextBox();
             textBoxKarman_IP = new TextBox();
@@ -92,18 +84,60 @@
             label3 = new Label();
             label4 = new Label();
             textBoxTriggerDelay = new TextBox();
+            comboBoxK1Diameter = new ComboBox();
+            comboBoxK1Material = new ComboBox();
+            comboBoxK1Group = new ComboBox();
+            groupBox2 = new GroupBox();
+            groupBox5 = new GroupBox();
+            comboBoxK2Diameter = new ComboBox();
+            comboBoxK2Group = new ComboBox();
+            comboBoxK2Material = new ComboBox();
+            groupBox6 = new GroupBox();
+            comboBoxK3Diameter = new ComboBox();
+            comboBoxK3Group = new ComboBox();
+            comboBoxK3Material = new ComboBox();
+            groupBox7 = new GroupBox();
+            comboBoxK4Diameter = new ComboBox();
+            comboBoxK4Group = new ComboBox();
+            comboBoxK4Material = new ComboBox();
+            buttonCloseBatch1 = new Button();
+            buttonCloseBatch2 = new Button();
+            buttonCloseBatch3 = new Button();
+            buttonCloseBatch4 = new Button();
+            textBoxK1CurrentBatch = new TextBox();
+            textBoxK1CurrentCount = new TextBox();
+            textBoxK2CurrentCount = new TextBox();
+            textBoxK2CurrentBatch = new TextBox();
+            textBoxK3CurrentCount = new TextBox();
+            textBoxK3CurrentBatch = new TextBox();
+            textBoxK4CurrentCount = new TextBox();
+            textBoxK4CurrentBatch = new TextBox();
+            textBoxKarmanPort1 = new TextBox();
+            textBoxKarmanIp1 = new TextBox();
+            textBoxKarmanRegister1 = new TextBox();
+            textBoxKarmanPort2 = new TextBox();
+            textBoxKarmanIp2 = new TextBox();
+            textBoxKarmanRegister2 = new TextBox();
+            textBoxKarmanPort3 = new TextBox();
+            textBoxKarmanIp3 = new TextBox();
+            textBoxKarmanRegister3 = new TextBox();
+            textBoxKarmanPort4 = new TextBox();
+            textBoxKarmanIp4 = new TextBox();
+            textBoxKarmanRegister4 = new TextBox();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
             groupBox_Otvorot.SuspendLayout();
-            groupBox_Pressed.SuspendLayout();
             groupBox_Marker.SuspendLayout();
             groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
             contextMenu.SuspendLayout();
             НК_Reject.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox5.SuspendLayout();
+            groupBox6.SuspendLayout();
+            groupBox7.SuspendLayout();
             SuspendLayout();
             // 
             // textBoxServerIP
@@ -252,45 +286,12 @@
             textBoxНКGood_Register.Size = new Size(64, 23);
             textBoxНКGood_Register.TabIndex = 2;
             // 
-            // groupBox_Pressed
-            // 
-            groupBox_Pressed.Controls.Add(textBoxTokarka_Port);
-            groupBox_Pressed.Controls.Add(textBoxTokarka_IP);
-            groupBox_Pressed.Controls.Add(textBoxTokarka_Register);
-            groupBox_Pressed.Location = new Point(896, 347);
-            groupBox_Pressed.Name = "groupBox_Pressed";
-            groupBox_Pressed.Size = new Size(332, 57);
-            groupBox_Pressed.TabIndex = 11;
-            groupBox_Pressed.TabStop = false;
-            groupBox_Pressed.Text = "Токарка";
-            // 
-            // textBoxTokarka_Port
-            // 
-            textBoxTokarka_Port.Location = new Point(184, 22);
-            textBoxTokarka_Port.Name = "textBoxTokarka_Port";
-            textBoxTokarka_Port.Size = new Size(64, 23);
-            textBoxTokarka_Port.TabIndex = 1;
-            // 
-            // textBoxTokarka_IP
-            // 
-            textBoxTokarka_IP.Location = new Point(6, 22);
-            textBoxTokarka_IP.Name = "textBoxTokarka_IP";
-            textBoxTokarka_IP.Size = new Size(172, 23);
-            textBoxTokarka_IP.TabIndex = 0;
-            // 
-            // textBoxTokarka_Register
-            // 
-            textBoxTokarka_Register.Location = new Point(254, 22);
-            textBoxTokarka_Register.Name = "textBoxTokarka_Register";
-            textBoxTokarka_Register.Size = new Size(64, 23);
-            textBoxTokarka_Register.TabIndex = 2;
-            // 
             // groupBox_Marker
             // 
             groupBox_Marker.Controls.Add(textBoxOtvorot_Port);
             groupBox_Marker.Controls.Add(textBoxOtvorot_IP);
             groupBox_Marker.Controls.Add(textBoxOtvorot_Register);
-            groupBox_Marker.Location = new Point(896, 410);
+            groupBox_Marker.Location = new Point(899, 347);
             groupBox_Marker.Name = "groupBox_Marker";
             groupBox_Marker.Size = new Size(332, 57);
             groupBox_Marker.TabIndex = 11;
@@ -343,7 +344,7 @@
             groupBox1.Controls.Add(textBoxOpressovkaGood_Port);
             groupBox1.Controls.Add(textBoxOpressovkaGood_IP);
             groupBox1.Controls.Add(textBoxOpressovkaGood_Register);
-            groupBox1.Location = new Point(896, 473);
+            groupBox1.Location = new Point(899, 410);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(332, 57);
             groupBox1.TabIndex = 12;
@@ -371,45 +372,12 @@
             textBoxOpressovkaGood_Register.Size = new Size(64, 23);
             textBoxOpressovkaGood_Register.TabIndex = 2;
             // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(textBoxMarkirovka_Port);
-            groupBox2.Controls.Add(textBoxMarkirovka_IP);
-            groupBox2.Controls.Add(textBoxMarkirovka_Register);
-            groupBox2.Location = new Point(896, 599);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(332, 57);
-            groupBox2.TabIndex = 12;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Маркировка";
-            // 
-            // textBoxMarkirovka_Port
-            // 
-            textBoxMarkirovka_Port.Location = new Point(184, 22);
-            textBoxMarkirovka_Port.Name = "textBoxMarkirovka_Port";
-            textBoxMarkirovka_Port.Size = new Size(64, 23);
-            textBoxMarkirovka_Port.TabIndex = 1;
-            // 
-            // textBoxMarkirovka_IP
-            // 
-            textBoxMarkirovka_IP.Location = new Point(6, 22);
-            textBoxMarkirovka_IP.Name = "textBoxMarkirovka_IP";
-            textBoxMarkirovka_IP.Size = new Size(172, 23);
-            textBoxMarkirovka_IP.TabIndex = 0;
-            // 
-            // textBoxMarkirovka_Register
-            // 
-            textBoxMarkirovka_Register.Location = new Point(254, 22);
-            textBoxMarkirovka_Register.Name = "textBoxMarkirovka_Register";
-            textBoxMarkirovka_Register.Size = new Size(64, 23);
-            textBoxMarkirovka_Register.TabIndex = 2;
-            // 
             // groupBox3
             // 
             groupBox3.Controls.Add(textBoxKarman_Port);
             groupBox3.Controls.Add(textBoxKarman_IP);
             groupBox3.Controls.Add(textBoxKarman_Register);
-            groupBox3.Location = new Point(896, 662);
+            groupBox3.Location = new Point(899, 536);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(332, 57);
             groupBox3.TabIndex = 12;
@@ -442,7 +410,7 @@
             groupBox4.Controls.Add(textBoxOpressovkaReject_Port);
             groupBox4.Controls.Add(textBoxOpressovkaReject_IP);
             groupBox4.Controls.Add(textBoxOpressovkaReject_Register);
-            groupBox4.Location = new Point(896, 536);
+            groupBox4.Location = new Point(899, 473);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(332, 57);
             groupBox4.TabIndex = 13;
@@ -626,11 +594,363 @@
             textBoxTriggerDelay.Size = new Size(182, 23);
             textBoxTriggerDelay.TabIndex = 36;
             // 
+            // comboBoxK1Diameter
+            // 
+            comboBoxK1Diameter.FormattingEnabled = true;
+            comboBoxK1Diameter.Location = new Point(6, 25);
+            comboBoxK1Diameter.Name = "comboBoxK1Diameter";
+            comboBoxK1Diameter.Size = new Size(121, 23);
+            comboBoxK1Diameter.TabIndex = 37;
+            // 
+            // comboBoxK1Material
+            // 
+            comboBoxK1Material.FormattingEnabled = true;
+            comboBoxK1Material.Location = new Point(133, 25);
+            comboBoxK1Material.Name = "comboBoxK1Material";
+            comboBoxK1Material.Size = new Size(121, 23);
+            comboBoxK1Material.TabIndex = 38;
+            // 
+            // comboBoxK1Group
+            // 
+            comboBoxK1Group.FormattingEnabled = true;
+            comboBoxK1Group.Location = new Point(261, 25);
+            comboBoxK1Group.Name = "comboBoxK1Group";
+            comboBoxK1Group.Size = new Size(121, 23);
+            comboBoxK1Group.TabIndex = 39;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(comboBoxK1Diameter);
+            groupBox2.Controls.Add(comboBoxK1Group);
+            groupBox2.Controls.Add(comboBoxK1Material);
+            groupBox2.Location = new Point(1247, 32);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(388, 57);
+            groupBox2.TabIndex = 40;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Карман №1";
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(comboBoxK2Diameter);
+            groupBox5.Controls.Add(comboBoxK2Group);
+            groupBox5.Controls.Add(comboBoxK2Material);
+            groupBox5.Location = new Point(1247, 306);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(388, 57);
+            groupBox5.TabIndex = 41;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Карман №2";
+            // 
+            // comboBoxK2Diameter
+            // 
+            comboBoxK2Diameter.FormattingEnabled = true;
+            comboBoxK2Diameter.Location = new Point(6, 25);
+            comboBoxK2Diameter.Name = "comboBoxK2Diameter";
+            comboBoxK2Diameter.Size = new Size(121, 23);
+            comboBoxK2Diameter.TabIndex = 37;
+            // 
+            // comboBoxK2Group
+            // 
+            comboBoxK2Group.FormattingEnabled = true;
+            comboBoxK2Group.Location = new Point(261, 25);
+            comboBoxK2Group.Name = "comboBoxK2Group";
+            comboBoxK2Group.Size = new Size(121, 23);
+            comboBoxK2Group.TabIndex = 39;
+            // 
+            // comboBoxK2Material
+            // 
+            comboBoxK2Material.FormattingEnabled = true;
+            comboBoxK2Material.Location = new Point(133, 25);
+            comboBoxK2Material.Name = "comboBoxK2Material";
+            comboBoxK2Material.Size = new Size(121, 23);
+            comboBoxK2Material.TabIndex = 38;
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(comboBoxK3Diameter);
+            groupBox6.Controls.Add(comboBoxK3Group);
+            groupBox6.Controls.Add(comboBoxK3Material);
+            groupBox6.Location = new Point(1247, 495);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(388, 57);
+            groupBox6.TabIndex = 41;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Карман №3";
+            // 
+            // comboBoxK3Diameter
+            // 
+            comboBoxK3Diameter.FormattingEnabled = true;
+            comboBoxK3Diameter.Location = new Point(6, 25);
+            comboBoxK3Diameter.Name = "comboBoxK3Diameter";
+            comboBoxK3Diameter.Size = new Size(121, 23);
+            comboBoxK3Diameter.TabIndex = 37;
+            // 
+            // comboBoxK3Group
+            // 
+            comboBoxK3Group.FormattingEnabled = true;
+            comboBoxK3Group.Location = new Point(261, 25);
+            comboBoxK3Group.Name = "comboBoxK3Group";
+            comboBoxK3Group.Size = new Size(121, 23);
+            comboBoxK3Group.TabIndex = 39;
+            // 
+            // comboBoxK3Material
+            // 
+            comboBoxK3Material.FormattingEnabled = true;
+            comboBoxK3Material.Location = new Point(133, 25);
+            comboBoxK3Material.Name = "comboBoxK3Material";
+            comboBoxK3Material.Size = new Size(121, 23);
+            comboBoxK3Material.TabIndex = 38;
+            // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(comboBoxK4Diameter);
+            groupBox7.Controls.Add(comboBoxK4Group);
+            groupBox7.Controls.Add(comboBoxK4Material);
+            groupBox7.Location = new Point(1253, 725);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(388, 57);
+            groupBox7.TabIndex = 41;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Карман №4";
+            // 
+            // comboBoxK4Diameter
+            // 
+            comboBoxK4Diameter.FormattingEnabled = true;
+            comboBoxK4Diameter.Location = new Point(6, 25);
+            comboBoxK4Diameter.Name = "comboBoxK4Diameter";
+            comboBoxK4Diameter.Size = new Size(121, 23);
+            comboBoxK4Diameter.TabIndex = 37;
+            // 
+            // comboBoxK4Group
+            // 
+            comboBoxK4Group.FormattingEnabled = true;
+            comboBoxK4Group.Location = new Point(261, 25);
+            comboBoxK4Group.Name = "comboBoxK4Group";
+            comboBoxK4Group.Size = new Size(121, 23);
+            comboBoxK4Group.TabIndex = 39;
+            // 
+            // comboBoxK4Material
+            // 
+            comboBoxK4Material.FormattingEnabled = true;
+            comboBoxK4Material.Location = new Point(133, 25);
+            comboBoxK4Material.Name = "comboBoxK4Material";
+            comboBoxK4Material.Size = new Size(121, 23);
+            comboBoxK4Material.TabIndex = 38;
+            // 
+            // buttonCloseBatch1
+            // 
+            buttonCloseBatch1.Location = new Point(1508, 97);
+            buttonCloseBatch1.Name = "buttonCloseBatch1";
+            buttonCloseBatch1.Size = new Size(121, 23);
+            buttonCloseBatch1.TabIndex = 42;
+            buttonCloseBatch1.Text = "Ручное закрытие";
+            buttonCloseBatch1.UseVisualStyleBackColor = true;
+            buttonCloseBatch1.Click += buttonCloseBatch1_Click;
+            // 
+            // buttonCloseBatch2
+            // 
+            buttonCloseBatch2.Location = new Point(1508, 371);
+            buttonCloseBatch2.Name = "buttonCloseBatch2";
+            buttonCloseBatch2.Size = new Size(121, 24);
+            buttonCloseBatch2.TabIndex = 43;
+            buttonCloseBatch2.Text = "Ручное закрытие";
+            buttonCloseBatch2.UseVisualStyleBackColor = true;
+            buttonCloseBatch2.Click += buttonCloseBatch2_Click;
+            // 
+            // buttonCloseBatch3
+            // 
+            buttonCloseBatch3.Location = new Point(1508, 560);
+            buttonCloseBatch3.Name = "buttonCloseBatch3";
+            buttonCloseBatch3.Size = new Size(121, 21);
+            buttonCloseBatch3.TabIndex = 44;
+            buttonCloseBatch3.Text = "Ручное закрытие";
+            buttonCloseBatch3.UseVisualStyleBackColor = true;
+            buttonCloseBatch3.Click += buttonCloseBatch3_Click;
+            // 
+            // buttonCloseBatch4
+            // 
+            buttonCloseBatch4.Location = new Point(1514, 790);
+            buttonCloseBatch4.Name = "buttonCloseBatch4";
+            buttonCloseBatch4.Size = new Size(121, 21);
+            buttonCloseBatch4.TabIndex = 45;
+            buttonCloseBatch4.Text = "Ручное закрытие";
+            buttonCloseBatch4.UseVisualStyleBackColor = true;
+            buttonCloseBatch4.Click += buttonCloseBatch4_Click;
+            // 
+            // textBoxK1CurrentBatch
+            // 
+            textBoxK1CurrentBatch.Location = new Point(1253, 97);
+            textBoxK1CurrentBatch.Name = "textBoxK1CurrentBatch";
+            textBoxK1CurrentBatch.Size = new Size(121, 23);
+            textBoxK1CurrentBatch.TabIndex = 46;
+            // 
+            // textBoxK1CurrentCount
+            // 
+            textBoxK1CurrentCount.Location = new Point(1381, 97);
+            textBoxK1CurrentCount.Name = "textBoxK1CurrentCount";
+            textBoxK1CurrentCount.Size = new Size(121, 23);
+            textBoxK1CurrentCount.TabIndex = 47;
+            // 
+            // textBoxK2CurrentCount
+            // 
+            textBoxK2CurrentCount.Location = new Point(1381, 369);
+            textBoxK2CurrentCount.Name = "textBoxK2CurrentCount";
+            textBoxK2CurrentCount.Size = new Size(121, 23);
+            textBoxK2CurrentCount.TabIndex = 49;
+            // 
+            // textBoxK2CurrentBatch
+            // 
+            textBoxK2CurrentBatch.Location = new Point(1253, 369);
+            textBoxK2CurrentBatch.Name = "textBoxK2CurrentBatch";
+            textBoxK2CurrentBatch.Size = new Size(121, 23);
+            textBoxK2CurrentBatch.TabIndex = 48;
+            // 
+            // textBoxK3CurrentCount
+            // 
+            textBoxK3CurrentCount.Location = new Point(1381, 558);
+            textBoxK3CurrentCount.Name = "textBoxK3CurrentCount";
+            textBoxK3CurrentCount.Size = new Size(121, 23);
+            textBoxK3CurrentCount.TabIndex = 51;
+            // 
+            // textBoxK3CurrentBatch
+            // 
+            textBoxK3CurrentBatch.Location = new Point(1253, 558);
+            textBoxK3CurrentBatch.Name = "textBoxK3CurrentBatch";
+            textBoxK3CurrentBatch.Size = new Size(121, 23);
+            textBoxK3CurrentBatch.TabIndex = 50;
+            // 
+            // textBoxK4CurrentCount
+            // 
+            textBoxK4CurrentCount.Location = new Point(1387, 788);
+            textBoxK4CurrentCount.Name = "textBoxK4CurrentCount";
+            textBoxK4CurrentCount.Size = new Size(121, 23);
+            textBoxK4CurrentCount.TabIndex = 53;
+            // 
+            // textBoxK4CurrentBatch
+            // 
+            textBoxK4CurrentBatch.Location = new Point(1259, 788);
+            textBoxK4CurrentBatch.Name = "textBoxK4CurrentBatch";
+            textBoxK4CurrentBatch.Size = new Size(121, 23);
+            textBoxK4CurrentBatch.TabIndex = 52;
+            // 
+            // textBoxKarmanPort1
+            // 
+            textBoxKarmanPort1.Location = new Point(1431, 129);
+            textBoxKarmanPort1.Name = "textBoxKarmanPort1";
+            textBoxKarmanPort1.Size = new Size(64, 23);
+            textBoxKarmanPort1.TabIndex = 4;
+            // 
+            // textBoxKarmanIp1
+            // 
+            textBoxKarmanIp1.Location = new Point(1253, 129);
+            textBoxKarmanIp1.Name = "textBoxKarmanIp1";
+            textBoxKarmanIp1.Size = new Size(172, 23);
+            textBoxKarmanIp1.TabIndex = 3;
+            // 
+            // textBoxKarmanRegister1
+            // 
+            textBoxKarmanRegister1.Location = new Point(1501, 129);
+            textBoxKarmanRegister1.Name = "textBoxKarmanRegister1";
+            textBoxKarmanRegister1.Size = new Size(64, 23);
+            textBoxKarmanRegister1.TabIndex = 5;
+            // 
+            // textBoxKarmanPort2
+            // 
+            textBoxKarmanPort2.Location = new Point(1431, 398);
+            textBoxKarmanPort2.Name = "textBoxKarmanPort2";
+            textBoxKarmanPort2.Size = new Size(64, 23);
+            textBoxKarmanPort2.TabIndex = 55;
+            // 
+            // textBoxKarmanIp2
+            // 
+            textBoxKarmanIp2.Location = new Point(1253, 398);
+            textBoxKarmanIp2.Name = "textBoxKarmanIp2";
+            textBoxKarmanIp2.Size = new Size(172, 23);
+            textBoxKarmanIp2.TabIndex = 54;
+            // 
+            // textBoxKarmanRegister2
+            // 
+            textBoxKarmanRegister2.Location = new Point(1501, 398);
+            textBoxKarmanRegister2.Name = "textBoxKarmanRegister2";
+            textBoxKarmanRegister2.Size = new Size(64, 23);
+            textBoxKarmanRegister2.TabIndex = 56;
+            // 
+            // textBoxKarmanPort3
+            // 
+            textBoxKarmanPort3.Location = new Point(1431, 587);
+            textBoxKarmanPort3.Name = "textBoxKarmanPort3";
+            textBoxKarmanPort3.Size = new Size(64, 23);
+            textBoxKarmanPort3.TabIndex = 58;
+            // 
+            // textBoxKarmanIp3
+            // 
+            textBoxKarmanIp3.Location = new Point(1253, 587);
+            textBoxKarmanIp3.Name = "textBoxKarmanIp3";
+            textBoxKarmanIp3.Size = new Size(172, 23);
+            textBoxKarmanIp3.TabIndex = 57;
+            // 
+            // textBoxKarmanRegister3
+            // 
+            textBoxKarmanRegister3.Location = new Point(1501, 587);
+            textBoxKarmanRegister3.Name = "textBoxKarmanRegister3";
+            textBoxKarmanRegister3.Size = new Size(64, 23);
+            textBoxKarmanRegister3.TabIndex = 59;
+            // 
+            // textBoxKarmanPort4
+            // 
+            textBoxKarmanPort4.Location = new Point(1437, 815);
+            textBoxKarmanPort4.Name = "textBoxKarmanPort4";
+            textBoxKarmanPort4.Size = new Size(64, 23);
+            textBoxKarmanPort4.TabIndex = 61;
+            // 
+            // textBoxKarmanIp4
+            // 
+            textBoxKarmanIp4.Location = new Point(1259, 815);
+            textBoxKarmanIp4.Name = "textBoxKarmanIp4";
+            textBoxKarmanIp4.Size = new Size(172, 23);
+            textBoxKarmanIp4.TabIndex = 60;
+            // 
+            // textBoxKarmanRegister4
+            // 
+            textBoxKarmanRegister4.Location = new Point(1507, 815);
+            textBoxKarmanRegister4.Name = "textBoxKarmanRegister4";
+            textBoxKarmanRegister4.Size = new Size(64, 23);
+            textBoxKarmanRegister4.TabIndex = 62;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1243, 866);
+            ClientSize = new Size(1748, 866);
+            Controls.Add(textBoxKarmanPort4);
+            Controls.Add(textBoxKarmanIp4);
+            Controls.Add(textBoxKarmanRegister4);
+            Controls.Add(textBoxKarmanPort3);
+            Controls.Add(textBoxKarmanIp3);
+            Controls.Add(textBoxKarmanRegister3);
+            Controls.Add(textBoxKarmanPort2);
+            Controls.Add(textBoxKarmanIp2);
+            Controls.Add(textBoxKarmanRegister2);
+            Controls.Add(textBoxKarmanPort1);
+            Controls.Add(textBoxKarmanIp1);
+            Controls.Add(textBoxKarmanRegister1);
+            Controls.Add(textBoxK4CurrentCount);
+            Controls.Add(textBoxK4CurrentBatch);
+            Controls.Add(textBoxK3CurrentCount);
+            Controls.Add(textBoxK3CurrentBatch);
+            Controls.Add(textBoxK2CurrentCount);
+            Controls.Add(textBoxK2CurrentBatch);
+            Controls.Add(textBoxK1CurrentCount);
+            Controls.Add(textBoxK1CurrentBatch);
+            Controls.Add(buttonCloseBatch4);
+            Controls.Add(buttonCloseBatch3);
+            Controls.Add(buttonCloseBatch2);
+            Controls.Add(buttonCloseBatch1);
+            Controls.Add(groupBox7);
+            Controls.Add(groupBox6);
+            Controls.Add(groupBox5);
+            Controls.Add(groupBox2);
             Controls.Add(textBoxTriggerDelay);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -646,12 +966,10 @@
             Controls.Add(button_start);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
-            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(button_load);
             Controls.Add(button_save);
             Controls.Add(groupBox_Marker);
-            Controls.Add(groupBox_Pressed);
             Controls.Add(groupBox_Otvorot);
             Controls.Add(groupBox_Tokarka);
             Controls.Add(groupBox_NK);
@@ -668,14 +986,10 @@
             groupBox_Tokarka.PerformLayout();
             groupBox_Otvorot.ResumeLayout(false);
             groupBox_Otvorot.PerformLayout();
-            groupBox_Pressed.ResumeLayout(false);
-            groupBox_Pressed.PerformLayout();
             groupBox_Marker.ResumeLayout(false);
             groupBox_Marker.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             groupBox4.ResumeLayout(false);
@@ -683,6 +997,10 @@
             contextMenu.ResumeLayout(false);
             НК_Reject.ResumeLayout(false);
             НК_Reject.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
+            groupBox6.ResumeLayout(false);
+            groupBox7.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -706,10 +1024,6 @@
         private TextBox textBoxНКGood_Port;
         private TextBox textBoxНКGood_IP;
         private TextBox textBoxНКGood_Register;
-        private GroupBox groupBox_Pressed;
-        private TextBox textBoxTokarka_Port;
-        private TextBox textBoxTokarka_IP;
-        private TextBox textBoxTokarka_Register;
         private GroupBox groupBox_Marker;
         private TextBox textBoxOtvorot_Port;
         private TextBox textBoxOtvorot_IP;
@@ -720,10 +1034,6 @@
         private TextBox textBoxOpressovkaGood_Port;
         private TextBox textBoxOpressovkaGood_IP;
         private TextBox textBoxOpressovkaGood_Register;
-        private GroupBox groupBox2;
-        private TextBox textBoxMarkirovka_Port;
-        private TextBox textBoxMarkirovka_IP;
-        private TextBox textBoxMarkirovka_Register;
         private GroupBox groupBox3;
         private TextBox textBoxKarman_Port;
         private TextBox textBoxKarman_IP;
@@ -751,5 +1061,45 @@
         private Label label3;
         private Label label4;
         private TextBox textBoxTriggerDelay;
+        private ComboBox comboBoxK1Diameter;
+        private ComboBox comboBoxK1Material;
+        private ComboBox comboBoxK1Group;
+        private GroupBox groupBox2;
+        private GroupBox groupBox5;
+        private ComboBox comboBoxK2Diameter;
+        private ComboBox comboBoxK2Group;
+        private ComboBox comboBoxK2Material;
+        private GroupBox groupBox6;
+        private ComboBox comboBoxK3Diameter;
+        private ComboBox comboBoxK3Group;
+        private ComboBox comboBoxK3Material;
+        private GroupBox groupBox7;
+        private ComboBox comboBoxK4Diameter;
+        private ComboBox comboBoxK4Group;
+        private ComboBox comboBoxK4Material;
+        private Button buttonCloseBatch1;
+        private Button buttonCloseBatch2;
+        private Button buttonCloseBatch3;
+        private Button buttonCloseBatch4;
+        private TextBox textBoxK1CurrentBatch;
+        private TextBox textBoxK1CurrentCount;
+        private TextBox textBoxK2CurrentCount;
+        private TextBox textBoxK2CurrentBatch;
+        private TextBox textBoxK3CurrentCount;
+        private TextBox textBoxK3CurrentBatch;
+        private TextBox textBoxK4CurrentCount;
+        private TextBox textBoxK4CurrentBatch;
+        private TextBox textBoxKarmanPort1;
+        private TextBox textBoxKarmanIp1;
+        private TextBox textBoxKarmanRegister1;
+        private TextBox textBoxKarmanPort2;
+        private TextBox textBoxKarmanIp2;
+        private TextBox textBoxKarmanRegister2;
+        private TextBox textBoxKarmanPort3;
+        private TextBox textBoxKarmanIp3;
+        private TextBox textBoxKarmanRegister3;
+        private TextBox textBoxKarmanPort4;
+        private TextBox textBoxKarmanIp4;
+        private TextBox textBoxKarmanRegister4;
     }
 }

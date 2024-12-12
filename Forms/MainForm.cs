@@ -13,6 +13,9 @@ using System.Drawing;
 using System.Text.Json;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using EasyModbus;
+using System.Net;
+using EmbedIO.Security;
 
 namespace PipeWorkshopApp
 {
@@ -35,6 +38,18 @@ namespace PipeWorkshopApp
         private Dictionary<string, ModbusService> _modbusServices = new Dictionary<string, ModbusService>();
 
         private string _stateFilePath = "state.json"; // Файл для сохранения состояния
+
+        private int _karman1BatchNumber;
+        private int _karman1BatchCount;
+
+        private int _karman2BatchNumber;
+        private int _karman2BatchCount;
+
+        private int _karman3BatchNumber;
+        private int _karman3BatchCount;
+
+        private int _karman4BatchNumber;
+        private int _karman4BatchCount;
 
         public MainForm()
         {
@@ -65,6 +80,7 @@ namespace PipeWorkshopApp
             listViewLog.KeyDown += listViewLog_KeyDown;
 
             LoadSettings();
+            LoadKarmanBatchSettings();
             InitializeModbusServices();
 
             LoadState(); // Загружаем состояние из файла
@@ -327,10 +343,6 @@ namespace PipeWorkshopApp
             textBoxНКReject_Port.Text = Properties.Settings.Default["НК_Reject_Port"].ToString();
             textBoxНКReject_Register.Text = Properties.Settings.Default["НК_Reject_Register"].ToString();
 
-            textBoxTokarka_IP.Text = Properties.Settings.Default["Токарка_IP"] as string;
-            textBoxTokarka_Port.Text = Properties.Settings.Default["Токарка_Port"].ToString();
-            textBoxTokarka_Register.Text = Properties.Settings.Default["Токарка_Register"].ToString();
-
             textBoxOtvorot_IP.Text = Properties.Settings.Default["Отворот_IP"] as string;
             textBoxOtvorot_Port.Text = Properties.Settings.Default["Отворот_Port"].ToString();
             textBoxOtvorot_Register.Text = Properties.Settings.Default["Отворот_Register"].ToString();
@@ -343,13 +355,32 @@ namespace PipeWorkshopApp
             textBoxOpressovkaReject_Port.Text = Properties.Settings.Default["Опрессовка_Reject_Port"].ToString();
             textBoxOpressovkaReject_Register.Text = Properties.Settings.Default["Опрессовка_Reject_Register"].ToString();
 
-            textBoxMarkirovka_IP.Text = Properties.Settings.Default["Маркировка_IP"] as string;
-            textBoxMarkirovka_Port.Text = Properties.Settings.Default["Маркировка_Port"].ToString();
-            textBoxMarkirovka_Register.Text = Properties.Settings.Default["Маркировка_Register"].ToString();
 
             textBoxKarman_IP.Text = Properties.Settings.Default["Карманы_IP"] as string;
             textBoxKarman_Port.Text = Properties.Settings.Default["Карманы_Port"].ToString();
             textBoxKarman_Register.Text = Properties.Settings.Default["Карманы_Register"].ToString();
+
+
+
+
+
+            textBoxKarmanIp1.Text = Properties.Settings.Default["textBoxKarmanIp1"] as string;
+            textBoxKarmanPort1.Text = Properties.Settings.Default["textBoxKarmanPort1"].ToString();
+            textBoxKarmanRegister1.Text = Properties.Settings.Default["textBoxKarmanRegister1"].ToString();
+
+            textBoxKarmanIp2.Text = Properties.Settings.Default["textBoxKarmanIp2"] as string;
+            textBoxKarmanPort2.Text = Properties.Settings.Default["textBoxKarmanPort2"].ToString();
+            textBoxKarmanRegister2.Text = Properties.Settings.Default["textBoxKarmanRegister2"].ToString();
+
+            textBoxKarmanIp3.Text = Properties.Settings.Default["textBoxKarmanIp3"] as string;
+            textBoxKarmanPort3.Text = Properties.Settings.Default["textBoxKarmanPort3"].ToString();
+            textBoxKarmanRegister3.Text = Properties.Settings.Default["textBoxKarmanRegister3"].ToString();
+
+            textBoxKarmanIp4.Text = Properties.Settings.Default["textBoxKarmanIp4"] as string;
+            textBoxKarmanPort4.Text = Properties.Settings.Default["textBoxKarmanProt4"].ToString();
+            textBoxKarmanRegister4.Text = Properties.Settings.Default["textBoxKarmanRegister4"].ToString();
+
+
         }
 
         private void SaveSettings()
@@ -379,10 +410,6 @@ namespace PipeWorkshopApp
             Properties.Settings.Default["НК_Reject_Port"] = int.Parse(textBoxНКReject_Port.Text);
             Properties.Settings.Default["НК_Reject_Register"] = int.Parse(textBoxНКReject_Register.Text);
 
-            Properties.Settings.Default["Токарка_IP"] = textBoxTokarka_IP.Text;
-            Properties.Settings.Default["Токарка_Port"] = int.Parse(textBoxTokarka_Port.Text);
-            Properties.Settings.Default["Токарка_Register"] = int.Parse(textBoxTokarka_Register.Text);
-
             Properties.Settings.Default["Отворот_IP"] = textBoxOtvorot_IP.Text;
             Properties.Settings.Default["Отворот_Port"] = int.Parse(textBoxOtvorot_Port.Text);
             Properties.Settings.Default["Отворот_Register"] = int.Parse(textBoxOtvorot_Register.Text);
@@ -395,13 +422,29 @@ namespace PipeWorkshopApp
             Properties.Settings.Default["Опрессовка_Reject_Port"] = int.Parse(textBoxOpressovkaReject_Port.Text);
             Properties.Settings.Default["Опрессовка_Reject_Register"] = int.Parse(textBoxOpressovkaReject_Register.Text);
 
-            Properties.Settings.Default["Маркировка_IP"] = textBoxMarkirovka_IP.Text;
-            Properties.Settings.Default["Маркировка_Port"] = int.Parse(textBoxMarkirovka_Port.Text);
-            Properties.Settings.Default["Маркировка_Register"] = int.Parse(textBoxMarkirovka_Register.Text);
+
 
             Properties.Settings.Default["Карманы_IP"] = textBoxKarman_IP.Text;
             Properties.Settings.Default["Карманы_Port"] = int.Parse(textBoxKarman_Port.Text);
             Properties.Settings.Default["Карманы_Register"] = int.Parse(textBoxKarman_Register.Text);
+
+
+
+            Properties.Settings.Default["textBoxKarmanIp1"] = textBoxKarmanIp1.Text;
+            Properties.Settings.Default["textBoxKarmanProt1"] = int.Parse(textBoxKarmanPort1.Text);
+            Properties.Settings.Default["textBoxKarmanRegister1"] = int.Parse(textBoxKarmanRegister1.Text);
+
+            Properties.Settings.Default["textBoxKarmanIp2"] = textBoxKarmanIp2.Text;
+            Properties.Settings.Default["textBoxKarmanPort2"] = int.Parse(textBoxKarmanPort2.Text);
+            Properties.Settings.Default["textBoxKarmanRegister2"] = int.Parse(textBoxKarmanRegister2.Text);
+
+            Properties.Settings.Default["textBoxKarmanIp3"] = textBoxKarmanIp3.Text;
+            Properties.Settings.Default["textBoxKarmanProt3"] = int.Parse(textBoxKarmanPort3.Text);
+            Properties.Settings.Default["textBoxKarmanRegister3"] = int.Parse(textBoxKarmanRegister3.Text);
+
+            Properties.Settings.Default["textBoxKarmanIp4"] = textBoxKarmanIp4.Text;
+            Properties.Settings.Default["textBoxKarmanProt4"] = int.Parse(textBoxKarmanPort4.Text);
+            Properties.Settings.Default["textBoxKarmanRegister4"] = int.Parse(textBoxKarmanRegister4.Text);
 
             Properties.Settings.Default.Save();
         }
@@ -495,8 +538,7 @@ namespace PipeWorkshopApp
                         Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Карманы"].CheckTrigger())
                         {
-                            LogMessage("Заглушка, логика карманов будет реализованна позже");
-                            // todo: тут ебучая логика карманов, СДЕЛАТЬ!!!!
+                            KarmanFunction();
                         }
 
                         await Task.Delay(500);
@@ -509,6 +551,7 @@ namespace PipeWorkshopApp
                 LogMessage("Основной цикл остановлен.");
             }, token);
         }
+
 
         private void StopMainLoop()
         {
@@ -685,6 +728,7 @@ namespace PipeWorkshopApp
 
             try
             {
+                SaveKarmanBatchSettings();
                 var json = JsonSerializer.Serialize(state, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(_stateFilePath, json);
                 LogMessage("Состояние сохранено.");
@@ -732,11 +776,13 @@ namespace PipeWorkshopApp
         private void button_save_Click(object sender, EventArgs e)
         {
             SaveSettings();
+            SaveKarmanBatchSettings();
         }
 
         private void button_load_Click(object sender, EventArgs e)
         {
             LoadSettings();
+            LoadKarmanBatchSettings();
             InitializeModbusServices();
         }
 
@@ -784,7 +830,288 @@ namespace PipeWorkshopApp
             }
         }
 
+        private void SaveKarmanBatchSettings()
+        {
+            Properties.Settings.Default.Karman1BatchNumber = _karman1BatchNumber;
+            Properties.Settings.Default.Karman1BatchCount = _karman1BatchCount;
 
+            Properties.Settings.Default.Karman2BatchNumber = _karman2BatchNumber;
+            Properties.Settings.Default.Karman2BatchCount = _karman2BatchCount;
+
+            Properties.Settings.Default.Karman3BatchNumber = _karman3BatchNumber;
+            Properties.Settings.Default.Karman3BatchCount = _karman3BatchCount;
+
+            Properties.Settings.Default.Karman4BatchNumber = _karman4BatchNumber;
+            Properties.Settings.Default.Karman4BatchCount = _karman4BatchCount;
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void LoadKarmanBatchSettings()
+        {
+            _karman1BatchNumber = Properties.Settings.Default.Karman1BatchNumber;
+            _karman1BatchCount = Properties.Settings.Default.Karman1BatchCount;
+
+            _karman2BatchNumber = Properties.Settings.Default.Karman2BatchNumber;
+            _karman2BatchCount = Properties.Settings.Default.Karman2BatchCount;
+
+            _karman3BatchNumber = Properties.Settings.Default.Karman3BatchNumber;
+            _karman3BatchCount = Properties.Settings.Default.Karman3BatchCount;
+
+            _karman4BatchNumber = Properties.Settings.Default.Karman4BatchNumber;
+            _karman4BatchCount = Properties.Settings.Default.Karman4BatchCount;
+
+            UpdateKarmanUI(); // Обновим интерфейс
+        }
+
+        private void UpdateKarmanUI()
+        {
+            textBoxK1CurrentBatch.Text = _karman1BatchNumber.ToString();
+            textBoxK1CurrentCount.Text = _karman1BatchCount.ToString();
+
+            textBoxK2CurrentBatch.Text = _karman2BatchNumber.ToString();
+            textBoxK2CurrentCount.Text = _karman2BatchCount.ToString();
+
+            textBoxK3CurrentBatch.Text = _karman3BatchNumber.ToString();
+            textBoxK3CurrentCount.Text = _karman3BatchCount.ToString();
+
+            textBoxK4CurrentBatch.Text = _karman4BatchNumber.ToString();
+            textBoxK4CurrentCount.Text = _karman4BatchCount.ToString();
+        }
+
+        private void buttonCloseBatch1_Click(object sender, EventArgs e)
+        {
+            CloseBatch(1);
+        }
+
+        private void buttonCloseBatch2_Click(object sender, EventArgs e)
+        {
+            CloseBatch(2);
+        }
+
+        private void buttonCloseBatch3_Click(object sender, EventArgs e)
+        {
+            CloseBatch(3);
+        }
+
+        private void buttonCloseBatch4_Click(object sender, EventArgs e)
+        {
+            CloseBatch(4);
+        }
+
+        private void GenerateDocumentForBatch(int karmanNumber, int batchNumber)
+        {
+            LogMessage($"Формируем документ для кармана {karmanNumber}, партия {batchNumber}...");
+            // Здесь будет логика формирования документа, пока пусто.
+        }
+
+        private void CloseBatch(int karmanNumber)
+        {
+            // Логика "закрытия" пачки: вызываем GenerateDocumentForBatch, 
+            // инкрементируем номер партии, сбрасываем счетчик
+            switch (karmanNumber)
+            {
+                case 1:
+                    GenerateDocumentForBatch(1, _karman1BatchNumber);
+                    _karman1BatchNumber++;
+                    _karman1BatchCount = 0;
+                    break;
+                case 2:
+                    GenerateDocumentForBatch(2, _karman2BatchNumber);
+                    _karman2BatchNumber++;
+                    _karman2BatchCount = 0;
+                    break;
+                case 3:
+                    GenerateDocumentForBatch(3, _karman3BatchNumber);
+                    _karman3BatchNumber++;
+                    _karman3BatchCount = 0;
+                    break;
+                case 4:
+                    GenerateDocumentForBatch(4, _karman4BatchNumber);
+                    _karman4BatchNumber++;
+                    _karman4BatchCount = 0;
+                    break;
+            }
+
+            UpdateKarmanUI();
+            SaveKarmanBatchSettings();
+        }
+
+        private void KarmanFunction()
+        {
+            using (var dbContext = new AppDbContext())
+            {
+                var pipe = dbContext.Pipes
+                    .Where(p => p.BatchNumber == 0)
+                    .OrderBy(p => p.Id)
+                    .FirstOrDefault();
+
+                if (pipe == null)
+                {
+                    LogMessage("Нет труб для распределения по карманам.");
+                    return;
+                }
+
+                // Считываем настройки карманов из ComboBox и TextBox
+                string k1Diameter = comboBoxK1Diameter.SelectedItem.ToString();
+                string k1Material = comboBoxK1Material.SelectedItem.ToString();
+                string k1Group = comboBoxK1Group.SelectedItem.ToString();
+                int k1BatchSize = int.Parse(textBoxK1CurrentCount.Text);
+
+                string k2Diameter = comboBoxK2Diameter.SelectedItem.ToString();
+                string k2Material = comboBoxK2Material.SelectedItem.ToString();
+                string k2Group = comboBoxK2Group.SelectedItem.ToString();
+                int k2BatchSize = int.Parse(textBoxK2CurrentCount.Text);
+
+                string k3Diameter = comboBoxK3Diameter.SelectedItem.ToString();
+                string k3Material = comboBoxK3Material.SelectedItem.ToString();
+                string k3Group = comboBoxK3Group.SelectedItem.ToString();
+                int k3BatchSize = int.Parse(textBoxK3CurrentCount.Text);
+
+                string k4Diameter = comboBoxK4Diameter.SelectedItem.ToString();
+                string k4Material = comboBoxK4Material.SelectedItem.ToString();
+                string k4Group = comboBoxK4Group.SelectedItem.ToString();
+                int k4BatchSize = int.Parse(textBoxK4CurrentCount.Text);
+
+                int chosenKarman = 0;
+
+                // Логика if-else для проверки совпадения параметров
+                if (pipe.Diameter == k1Diameter && pipe.Material == k1Material && pipe.Group == k1Group)
+                {
+                    chosenKarman = 1;
+                    // Устанавливаем Modbus-регистр для кармана 1
+
+                    var ip = Properties.Settings.Default["textBoxKarmanIp1"].ToString();
+                    var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort1"].ToString());
+                    var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister1"].ToString());
+
+
+                    SetKarmanModbusRegister(ip, port, register);
+                    _karman1BatchCount++;
+                    pipe.BatchNumber = _karman1BatchNumber;
+                    dbContext.SaveChanges();
+
+                    UpdateKarmanUI();     // Обновляем интерфейс
+                    SaveKarmanBatchSettings(); // Сохраняем настройки
+
+                    LogMessage($"Труба {pipe.PipeNumber} -> Карман 1, Партия {pipe.BatchNumber}, в партии {_karman1BatchCount}/{k1BatchSize}.");
+
+                    // Если достигли размера партии - закрываем её
+                    if (_karman1BatchCount == k1BatchSize)
+                    {
+                        GenerateDocumentForBatch(1, _karman1BatchNumber);
+                        _karman1BatchNumber++;
+                        _karman1BatchCount = 0;
+                        UpdateKarmanUI();     // Обновляем интерфейс
+                        SaveKarmanBatchSettings(); // Сохраняем настройки
+                    }
+                }
+                else if (pipe.Diameter == k2Diameter && pipe.Material == k2Material && pipe.Group == k2Group)
+                {
+                    chosenKarman = 2;
+
+                    var ip = Properties.Settings.Default["textBoxKarmanIp2"].ToString();
+                    var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort2"].ToString());
+                    var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister2"].ToString());
+                    SetKarmanModbusRegister(ip, port, register);
+                    _karman2BatchCount++;
+                    pipe.BatchNumber = _karman2BatchNumber;
+                    dbContext.SaveChanges();
+                    UpdateKarmanUI();     // Обновляем интерфейс
+                    SaveKarmanBatchSettings(); // Сохраняем настройки
+
+                    LogMessage($"Труба {pipe.PipeNumber} -> Карман 2, Партия {pipe.BatchNumber}, в партии {_karman2BatchCount}/{k2BatchSize}.");
+
+                    if (_karman2BatchCount == k2BatchSize)
+                    {
+                        GenerateDocumentForBatch(2, _karman2BatchNumber);
+                        _karman2BatchNumber++;
+                        _karman2BatchCount = 0;
+                        UpdateKarmanUI();     // Обновляем интерфейс
+                        SaveKarmanBatchSettings(); // Сохраняем настройки
+                    }
+                }
+                else if (pipe.Diameter == k3Diameter && pipe.Material == k3Material && pipe.Group == k3Group)
+                {
+                    chosenKarman = 3;
+
+
+                    var ip = Properties.Settings.Default["textBoxKarmanIp3"].ToString();
+                    var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort3"].ToString());
+                    var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister3"].ToString());
+                    SetKarmanModbusRegister(ip, port, register);
+                    _karman3BatchCount++;
+                    pipe.BatchNumber = _karman3BatchNumber;
+                    dbContext.SaveChanges();
+                    UpdateKarmanUI();     // Обновляем интерфейс
+                    SaveKarmanBatchSettings(); // Сохраняем настройки
+
+                    LogMessage($"Труба {pipe.PipeNumber} -> Карман 3, Партия {pipe.BatchNumber}, в партии {_karman3BatchCount}/{k3BatchSize}.");
+
+                    if (_karman3BatchCount == k3BatchSize)
+                    {
+                        GenerateDocumentForBatch(3, _karman3BatchNumber);
+                        _karman3BatchNumber++;
+                        _karman3BatchCount = 0;
+                        UpdateKarmanUI();     // Обновляем интерфейс
+                        SaveKarmanBatchSettings(); // Сохраняем настройки
+                    }
+                }
+                else if (pipe.Diameter == k4Diameter && pipe.Material == k4Material && pipe.Group == k4Group)
+                {
+                    chosenKarman = 4;
+
+
+
+                    var ip = Properties.Settings.Default["textBoxKarmanIp4"].ToString();
+                    var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort4"].ToString());
+                    var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister4"].ToString());
+                    SetKarmanModbusRegister(ip, port, register);
+                    _karman4BatchCount++;
+                    pipe.BatchNumber = _karman4BatchNumber;
+                    dbContext.SaveChanges();
+                    UpdateKarmanUI();     // Обновляем интерфейс
+                    SaveKarmanBatchSettings(); // Сохраняем настройки
+
+                    LogMessage($"Труба {pipe.PipeNumber} -> Карман 4, Партия {pipe.BatchNumber}, в партии {_karman4BatchCount}/{k4BatchSize}.");
+
+                    if (_karman4BatchCount == k4BatchSize)
+                    {
+                        GenerateDocumentForBatch(4, _karman4BatchNumber);
+                        _karman4BatchNumber++;
+                        _karman4BatchCount = 0;
+                        UpdateKarmanUI();     // Обновляем интерфейс
+                        SaveKarmanBatchSettings(); // Сохраняем настройки
+                    }
+                }
+                else
+                {
+                    LogMessage("Не удалось сопоставить трубу ни одному карману.");
+                }
+            }
+        }
+
+        private void SetKarmanModbusRegister(string ipAddress, int port, int register)
+        {
+            
+            try
+            {
+                var client = new ModbusClient(ipAddress, port);
+
+                client.Connect();
+
+                client.WriteSingleRegister(register, 1);
+
+                client.Disconnect();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка записи Modbus: {ex.Message}");
+                // Дополнительная обработка или логирование ошибок
+            }
+       
+         }
     }
 
     public class SaveState

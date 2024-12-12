@@ -80,5 +80,25 @@ namespace PipeWorkshopApp.Services
                 return false;
             }
         }
+
+        public void SetRegisterValue(string valipAddressue, int port, int register)
+        {
+            try
+            {
+                var client = new ModbusClient(ipAddress, port);
+                
+                client.Connect();
+
+                client.WriteSingleRegister(_registerAddress, 1);
+
+                client.Disconnect();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка записи Modbus: {ex.Message}");
+                // Дополнительная обработка или логирование ошибок
+            }
+        }
     }
 }

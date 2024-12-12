@@ -9,5 +9,8 @@
         public string Group { get; set; }          // Группа (из comboBoxGroup)
         public string PipeLength { get; set; }     // Длина трубы, считанная по Modbus (из getLength())
         public string Thickness { get; set; }      // Толщина стенки (из comboBoxThickness)
+
+        // Новое поле для партии
+        public int BatchNumber { get; set; }
     }
 }
