@@ -562,5 +562,149 @@ namespace PipeWorkshopApp.Properties {
                 this["Karman4BatchCount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textBoxKarmanIp1 {
+            get {
+                return ((string)(this["textBoxKarmanIp1"]));
+            }
+            set {
+                this["textBoxKarmanIp1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int textBoxKarmanProt1 {
+            get {
+                return ((int)(this["textBoxKarmanProt1"]));
+            }
+            set {
+                this["textBoxKarmanProt1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int textBoxKarmanRegister1 {
+            get {
+                return ((int)(this["textBoxKarmanRegister1"]));
+            }
+            set {
+                this["textBoxKarmanRegister1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textBoxKarmanIp2 {
+            get {
+                return ((string)(this["textBoxKarmanIp2"]));
+            }
+            set {
+                this["textBoxKarmanIp2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int textBoxKarmanPort2 {
+            get {
+                return ((int)(this["textBoxKarmanPort2"]));
+            }
+            set {
+                this["textBoxKarmanPort2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int textBoxKarmanRegister2 {
+            get {
+                return ((int)(this["textBoxKarmanRegister2"]));
+            }
+            set {
+                this["textBoxKarmanRegister2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textBoxKarmanIp3 {
+            get {
+                return ((string)(this["textBoxKarmanIp3"]));
+            }
+            set {
+                this["textBoxKarmanIp3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int textBoxKarmanProt3 {
+            get {
+                return ((int)(this["textBoxKarmanProt3"]));
+            }
+            set {
+                this["textBoxKarmanProt3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int textBoxKarmanRegister3 {
+            get {
+                return ((int)(this["textBoxKarmanRegister3"]));
+            }
+            set {
+                this["textBoxKarmanRegister3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textBoxKarmanIp4 {
+            get {
+                return ((string)(this["textBoxKarmanIp4"]));
+            }
+            set {
+                this["textBoxKarmanIp4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int textBoxKarmanProt4 {
+            get {
+                return ((int)(this["textBoxKarmanProt4"]));
+            }
+            set {
+                this["textBoxKarmanProt4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int textBoxKarmanRegister4 {
+            get {
+                return ((int)(this["textBoxKarmanRegister4"]));
+            }
+            set {
+                this["textBoxKarmanRegister4"] = value;
+            }
+        }
     }
 }
