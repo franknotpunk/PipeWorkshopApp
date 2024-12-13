@@ -1003,22 +1003,22 @@ public MainForm()
                 string k1Diameter = comboBoxK1Diameter.SelectedItem.ToString();
                 string k1Material = comboBoxK1Material.SelectedItem.ToString();
                 string k1Group = comboBoxK1Group.SelectedItem.ToString();
-                int k1BatchSize = int.Parse(textBoxK1CurrentCount.Text);
+                int k1BatchSize = int.Parse(textBoxK1BatchSize.Text);
 
                 string k2Diameter = comboBoxK2Diameter.SelectedItem.ToString();
                 string k2Material = comboBoxK2Material.SelectedItem.ToString();
                 string k2Group = comboBoxK2Group.SelectedItem.ToString();
-                int k2BatchSize = int.Parse(textBoxK2CurrentCount.Text);
+                int k2BatchSize = int.Parse(textBoxK2BatchSize.Text);
 
                 string k3Diameter = comboBoxK3Diameter.SelectedItem.ToString();
                 string k3Material = comboBoxK3Material.SelectedItem.ToString();
                 string k3Group = comboBoxK3Group.SelectedItem.ToString();
-                int k3BatchSize = int.Parse(textBoxK3CurrentCount.Text);
+                int k3BatchSize = int.Parse(textBoxK3BatchSize.Text);
 
                 string k4Diameter = comboBoxK4Diameter.SelectedItem.ToString();
                 string k4Material = comboBoxK4Material.SelectedItem.ToString();
                 string k4Group = comboBoxK4Group.SelectedItem.ToString();
-                int k4BatchSize = int.Parse(textBoxK4CurrentCount.Text);
+                int k4BatchSize = int.Parse(textBoxK4BatchSize.Text);
 
                 int chosenKarman = 0;
 
@@ -1034,6 +1034,10 @@ public MainForm()
 
 
                     SetKarmanModbusRegister(ip, port, register);
+
+                    var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
+                    _karman1BatchNumber = maxBatchNumber + 1;
+
                     _karman1BatchCount++;
                     pipe.BatchNumber = _karman1BatchNumber;
                     dbContext.SaveChanges();
@@ -1061,6 +1065,10 @@ public MainForm()
                     var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort2"].ToString());
                     var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister2"].ToString());
                     SetKarmanModbusRegister(ip, port, register);
+
+                    var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
+                    _karman2BatchNumber = maxBatchNumber + 1;
+
                     _karman2BatchCount++;
                     pipe.BatchNumber = _karman2BatchNumber;
                     dbContext.SaveChanges();
@@ -1087,6 +1095,10 @@ public MainForm()
                     var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort3"].ToString());
                     var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister3"].ToString());
                     SetKarmanModbusRegister(ip, port, register);
+
+                    var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
+                    _karman3BatchNumber = maxBatchNumber + 1;
+
                     _karman3BatchCount++;
                     pipe.BatchNumber = _karman3BatchNumber;
                     dbContext.SaveChanges();
@@ -1114,6 +1126,10 @@ public MainForm()
                     var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort4"].ToString());
                     var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister4"].ToString());
                     SetKarmanModbusRegister(ip, port, register);
+
+                    var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
+                    _karman4BatchNumber = maxBatchNumber + 1;
+
                     _karman4BatchCount++;
                     pipe.BatchNumber = _karman4BatchNumber;
                     dbContext.SaveChanges();

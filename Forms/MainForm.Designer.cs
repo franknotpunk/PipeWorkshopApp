@@ -124,6 +124,10 @@
             textBoxKarmanPort4 = new TextBox();
             textBoxKarmanIp4 = new TextBox();
             textBoxKarmanRegister4 = new TextBox();
+            textBoxK1BatchSize = new TextBox();
+            textBoxK2BatchSize = new TextBox();
+            textBoxK3BatchSize = new TextBox();
+            textBoxK4BatchSize = new TextBox();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
@@ -635,7 +639,7 @@
             groupBox5.Controls.Add(comboBoxK2Diameter);
             groupBox5.Controls.Add(comboBoxK2Group);
             groupBox5.Controls.Add(comboBoxK2Material);
-            groupBox5.Location = new Point(1247, 306);
+            groupBox5.Location = new Point(1247, 272);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(388, 57);
             groupBox5.TabIndex = 41;
@@ -740,7 +744,7 @@
             // 
             // buttonCloseBatch1
             // 
-            buttonCloseBatch1.Location = new Point(1508, 97);
+            buttonCloseBatch1.Location = new Point(1374, 158);
             buttonCloseBatch1.Name = "buttonCloseBatch1";
             buttonCloseBatch1.Size = new Size(121, 23);
             buttonCloseBatch1.TabIndex = 42;
@@ -750,7 +754,7 @@
             // 
             // buttonCloseBatch2
             // 
-            buttonCloseBatch2.Location = new Point(1508, 371);
+            buttonCloseBatch2.Location = new Point(1374, 398);
             buttonCloseBatch2.Name = "buttonCloseBatch2";
             buttonCloseBatch2.Size = new Size(121, 24);
             buttonCloseBatch2.TabIndex = 43;
@@ -760,7 +764,7 @@
             // 
             // buttonCloseBatch3
             // 
-            buttonCloseBatch3.Location = new Point(1508, 560);
+            buttonCloseBatch3.Location = new Point(1380, 616);
             buttonCloseBatch3.Name = "buttonCloseBatch3";
             buttonCloseBatch3.Size = new Size(121, 21);
             buttonCloseBatch3.TabIndex = 44;
@@ -770,7 +774,7 @@
             // 
             // buttonCloseBatch4
             // 
-            buttonCloseBatch4.Location = new Point(1514, 790);
+            buttonCloseBatch4.Location = new Point(1365, 844);
             buttonCloseBatch4.Name = "buttonCloseBatch4";
             buttonCloseBatch4.Size = new Size(121, 21);
             buttonCloseBatch4.TabIndex = 45;
@@ -780,56 +784,56 @@
             // 
             // textBoxK1CurrentBatch
             // 
-            textBoxK1CurrentBatch.Location = new Point(1253, 97);
+            textBoxK1CurrentBatch.Location = new Point(1508, 97);
             textBoxK1CurrentBatch.Name = "textBoxK1CurrentBatch";
             textBoxK1CurrentBatch.Size = new Size(121, 23);
             textBoxK1CurrentBatch.TabIndex = 46;
             // 
             // textBoxK1CurrentCount
             // 
-            textBoxK1CurrentCount.Location = new Point(1381, 97);
+            textBoxK1CurrentCount.Location = new Point(1253, 97);
             textBoxK1CurrentCount.Name = "textBoxK1CurrentCount";
             textBoxK1CurrentCount.Size = new Size(121, 23);
             textBoxK1CurrentCount.TabIndex = 47;
             // 
             // textBoxK2CurrentCount
             // 
-            textBoxK2CurrentCount.Location = new Point(1381, 369);
+            textBoxK2CurrentCount.Location = new Point(1253, 335);
             textBoxK2CurrentCount.Name = "textBoxK2CurrentCount";
             textBoxK2CurrentCount.Size = new Size(121, 23);
             textBoxK2CurrentCount.TabIndex = 49;
             // 
             // textBoxK2CurrentBatch
             // 
-            textBoxK2CurrentBatch.Location = new Point(1253, 369);
+            textBoxK2CurrentBatch.Location = new Point(1514, 335);
             textBoxK2CurrentBatch.Name = "textBoxK2CurrentBatch";
             textBoxK2CurrentBatch.Size = new Size(121, 23);
             textBoxK2CurrentBatch.TabIndex = 48;
             // 
             // textBoxK3CurrentCount
             // 
-            textBoxK3CurrentCount.Location = new Point(1381, 558);
+            textBoxK3CurrentCount.Location = new Point(1253, 558);
             textBoxK3CurrentCount.Name = "textBoxK3CurrentCount";
             textBoxK3CurrentCount.Size = new Size(121, 23);
             textBoxK3CurrentCount.TabIndex = 51;
             // 
             // textBoxK3CurrentBatch
             // 
-            textBoxK3CurrentBatch.Location = new Point(1253, 558);
+            textBoxK3CurrentBatch.Location = new Point(1514, 558);
             textBoxK3CurrentBatch.Name = "textBoxK3CurrentBatch";
             textBoxK3CurrentBatch.Size = new Size(121, 23);
             textBoxK3CurrentBatch.TabIndex = 50;
             // 
             // textBoxK4CurrentCount
             // 
-            textBoxK4CurrentCount.Location = new Point(1387, 788);
+            textBoxK4CurrentCount.Location = new Point(1259, 785);
             textBoxK4CurrentCount.Name = "textBoxK4CurrentCount";
             textBoxK4CurrentCount.Size = new Size(121, 23);
             textBoxK4CurrentCount.TabIndex = 53;
             // 
             // textBoxK4CurrentBatch
             // 
-            textBoxK4CurrentBatch.Location = new Point(1259, 788);
+            textBoxK4CurrentBatch.Location = new Point(1520, 785);
             textBoxK4CurrentBatch.Name = "textBoxK4CurrentBatch";
             textBoxK4CurrentBatch.Size = new Size(121, 23);
             textBoxK4CurrentBatch.TabIndex = 52;
@@ -857,21 +861,21 @@
             // 
             // textBoxKarmanPort2
             // 
-            textBoxKarmanPort2.Location = new Point(1431, 398);
+            textBoxKarmanPort2.Location = new Point(1431, 364);
             textBoxKarmanPort2.Name = "textBoxKarmanPort2";
             textBoxKarmanPort2.Size = new Size(64, 23);
             textBoxKarmanPort2.TabIndex = 55;
             // 
             // textBoxKarmanIp2
             // 
-            textBoxKarmanIp2.Location = new Point(1253, 398);
+            textBoxKarmanIp2.Location = new Point(1253, 364);
             textBoxKarmanIp2.Name = "textBoxKarmanIp2";
             textBoxKarmanIp2.Size = new Size(172, 23);
             textBoxKarmanIp2.TabIndex = 54;
             // 
             // textBoxKarmanRegister2
             // 
-            textBoxKarmanRegister2.Location = new Point(1501, 398);
+            textBoxKarmanRegister2.Location = new Point(1501, 364);
             textBoxKarmanRegister2.Name = "textBoxKarmanRegister2";
             textBoxKarmanRegister2.Size = new Size(64, 23);
             textBoxKarmanRegister2.TabIndex = 56;
@@ -918,11 +922,43 @@
             textBoxKarmanRegister4.Size = new Size(64, 23);
             textBoxKarmanRegister4.TabIndex = 62;
             // 
+            // textBoxK1BatchSize
+            // 
+            textBoxK1BatchSize.Location = new Point(1381, 97);
+            textBoxK1BatchSize.Name = "textBoxK1BatchSize";
+            textBoxK1BatchSize.Size = new Size(121, 23);
+            textBoxK1BatchSize.TabIndex = 63;
+            // 
+            // textBoxK2BatchSize
+            // 
+            textBoxK2BatchSize.Location = new Point(1381, 335);
+            textBoxK2BatchSize.Name = "textBoxK2BatchSize";
+            textBoxK2BatchSize.Size = new Size(121, 23);
+            textBoxK2BatchSize.TabIndex = 64;
+            // 
+            // textBoxK3BatchSize
+            // 
+            textBoxK3BatchSize.Location = new Point(1380, 558);
+            textBoxK3BatchSize.Name = "textBoxK3BatchSize";
+            textBoxK3BatchSize.Size = new Size(121, 23);
+            textBoxK3BatchSize.TabIndex = 65;
+            // 
+            // textBoxK4BatchSize
+            // 
+            textBoxK4BatchSize.Location = new Point(1386, 786);
+            textBoxK4BatchSize.Name = "textBoxK4BatchSize";
+            textBoxK4BatchSize.Size = new Size(121, 23);
+            textBoxK4BatchSize.TabIndex = 66;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1748, 866);
+            ClientSize = new Size(1748, 899);
+            Controls.Add(textBoxK4BatchSize);
+            Controls.Add(textBoxK3BatchSize);
+            Controls.Add(textBoxK2BatchSize);
+            Controls.Add(textBoxK1BatchSize);
             Controls.Add(textBoxKarmanPort4);
             Controls.Add(textBoxKarmanIp4);
             Controls.Add(textBoxKarmanRegister4);
@@ -1101,5 +1137,9 @@
         private TextBox textBoxKarmanPort4;
         private TextBox textBoxKarmanIp4;
         private TextBox textBoxKarmanRegister4;
+        private TextBox textBoxK1BatchSize;
+        private TextBox textBoxK2BatchSize;
+        private TextBox textBoxK3BatchSize;
+        private TextBox textBoxK4BatchSize;
     }
 }
