@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using EasyModbus;
 using System.Net;
 using EmbedIO.Security;
+using System.Configuration;
 
 namespace PipeWorkshopApp
 {
@@ -140,6 +141,13 @@ public MainForm()
             {
                 dbContext.Database.Migrate();
             }
+
+
+
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+
+            // Выводим полный путь к user.config
+            LogMessage($"Путь к user.config: {config.FilePath}");
         }
 
         private void InitializeCounters()
@@ -821,14 +829,18 @@ public MainForm()
         private void button_save_Click(object sender, EventArgs e)
         {
             SaveSettings();
+            LogMessage("Сохранили общие настройки");
             SaveKarmanBatchSettings();
+            LogMessage("Сохранили пачки настройки");
         }
 
         private void button_load_Click(object sender, EventArgs e)
         {
+            LogMessage("Загружаю настройки");
             LoadSettings();
             LoadKarmanBatchSettings();
             InitializeModbusServices();
+            LogMessage("Загрузил настройки");
         }
 
         private void listViewLog_KeyDown(object sender, KeyEventArgs e)
