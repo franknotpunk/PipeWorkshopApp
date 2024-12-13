@@ -17,6 +17,7 @@ using EasyModbus;
 using System.Net;
 using EmbedIO.Security;
 using System.Configuration;
+using System.IO.Pipelines;
 
 namespace PipeWorkshopApp
 {
@@ -1030,132 +1031,33 @@ public MainForm()
                 string k4Group = comboBoxK4Group.SelectedItem.ToString();
                 int k4BatchSize = int.Parse(textBoxK4BatchSize.Text);
 
-                int chosenKarman = 0;
-
-                // Логика if-else для проверки совпадения параметров
                 if (pipe.Diameter == k1Diameter && pipe.Material == k1Material && pipe.Group == k1Group)
                 {
-                    chosenKarman = 1;
-                    // Устанавливаем Modbus-регистр для кармана 1
-
-                    var ip = Properties.Settings.Default["textBoxKarmanIp1"].ToString();
-                    var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort1"].ToString());
-                    var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister1"].ToString());
-
-
-                    SetKarmanModbusRegister(ip, port, register);
-
-                    var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
-                    _karman1BatchNumber = maxBatchNumber + 1;
-
-                    _karman1BatchCount++;
-                    pipe.BatchNumber = _karman1BatchNumber;
-                    dbContext.SaveChanges();
-
-                    UpdateKarmanUI();     // Обновляем интерфейс
-                    SaveKarmanBatchSettings(); // Сохраняем настройки
-
-                    LogMessage($"Труба {pipe.PipeNumber} -> Карман 1, Партия {pipe.BatchNumber}, в партии {_karman1BatchCount}/{k1BatchSize}.");
-
-                    // Если достигли размера партии - закрываем её
-                    if (_karman1BatchCount == k1BatchSize)
-                    {
-                        GenerateDocumentForBatch(1, _karman1BatchNumber);
-                        _karman1BatchNumber++;
-                        _karman1BatchCount = 0;
-                        UpdateKarmanUI();     // Обновляем интерфейс
-                        SaveKarmanBatchSettings(); // Сохраняем настройки
-                    }
+                    AssignPipeToKarman(dbContext, pipe, 1, k1BatchSize,
+                        Properties.Settings.Default["textBoxKarmanIp1"].ToString(),
+                        int.Parse(Properties.Settings.Default["textBoxKarmanPort1"].ToString()),
+                        int.Parse(Properties.Settings.Default["textBoxKarmanRegister1"].ToString()));
                 }
                 else if (pipe.Diameter == k2Diameter && pipe.Material == k2Material && pipe.Group == k2Group)
                 {
-                    chosenKarman = 2;
-
-                    var ip = Properties.Settings.Default["textBoxKarmanIp2"].ToString();
-                    var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort2"].ToString());
-                    var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister2"].ToString());
-                    SetKarmanModbusRegister(ip, port, register);
-
-                    var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
-                    _karman2BatchNumber = maxBatchNumber + 1;
-
-                    _karman2BatchCount++;
-                    pipe.BatchNumber = _karman2BatchNumber;
-                    dbContext.SaveChanges();
-                    UpdateKarmanUI();     // Обновляем интерфейс
-                    SaveKarmanBatchSettings(); // Сохраняем настройки
-
-                    LogMessage($"Труба {pipe.PipeNumber} -> Карман 2, Партия {pipe.BatchNumber}, в партии {_karman2BatchCount}/{k2BatchSize}.");
-
-                    if (_karman2BatchCount == k2BatchSize)
-                    {
-                        GenerateDocumentForBatch(2, _karman2BatchNumber);
-                        _karman2BatchNumber++;
-                        _karman2BatchCount = 0;
-                        UpdateKarmanUI();     // Обновляем интерфейс
-                        SaveKarmanBatchSettings(); // Сохраняем настройки
-                    }
+                    AssignPipeToKarman(dbContext, pipe, 2, k2BatchSize,
+                        Properties.Settings.Default["textBoxKarmanIp2"].ToString(),
+                        int.Parse(Properties.Settings.Default["textBoxKarmanPort2"].ToString()),
+                        int.Parse(Properties.Settings.Default["textBoxKarmanRegister2"].ToString()));
                 }
                 else if (pipe.Diameter == k3Diameter && pipe.Material == k3Material && pipe.Group == k3Group)
                 {
-                    chosenKarman = 3;
-
-
-                    var ip = Properties.Settings.Default["textBoxKarmanIp3"].ToString();
-                    var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort3"].ToString());
-                    var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister3"].ToString());
-                    SetKarmanModbusRegister(ip, port, register);
-
-                    var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
-                    _karman3BatchNumber = maxBatchNumber + 1;
-
-                    _karman3BatchCount++;
-                    pipe.BatchNumber = _karman3BatchNumber;
-                    dbContext.SaveChanges();
-                    UpdateKarmanUI();     // Обновляем интерфейс
-                    SaveKarmanBatchSettings(); // Сохраняем настройки
-
-                    LogMessage($"Труба {pipe.PipeNumber} -> Карман 3, Партия {pipe.BatchNumber}, в партии {_karman3BatchCount}/{k3BatchSize}.");
-
-                    if (_karman3BatchCount == k3BatchSize)
-                    {
-                        GenerateDocumentForBatch(3, _karman3BatchNumber);
-                        _karman3BatchNumber++;
-                        _karman3BatchCount = 0;
-                        UpdateKarmanUI();     // Обновляем интерфейс
-                        SaveKarmanBatchSettings(); // Сохраняем настройки
-                    }
+                    AssignPipeToKarman(dbContext, pipe, 3, k3BatchSize,
+                        Properties.Settings.Default["textBoxKarmanIp3"].ToString(),
+                        int.Parse(Properties.Settings.Default["textBoxKarmanPort3"].ToString()),
+                        int.Parse(Properties.Settings.Default["textBoxKarmanRegister3"].ToString()));
                 }
                 else if (pipe.Diameter == k4Diameter && pipe.Material == k4Material && pipe.Group == k4Group)
                 {
-                    chosenKarman = 4;
-
-
-
-                    var ip = Properties.Settings.Default["textBoxKarmanIp4"].ToString();
-                    var port = int.Parse(Properties.Settings.Default["textBoxKarmanPort4"].ToString());
-                    var register = int.Parse(Properties.Settings.Default["textBoxKarmanRegister4"].ToString());
-                    SetKarmanModbusRegister(ip, port, register);
-
-                    var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
-                    _karman4BatchNumber = maxBatchNumber + 1;
-
-                    _karman4BatchCount++;
-                    pipe.BatchNumber = _karman4BatchNumber;
-                    dbContext.SaveChanges();
-                    UpdateKarmanUI();     // Обновляем интерфейс
-                    SaveKarmanBatchSettings(); // Сохраняем настройки
-
-                    LogMessage($"Труба {pipe.PipeNumber} -> Карман 4, Партия {pipe.BatchNumber}, в партии {_karman4BatchCount}/{k4BatchSize}.");
-
-                    if (_karman4BatchCount == k4BatchSize)
-                    {
-                        GenerateDocumentForBatch(4, _karman4BatchNumber);
-                        _karman4BatchNumber++;
-                        _karman4BatchCount = 0;
-                        UpdateKarmanUI();     // Обновляем интерфейс
-                        SaveKarmanBatchSettings(); // Сохраняем настройки
-                    }
+                    AssignPipeToKarman(dbContext, pipe, 4, k4BatchSize,
+                        Properties.Settings.Default["textBoxKarmanIp4"].ToString(),
+                        int.Parse(Properties.Settings.Default["textBoxKarmanPort4"].ToString()),
+                        int.Parse(Properties.Settings.Default["textBoxKarmanRegister4"].ToString()));
                 }
                 else
                 {
@@ -1163,6 +1065,113 @@ public MainForm()
                 }
             }
         }
+
+        private void AssignPipeToKarman(AppDbContext dbContext, PipeData pipe, int karmanNumber, int batchSize, string ip, int port, int register)
+        {
+            // Устанавливаем Modbus-регистр для выбранного кармана
+            SetKarmanModbusRegister(ip, port, register);
+
+            // Присваиваем текущий номер партии
+            switch (karmanNumber)
+            {
+                case 1:
+                    pipe.BatchNumber = _karman1BatchNumber;
+                    _karman1BatchCount++;
+                    break;
+                case 2:
+                    pipe.BatchNumber = _karman2BatchNumber;
+                    _karman2BatchCount++;
+                    break;
+                case 3:
+                    pipe.BatchNumber = _karman3BatchNumber;
+                    _karman3BatchCount++;
+                    break;
+                case 4:
+                    pipe.BatchNumber = _karman4BatchNumber;
+                    _karman4BatchCount++;
+                    break;
+            }
+
+            dbContext.SaveChanges();
+
+            UpdateKarmanUI();             // Обновляем интерфейс
+            SaveKarmanBatchSettings();   // Сохраняем настройки
+
+            LogMessage($"Труба {pipe.PipeNumber} -> Карман {karmanNumber}, Партия {GetKarmanBatchNumber(karmanNumber)}, в партии {GetKarmanBatchCount(karmanNumber)}/{batchSize}.");
+
+            // Если достигли размера партии - закрываем её
+            if (GetKarmanBatchCount(karmanNumber) == batchSize)
+            {
+                GenerateDocumentForBatch(karmanNumber, GetKarmanBatchNumber(karmanNumber));
+                IncrementKarmanBatchNumber(karmanNumber);
+                ResetKarmanBatchCount(karmanNumber);
+                UpdateKarmanUI();             // Обновляем интерфейс
+                SaveKarmanBatchSettings();   // Сохраняем настройки
+            }
+        }
+
+        private int GetKarmanBatchNumber(int karmanNumber)
+        {
+            return karmanNumber switch
+            {
+                1 => _karman1BatchNumber,
+                2 => _karman2BatchNumber,
+                3 => _karman3BatchNumber,
+                4 => _karman4BatchNumber,
+                _ => throw new ArgumentException("Неверный номер кармана.")
+            };
+        }
+
+        private int GetKarmanBatchCount(int karmanNumber)
+        {
+            return karmanNumber switch
+            {
+                1 => _karman1BatchCount,
+                2 => _karman2BatchCount,
+                3 => _karman3BatchCount,
+                4 => _karman4BatchCount,
+                _ => throw new ArgumentException("Неверный номер кармана.")
+            };
+        }
+
+        private void IncrementKarmanBatchNumber(int karmanNumber)
+        {
+            switch (karmanNumber)
+            {
+                case 1:
+                    _karman1BatchNumber++;
+                    break;
+                case 2:
+                    _karman2BatchNumber++;
+                    break;
+                case 3:
+                    _karman3BatchNumber++;
+                    break;
+                case 4:
+                    _karman4BatchNumber++;
+                    break;
+            }
+        }
+
+        private void ResetKarmanBatchCount(int karmanNumber)
+        {
+            switch (karmanNumber)
+            {
+                case 1:
+                    _karman1BatchCount = 0;
+                    break;
+                case 2:
+                    _karman2BatchCount = 0;
+                    break;
+                case 3:
+                    _karman3BatchCount = 0;
+                    break;
+                case 4:
+                    _karman4BatchCount = 0;
+                    break;
+            }
+        }
+
 
         private void SetKarmanModbusRegister(string ipAddress, int port, int register)
         {
