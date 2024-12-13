@@ -549,13 +549,6 @@ public MainForm()
                             UpdateGlobalStats();
                         }
 
-                        Thread.Sleep(Properties.Settings.Default.TriggerDelay);
-                        if (_modbusServices["Токарка"].CheckTrigger())
-                        {
-                            MovePipe("Токарка", "Отворот");
-                            UpdateSectionLabels();
-                            UpdateGlobalStats();
-                        }
 
                         Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Отворот"].CheckTrigger())
@@ -585,7 +578,10 @@ public MainForm()
                         Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["Карманы"].CheckTrigger())
                         {
+                            LogMessage("Вот мы попали в карманы");
                             KarmanFunction();
+                            UpdateSectionLabels();
+                            UpdateGlobalStats();
                         }
 
                         await Task.Delay(500);
@@ -667,7 +663,7 @@ public MainForm()
                 _sectionCounters["Маркировка"]--;
                 _sectionCounters["Карманы"]++;
                 LogMessage($"Маркировка завершена для трубы {markingData.PipeNumber}. 'Маркировка': {_sectionCounters["Маркировка"]}, 'Карманы': {_sectionCounters["Карманы"]}");
-                SaveMarkedPipeData(markingData);
+                SaveMarkedPipeData(markingData); //todo: возможно тут сразу вызывать отправку в карман
             }
             else
             {
@@ -806,17 +802,19 @@ public MainForm()
             LogMessage("Состояние сброшено.");
         }
 
-        private async void button_start_Click(object sender, EventArgs e)
+        private void button_start_Click(object sender, EventArgs e)
         {
-            await _httpServerService.StartServer(Properties.Settings.Default.ServerIP, Properties.Settings.Default.ServerPort);
+            _httpServerService.StartServer(Properties.Settings.Default.ServerIP, Properties.Settings.Default.ServerPort);
             // Сервер будет запущен, не блокируя UI
-            StartMainLoop();
             LogMessage("Приложение запущено.");
+            StartMainLoop();
+            
         }
 
         private void button_stop_Click(object sender, EventArgs e)
         {
             StopMainLoop();
+            _httpServerService.StopServer();
             LogMessage("Приложение остановлено.");
         }
 
@@ -984,7 +982,7 @@ public MainForm()
             SaveKarmanBatchSettings();
         }
 
-        private void KarmanFunction()
+        public void KarmanFunction()
         {
             using (var dbContext = new AppDbContext())
             {
