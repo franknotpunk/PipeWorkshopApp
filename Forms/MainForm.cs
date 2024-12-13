@@ -149,6 +149,64 @@ public MainForm()
 
             // Выводим полный путь к user.config
             LogMessage($"Путь к user.config: {config.FilePath}");
+
+
+
+            textBoxK1CurrentCount.TextChanged += (s, e) =>
+            {
+                if (int.TryParse(textBoxK1CurrentCount.Text, out int count))
+                {
+                    _karman1BatchCount = count;
+                    SaveKarmanBatchSettings(); // Сохраняем изменения
+                    UpdateKarmanUI();           // Обновляем интерфейс, если необходимо
+                }
+                else
+                {
+                    LogMessage("Некорректное значение в textBoxK1CurrentCount.");
+                }
+            };
+
+            textBoxK2CurrentCount.TextChanged += (s, e) =>
+            {
+                if (int.TryParse(textBoxK2CurrentCount.Text, out int count))
+                {
+                    _karman2BatchCount = count;
+                    SaveKarmanBatchSettings();
+                    UpdateKarmanUI();
+                }
+                else
+                {
+                    LogMessage("Некорректное значение в textBoxK2CurrentCount.");
+                }
+            };
+
+            textBoxK3CurrentCount.TextChanged += (s, e) =>
+            {
+                if (int.TryParse(textBoxK3CurrentCount.Text, out int count))
+                {
+                    _karman3BatchCount = count;
+                    SaveKarmanBatchSettings();
+                    UpdateKarmanUI();
+                }
+                else
+                {
+                    LogMessage("Некорректное значение в textBoxK3CurrentCount.");
+                }
+            };
+
+            textBoxK4CurrentCount.TextChanged += (s, e) =>
+            {
+                if (int.TryParse(textBoxK4CurrentCount.Text, out int count))
+                {
+                    _karman4BatchCount = count;
+                    SaveKarmanBatchSettings();
+                    UpdateKarmanUI();
+                }
+                else
+                {
+                    LogMessage("Некорректное значение в textBoxK4CurrentCount.");
+                }
+            };
         }
 
         private void InitializeCounters()
@@ -158,7 +216,6 @@ public MainForm()
             {
                 {"Шарошка", 0},
                 {"НК", 0},
-                {"Токарка", 0},
                 {"Отворот", 0},
                 {"Опрессовка", 0},
                 {"Маркировка", 0},
@@ -197,7 +254,7 @@ public MainForm()
         private void CreateSectionLabels()
         {
             _sectionLabels = new Dictionary<string, Label>();
-            string[] sections = { "Шарошка", "НК", "Токарка", "Отворот", "Опрессовка", "Маркировка", "Карманы", "Брак" };
+            string[] sections = { "Шарошка", "НК",  "Отворот", "Опрессовка", "Маркировка", "Карманы", "Брак" };
 
             panelCounters.FlowDirection = FlowDirection.TopDown;
             panelCounters.WrapContents = true;
@@ -330,11 +387,6 @@ public MainForm()
                     (int)Properties.Settings.Default["НК_Reject_Register"]
                 );
 
-                _modbusServices["Токарка"] = new ModbusService(
-                    Properties.Settings.Default["Токарка_IP"] as string,
-                    (int)Properties.Settings.Default["Токарка_Port"],
-                    (int)Properties.Settings.Default["Токарка_Register"]
-                );
 
                 _modbusServices["Отворот"] = new ModbusService(
                     Properties.Settings.Default["Отворот_IP"] as string,
@@ -545,7 +597,7 @@ public MainForm()
                         Thread.Sleep(Properties.Settings.Default.TriggerDelay);
                         if (_modbusServices["НК_Good"].CheckTrigger())
                         {
-                            MovePipe("НК", "Токарка");
+                            MovePipe("НК", "Отворот");
                             UpdateSectionLabels();
                             UpdateGlobalStats();
                         }
@@ -965,34 +1017,41 @@ public MainForm()
 
         private void CloseBatch(int karmanNumber)
         {
-            // Логика "закрытия" пачки: вызываем GenerateDocumentForBatch, 
-            // инкрементируем номер партии, сбрасываем счетчик
-            switch (karmanNumber)
+            using (var dbContext = new AppDbContext())
             {
-                case 1:
-                    GenerateDocumentForBatch(1, _karman1BatchNumber);
-                    _karman1BatchNumber++;
-                    _karman1BatchCount = 0;
-                    break;
-                case 2:
-                    GenerateDocumentForBatch(2, _karman2BatchNumber);
-                    _karman2BatchNumber++;
-                    _karman2BatchCount = 0;
-                    break;
-                case 3:
-                    GenerateDocumentForBatch(3, _karman3BatchNumber);
-                    _karman3BatchNumber++;
-                    _karman3BatchCount = 0;
-                    break;
-                case 4:
-                    GenerateDocumentForBatch(4, _karman4BatchNumber);
-                    _karman4BatchNumber++;
-                    _karman4BatchCount = 0;
-                    break;
-            }
+                // Генерируем документ для текущей пачки
+                GenerateDocumentForBatch(karmanNumber, GetKarmanBatchNumber(karmanNumber));
 
-            UpdateKarmanUI();
-            SaveKarmanBatchSettings();
+                // Получаем максимальный номер пачки из базы данных
+                var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
+                var newBatchNumber = maxBatchNumber + 1;
+
+                // Увеличиваем номер пачки и сбрасываем счётчик
+                switch (karmanNumber)
+                {
+                    case 1:
+                        _karman1BatchNumber = newBatchNumber;
+                        _karman1BatchCount = 0;
+                        break;
+                    case 2:
+                        _karman2BatchNumber = newBatchNumber;
+                        _karman2BatchCount = 0;
+                        break;
+                    case 3:
+                        _karman3BatchNumber = newBatchNumber;
+                        _karman3BatchCount = 0;
+                        break;
+                    case 4:
+                        _karman4BatchNumber = newBatchNumber;
+                        _karman4BatchCount = 0;
+                        break;
+                }
+
+                UpdateKarmanUI();             // Обновляем интерфейс
+                SaveKarmanBatchSettings();   // Сохраняем настройки
+
+                LogMessage($"Пачка {karmanNumber} закрыта. Новый BatchNumber: {GetKarmanBatchNumber(karmanNumber)}.");
+            }
         }
 
         public void KarmanFunction()
@@ -1077,18 +1136,22 @@ public MainForm()
                 case 1:
                     pipe.BatchNumber = _karman1BatchNumber;
                     _karman1BatchCount++;
+                    textBoxK1CurrentCount.Text = _karman1BatchCount.ToString();
                     break;
                 case 2:
                     pipe.BatchNumber = _karman2BatchNumber;
                     _karman2BatchCount++;
+                    textBoxK2CurrentCount.Text = _karman2BatchCount.ToString();
                     break;
                 case 3:
                     pipe.BatchNumber = _karman3BatchNumber;
                     _karman3BatchCount++;
+                    textBoxK3CurrentCount.Text = _karman3BatchCount.ToString();
                     break;
                 case 4:
                     pipe.BatchNumber = _karman4BatchNumber;
                     _karman4BatchCount++;
+                    textBoxK4CurrentCount.Text = _karman4BatchCount.ToString();
                     break;
             }
 
@@ -1102,11 +1165,7 @@ public MainForm()
             // Если достигли размера партии - закрываем её
             if (GetKarmanBatchCount(karmanNumber) == batchSize)
             {
-                GenerateDocumentForBatch(karmanNumber, GetKarmanBatchNumber(karmanNumber));
-                IncrementKarmanBatchNumber(karmanNumber);
-                ResetKarmanBatchCount(karmanNumber);
-                UpdateKarmanUI();             // Обновляем интерфейс
-                SaveKarmanBatchSettings();   // Сохраняем настройки
+                CloseBatch(karmanNumber);
             }
         }
 
