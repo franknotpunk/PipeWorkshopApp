@@ -1001,7 +1001,6 @@ namespace PipeWorkshopApp
                         table.Rows[i + 1].Cells[6].Paragraphs[0].Append(length);
                     }
 
-                    
 
                     // Вставить таблицу после параграфа
                     tableParagraph.InsertTableAfterSelf(table);
@@ -1075,7 +1074,7 @@ namespace PipeWorkshopApp
                     string date = DateTime.Now.ToString("dd.MM.yyyy");
 
                     // Подготовить словарь замен
-                    var replacements = new Dictionary<string, string>
+                    var replacements1 = new Dictionary<string, string>
                     {
                         { "пачка", batchNumber.ToString() },
                         { "материал", steel },
@@ -1087,19 +1086,37 @@ namespace PipeWorkshopApp
                         { "дата", date }
                     };
 
+                    string diam = firstPipe.Diameter;
+                    var min = pipes.Min(p => int.Parse(p.PipeNumber)).ToString();
+                    var max = pipes.Max(p => int.Parse(p.PipeNumber)).ToString();
+                    var replacements2 = new Dictionary<string, string>
+                    {
+                        { "пачка", batchNumber.ToString() },
+                        { "материал", steel },
+                        { "группа", group },
+                        { "мин", min },
+                        { "макс", max },
+                        { "count", totalCount.ToString() },
+                        { "толщина", thickness.ToString("F1", CultureInfo.InvariantCulture) },
+                        { "диаметр", diam },
+                        { "date", date }
+                    };
+
                     string projectRoot = AppContext.BaseDirectory;
 
                     // Указание пути к шаблону и выходному файлу
-                    string templatePath = Path.Combine(projectRoot, "templates", "template.docx"); // Папка "templates" в корне проекта
-                    string outputPath = Path.Combine(projectRoot, "output", $"{batchNumber}.docx"); // Папка "output" в корне проекта
+                    string templatePath1 = Path.Combine(projectRoot, "templates", "template1.docx"); // Папка "templates" в корне проекта
+                    string templatePath2 = Path.Combine(projectRoot, "templates", "template2.docx"); // Папка "templates" в корне проекта
+                    string outputPath1 = Path.Combine(projectRoot, "output", $"{batchNumber}.docx"); // Папка "output" в корне проекта
+                    string outputPath2 = Path.Combine(projectRoot, "output", $"{batchNumber}-бирка.docx"); // Папка "output" в корне проекта
 
                     // Заменить плейсхолдеры
-                    ReplacePlaceholders(templatePath, outputPath, replacements);
+                    ReplacePlaceholders(templatePath1, outputPath1, replacements1);
+                    InsertTableAtPlaceholder(outputPath1, pipes);
 
-                    // Вставить таблицу
-                    InsertTableAtPlaceholder(outputPath, pipes);
+                    ReplacePlaceholders(templatePath2, outputPath2, replacements2);
 
-                    LogMessage($"Документ для пачки {batchNumber} успешно создан: {outputPath}");
+                    LogMessage($"Документ для пачки {batchNumber} успешно создан: {Path.Combine(projectRoot, "templates")}");
                 }
             }
             catch (Exception ex)
