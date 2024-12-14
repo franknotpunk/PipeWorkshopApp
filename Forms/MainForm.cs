@@ -1099,7 +1099,8 @@ namespace PipeWorkshopApp
                         { "count", totalCount.ToString() },
                         { "толщина", thickness.ToString("F1", CultureInfo.InvariantCulture) },
                         { "диаметр", diam },
-                        { "date", date }
+                        { "date", date },
+                        { "length", totalLength.ToString() }
                     };
 
                     string projectRoot = AppContext.BaseDirectory;
