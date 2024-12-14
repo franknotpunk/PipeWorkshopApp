@@ -1,23 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using PipeWorkshopApp.Models;
 using PipeWorkshopApp.Services;
-using System.Net.Http;
-using PipeWorkshopApp.Properties;
 using System.ComponentModel;
-using System.Drawing;
 using System.Text.Json;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using EasyModbus;
-using System.Net;
-using EmbedIO.Security;
 using System.Configuration;
-using System.IO.Pipelines;
 
 namespace PipeWorkshopApp
 {
@@ -53,235 +40,41 @@ namespace PipeWorkshopApp
         private int _karman4BatchNumber;
         private int _karman4BatchCount;
 
-       
 
 
-
-
-
-public MainForm()
+    public MainForm()
         {
             InitializeComponent();
 
-            comboBoxK1Diameter.Items.AddRange(new object[] { "60", "73", "89" });
-            comboBoxK1Diameter.SelectedIndex = 0;
+            InitCombobox();
 
-            comboBoxK1Material.Items.AddRange(new object[] { "CR", "ГС" });
-            comboBoxK1Material.SelectedIndex = 0;
-
-            comboBoxK1Group.Items.AddRange(new object[] { "E", "L" });
-            comboBoxK1Group.SelectedIndex = 0;
-
-            comboBoxK2Diameter.Items.AddRange(new object[] { "60", "73", "89" });
-            comboBoxK2Diameter.SelectedIndex = 0;
-
-            comboBoxK2Material.Items.AddRange(new object[] { "CR", "ГС" });
-            comboBoxK2Material.SelectedIndex = 0;
-
-            comboBoxK2Group.Items.AddRange(new object[] { "E", "L" });
-            comboBoxK2Group.SelectedIndex = 0;
-
-            comboBoxK3Diameter.Items.AddRange(new object[] { "60", "73", "89" });
-            comboBoxK3Diameter.SelectedIndex = 0;
-
-            comboBoxK3Material.Items.AddRange(new object[] { "CR", "ГС" });
-            comboBoxK3Material.SelectedIndex = 0;
-
-            comboBoxK3Group.Items.AddRange(new object[] { "E", "L" });
-            comboBoxK3Group.SelectedIndex = 0;
-
-            comboBoxK4Diameter.Items.AddRange(new object[] { "60", "73", "89" });
-            comboBoxK4Diameter.SelectedIndex = 0;
-
-            comboBoxK4Material.Items.AddRange(new object[] { "CR", "ГС" });
-            comboBoxK4Material.SelectedIndex = 0;
-
-            comboBoxK4Group.Items.AddRange(new object[] { "E", "L" });
-            comboBoxK4Group.SelectedIndex = 0;
-
-
-
-
-
-
-            _httpServerService = new HttpServerService();
-            _httpServerService.LogMessageReceived += (sender, msg) =>
-            {
-                LogMessage(msg); // Вызов вашего метода LogMessage, который обновляет listViewLog в форме
-            };
-            _httpServerService.MarkingDataReceived += HttpServerService_MarkingDataReceived;
+            InitLogs();
+            InitLogsReceived();
 
             InitializeCounters();
+
             InitializeManualTrackers();
             InitializeContextMenu();
-
-            // Логи
-            listViewLog.Columns.Add("Сообщение", -2);
-            listViewLog.View = View.Details;
-
-            // Бракованные трубы
-            listViewRejected.Columns.Add("Время", 200);
-            listViewRejected.Columns.Add("Участок", 200);
-            listViewRejected.View = View.Details;
-
+            
             CreateSectionLabels();
 
-            listViewLog.KeyDown += listViewLog_KeyDown;
-
             LoadSettings();
+
             LoadKarmanBatchSettings();
             InitializeModbusServices();
 
-            LoadState(); // Загружаем состояние из файла
+            LoadState();
             UpdateSectionLabels();
             UpdateGlobalStats();
 
+
+            InitMigration();
             this.Resize += MainForm_Resize;
 
-            using (var dbContext = new AppDbContext())
-            {
-                dbContext.Database.Migrate();
-            }
-
-
-
-            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
-
-            // Выводим полный путь к user.config
-            LogMessage($"Путь к user.config: {config.FilePath}");
-
-
-
-            textBoxK1CurrentCount.TextChanged += (s, e) =>
-            {
-                if (int.TryParse(textBoxK1CurrentCount.Text, out int count))
-                {
-                    _karman1BatchCount = count;
-                    SaveKarmanBatchSettings(); // Сохраняем изменения
-                    UpdateKarmanUI();           // Обновляем интерфейс, если необходимо
-                }
-                else
-                {
-                    LogMessage("Некорректное значение в textBoxK1CurrentCount.");
-                }
-            };
-
-            textBoxK2CurrentCount.TextChanged += (s, e) =>
-            {
-                if (int.TryParse(textBoxK2CurrentCount.Text, out int count))
-                {
-                    _karman2BatchCount = count;
-                    SaveKarmanBatchSettings();
-                    UpdateKarmanUI();
-                }
-                else
-                {
-                    LogMessage("Некорректное значение в textBoxK2CurrentCount.");
-                }
-            };
-
-            textBoxK3CurrentCount.TextChanged += (s, e) =>
-            {
-                if (int.TryParse(textBoxK3CurrentCount.Text, out int count))
-                {
-                    _karman3BatchCount = count;
-                    SaveKarmanBatchSettings();
-                    UpdateKarmanUI();
-                }
-                else
-                {
-                    LogMessage("Некорректное значение в textBoxK3CurrentCount.");
-                }
-            };
-
-            textBoxK4CurrentCount.TextChanged += (s, e) =>
-            {
-                if (int.TryParse(textBoxK4CurrentCount.Text, out int count))
-                {
-                    _karman4BatchCount = count;
-                    SaveKarmanBatchSettings();
-                    UpdateKarmanUI();
-                }
-                else
-                {
-                    LogMessage("Некорректное значение в textBoxK4CurrentCount.");
-                }
-            };
         }
 
-        private void InitializeCounters()
+        private void MainForm_Resize(object sender, EventArgs e)
         {
-            // Добавляем "Брак" тоже в список участков
-            _sectionCounters = new Dictionary<string, int>
-            {
-                {"Шарошка", 0},
-                {"НК", 0},
-                {"Отворот", 0},
-                {"Опрессовка", 0},
-                {"Маркировка", 0},
-                {"Карманы", 0},
-                {"Брак", 0}
-            };
-        }
-
-        private void InitializeManualTrackers()
-        {
-            _manualAdditions = new Dictionary<string, int>();
-            _manualRemovals = new Dictionary<string, int>();
-
-            foreach (var section in _sectionCounters.Keys)
-            {
-                _manualAdditions[section] = 0;
-                _manualRemovals[section] = 0;
-            }
-        }
-
-        private void InitializeContextMenu()
-        {
-            _contextMenuSection = new ContextMenuStrip();
-            _contextMenuSection.Opening += _contextMenuSection_Opening;
-
-            var addItem = new ToolStripMenuItem("Добавить трубу");
-            addItem.Click += (s, e) => ChangePipeCountForSection(1);
-
-            var removeItem = new ToolStripMenuItem("Удалить трубу");
-            removeItem.Click += (s, e) => ChangePipeCountForSection(-1);
-
-            _contextMenuSection.Items.Add(addItem);
-            _contextMenuSection.Items.Add(removeItem);
-        }
-
-        private void CreateSectionLabels()
-        {
-            _sectionLabels = new Dictionary<string, Label>();
-            string[] sections = { "Шарошка", "НК",  "Отворот", "Опрессовка", "Маркировка", "Карманы", "Брак" };
-
-            panelCounters.FlowDirection = FlowDirection.TopDown;
-            panelCounters.WrapContents = true;
-            panelCounters.AutoSize = true;
-            panelCounters.AutoScroll = true;
-
-            foreach (var section in sections)
-            {
-                var lbl = new Label();
-                lbl.Tag = section;
-                lbl.AutoSize = false;
-                lbl.Height = 30;
-                lbl.Font = new Font(lbl.Font.FontFamily, 12.0f, FontStyle.Bold);
-                lbl.TextAlign = ContentAlignment.MiddleLeft;
-                lbl.ContextMenuStrip = _contextMenuSection;
-
-                // Если это "Брак", меняем стиль
-                if (section == "Брак")
-                {
-                    lbl.BackColor = Color.LightCoral;
-                    lbl.ForeColor = Color.White;
-                }
-
-                panelCounters.Controls.Add(lbl);
-                _sectionLabels[section] = lbl;
-            }
-
             AdjustLabelWidths();
         }
 
@@ -293,11 +86,7 @@ public MainForm()
                 lbl.Width = width;
             }
         }
-
-        private void MainForm_Resize(object sender, EventArgs e)
-        {
-            AdjustLabelWidths();
-        }
+       
 
         private void _contextMenuSection_Opening(object sender, CancelEventArgs e)
         {
@@ -348,155 +137,19 @@ public MainForm()
             foreach (var modbusService in _modbusServices.Values)
                 modbusService.Disconnect();
 
-            SaveState(); // Сохраняем состояние при закрытии
+            SaveStateFunk(); // Сохраняем состояние при закрытии
         }
 
-        private void InitializeModbusServices()
-        {
-            try
-            {
-                _modbusServices.Clear();
+       
 
-                _modbusServices["Создание"] = new ModbusService(
-                    Properties.Settings.Default["Создание_IP"] as string,
-                    (int)Properties.Settings.Default["Создание_Port"],
-                    (int)Properties.Settings.Default["Создание_Register"]
-                );
-
-                _modbusServices["Шарошка_Good"] = new ModbusService(
-                    Properties.Settings.Default["Шарошка_Good_IP"] as string,
-                    (int)Properties.Settings.Default["Шарошка_Good_Port"],
-                    (int)Properties.Settings.Default["Шарошка_Good_Register"]
-                );
-
-                _modbusServices["Шарошка_Reject"] = new ModbusService(
-                    Properties.Settings.Default["Шарошка_Reject_IP"] as string,
-                    (int)Properties.Settings.Default["Шарошка_Reject_Port"],
-                    (int)Properties.Settings.Default["Шарошка_Reject_Register"]
-                );
-
-                _modbusServices["НК_Good"] = new ModbusService(
-                    Properties.Settings.Default["НК_Good_IP"] as string,
-                    (int)Properties.Settings.Default["НК_Good_Port"],
-                    (int)Properties.Settings.Default["НК_Good_Register"]
-                );
-
-                _modbusServices["НК_Reject"] = new ModbusService(
-                    Properties.Settings.Default["НК_Reject_IP"] as string,
-                    (int)Properties.Settings.Default["НК_Reject_Port"],
-                    (int)Properties.Settings.Default["НК_Reject_Register"]
-                );
-
-
-                _modbusServices["Отворот"] = new ModbusService(
-                    Properties.Settings.Default["Отворот_IP"] as string,
-                    (int)Properties.Settings.Default["Отворот_Port"],
-                    (int)Properties.Settings.Default["Отворот_Register"]
-                );
-
-                _modbusServices["Опрессовка_Good"] = new ModbusService(
-                    Properties.Settings.Default["Опрессовка_Good_IP"] as string,
-                    (int)Properties.Settings.Default["Опрессовка_Good_Port"],
-                    (int)Properties.Settings.Default["Опрессовка_Good_Register"]
-                );
-
-                _modbusServices["Опрессовка_Reject"] = new ModbusService(
-                    Properties.Settings.Default["Опрессовка_Reject_IP"] as string,
-                    (int)Properties.Settings.Default["Опрессовка_Reject_Port"],
-                    (int)Properties.Settings.Default["Опрессовка_Reject_Register"]
-                );
-
-                _modbusServices["Маркировка"] = new ModbusService(
-                    Properties.Settings.Default["Маркировка_IP"] as string,
-                    (int)Properties.Settings.Default["Маркировка_Port"],
-                    (int)Properties.Settings.Default["Маркировка_Register"]
-                );
-
-                _modbusServices["Карманы"] = new ModbusService(
-                    Properties.Settings.Default["Карманы_IP"] as string,
-                    (int)Properties.Settings.Default["Карманы_Port"],
-                    (int)Properties.Settings.Default["Карманы_Register"]
-                );
-            }
-            catch (Exception ex)
-            {
-                LogMessage($"Ошибка при инициализации Modbus-сервисов: {ex.Message}");
-            }
-        }
-
-        private void LoadSettings()
-        {
-            textBoxTriggerDelay.Text = Properties.Settings.Default.TriggerDelay.ToString();
-
-            textBoxServerIP.Text = Properties.Settings.Default.ServerIP;
-            textBoxServerPort.Text = Properties.Settings.Default.ServerPort.ToString();
-
-            textBoxCreation_IP.Text = Properties.Settings.Default["Создание_IP"] as string;
-            textBoxCreation_Port.Text = Properties.Settings.Default["Создание_Port"].ToString();
-            textBoxCreation_Register.Text = Properties.Settings.Default["Создание_Register"].ToString();
-
-            textBoxSharoshkaGood_IP.Text = Properties.Settings.Default["Шарошка_Good_IP"] as string;
-            textBoxSharoshkaGood_Port.Text = Properties.Settings.Default["Шарошка_Good_Port"].ToString();
-            textBoxSharoshkaGood_Register.Text = Properties.Settings.Default["Шарошка_Good_Register"].ToString();
-
-            textBoxSharoshkaReject_IP.Text = Properties.Settings.Default["Шарошка_Reject_IP"] as string;
-            textBoxSharoshkaReject_Port.Text = Properties.Settings.Default["Шарошка_Reject_Port"].ToString();
-            textBoxSharoshkaReject_Register.Text = Properties.Settings.Default["Шарошка_Reject_Register"].ToString();
-
-            textBoxНКGood_IP.Text = Properties.Settings.Default["НК_Good_IP"] as string;
-            textBoxНКGood_Port.Text = Properties.Settings.Default["НК_Good_Port"].ToString();
-            textBoxНКGood_Register.Text = Properties.Settings.Default["НК_Good_Register"].ToString();
-
-            textBoxНКReject_IP.Text = Properties.Settings.Default["НК_Reject_IP"] as string;
-            textBoxНКReject_Port.Text = Properties.Settings.Default["НК_Reject_Port"].ToString();
-            textBoxНКReject_Register.Text = Properties.Settings.Default["НК_Reject_Register"].ToString();
-
-            textBoxOtvorot_IP.Text = Properties.Settings.Default["Отворот_IP"] as string;
-            textBoxOtvorot_Port.Text = Properties.Settings.Default["Отворот_Port"].ToString();
-            textBoxOtvorot_Register.Text = Properties.Settings.Default["Отворот_Register"].ToString();
-
-            textBoxOpressovkaGood_IP.Text = Properties.Settings.Default["Опрессовка_Good_IP"] as string;
-            textBoxOpressovkaGood_Port.Text = Properties.Settings.Default["Опрессовка_Good_Port"].ToString();
-            textBoxOpressovkaGood_Register.Text = Properties.Settings.Default["Опрессовка_Good_Register"].ToString();
-
-            textBoxOpressovkaReject_IP.Text = Properties.Settings.Default["Опрессовка_Reject_IP"] as string;
-            textBoxOpressovkaReject_Port.Text = Properties.Settings.Default["Опрессовка_Reject_Port"].ToString();
-            textBoxOpressovkaReject_Register.Text = Properties.Settings.Default["Опрессовка_Reject_Register"].ToString();
-
-
-            textBoxKarman_IP.Text = Properties.Settings.Default["Карманы_IP"] as string;
-            textBoxKarman_Port.Text = Properties.Settings.Default["Карманы_Port"].ToString();
-            textBoxKarman_Register.Text = Properties.Settings.Default["Карманы_Register"].ToString();
-
-
-
-
-
-            textBoxKarmanIp1.Text = Properties.Settings.Default["textBoxKarmanIp1"] as string;
-            textBoxKarmanPort1.Text = Properties.Settings.Default["textBoxKarmanPort1"].ToString();
-            textBoxKarmanRegister1.Text = Properties.Settings.Default["textBoxKarmanRegister1"].ToString();
-
-            textBoxKarmanIp2.Text = Properties.Settings.Default["textBoxKarmanIp2"] as string;
-            textBoxKarmanPort2.Text = Properties.Settings.Default["textBoxKarmanPort2"].ToString();
-            textBoxKarmanRegister2.Text = Properties.Settings.Default["textBoxKarmanRegister2"].ToString();
-
-            textBoxKarmanIp3.Text = Properties.Settings.Default["textBoxKarmanIp3"] as string;
-            textBoxKarmanPort3.Text = Properties.Settings.Default["textBoxKarmanPort3"].ToString();
-            textBoxKarmanRegister3.Text = Properties.Settings.Default["textBoxKarmanRegister3"].ToString();
-
-            textBoxKarmanIp4.Text = Properties.Settings.Default["textBoxKarmanIp4"] as string;
-            textBoxKarmanPort4.Text = Properties.Settings.Default["textBoxKarmanPort4"].ToString();
-            textBoxKarmanRegister4.Text = Properties.Settings.Default["textBoxKarmanRegister4"].ToString();
-
-
-        }
+       
 
         private void SaveSettings()
         {
-            Properties.Settings.Default.TriggerDelay = int.Parse(textBoxTriggerDelay.Text);
+            Properties.Settings.Default["TriggerDelay"] = int.Parse(textBoxTriggerDelay.Text);
 
-            Properties.Settings.Default.ServerIP = textBoxServerIP.Text;
-            Properties.Settings.Default.ServerPort = int.Parse(textBoxServerPort.Text);
+            Properties.Settings.Default["ServerIP"] = textBoxServerIP.Text;
+            Properties.Settings.Default["ServerPort"] = int.Parse(textBoxServerPort.Text);
 
             Properties.Settings.Default["Создание_IP"] = textBoxCreation_IP.Text;
             Properties.Settings.Default["Создание_Port"] = int.Parse(textBoxCreation_Port.Text);
@@ -753,71 +406,8 @@ public MainForm()
             LogMessage($"Данные о маркировке сохранены в БД для трубы {markingData.PipeNumber}.");
         }
 
-        private void UpdateSectionLabels()
-        {
-            foreach (var section in _sectionLabels.Keys)
-            {
-                int count = _sectionCounters[section];
-                int addCount = _manualAdditions[section];
-                int removeCount = _manualRemovals[section];
-
-                _sectionLabels[section].Text = $"{section}: {count}         (руками:{addCount - removeCount})";
-            }
-        }
-
-        private void UpdateGlobalStats()
-        {
-            int totalAdd = _manualAdditions.Values.Sum();
-            int totalRemove = _manualRemovals.Values.Sum();
-            int totalInKarmany = _sectionCounters["Карманы"];
-            int totalInBrak = _sectionCounters["Брак"];
-
-            labelGlobalStats.Height = 30;
-            labelGlobalStats.Font = new Font(labelGlobalStats.Font.FontFamily, 12.0f, FontStyle.Bold);
-
-            // Допустим, у нас есть labelGlobalStats на форме
-            labelGlobalStats.Text =
-                $"Глобальная статистика:\n" +
-                $"Ручное редактирование: {totalAdd - totalRemove}\n" +
-                $"Всего в Карманы: {totalInKarmany}\n" +
-                $"Ручное добавление в Брак: {totalInBrak}\n" +
-                $"Всего бракованных: {_rejectedCount + totalInBrak}";
-        }
-
-        private void LoadState()
-        {
-            if (!File.Exists(_stateFilePath)) return;
-
-            try
-            {
-                var json = File.ReadAllText(_stateFilePath);
-                var state = JsonSerializer.Deserialize<SaveState>(json);
-
-                if (state != null)
-                {
-                    _sectionCounters = state.SectionCounters;
-                    _manualAdditions = state.ManualAdditions;
-                    _manualRemovals = state.ManualRemovals;
-                    _rejectedCount = state.RejectedCount;
-
-                    listViewRejected.Items.Clear();
-                    foreach (var rec in state.RejectedRecords)
-                    {
-                        var item = new ListViewItem(rec.Time);
-                        item.SubItems.Add(rec.Section);
-                        listViewRejected.Items.Add(item);
-                    }
-
-                    LogMessage("Состояние загружено.");
-                }
-            }
-            catch (Exception ex)
-            {
-                LogMessage($"Ошибка при загрузке состояния: {ex.Message}");
-            }
-        }
-
-        private void SaveState()
+       
+        private void SaveStateFunk()
         {
             var state = new SaveState
             {
@@ -942,37 +532,22 @@ public MainForm()
 
         private void SaveKarmanBatchSettings()
         {
-            Properties.Settings.Default.Karman1BatchNumber = _karman1BatchNumber;
-            Properties.Settings.Default.Karman1BatchCount = _karman1BatchCount;
+            Properties.Settings.Default["Karman1BatchNumber"] = _karman1BatchNumber;
+            Properties.Settings.Default["Karman1BatchCount"] = _karman1BatchCount;
 
-            Properties.Settings.Default.Karman2BatchNumber = _karman2BatchNumber;
-            Properties.Settings.Default.Karman2BatchCount = _karman2BatchCount;
+            Properties.Settings.Default["Karman2BatchNumber"] = _karman2BatchNumber;
+            Properties.Settings.Default["Karman2BatchCount"] = _karman2BatchCount;
 
-            Properties.Settings.Default.Karman3BatchNumber = _karman3BatchNumber;
-            Properties.Settings.Default.Karman3BatchCount = _karman3BatchCount;
+            Properties.Settings.Default["Karman3BatchNumber"] = _karman3BatchNumber;
+            Properties.Settings.Default["Karman3BatchCount"] = _karman3BatchCount;
 
-            Properties.Settings.Default.Karman4BatchNumber = _karman4BatchNumber;
-            Properties.Settings.Default.Karman4BatchCount = _karman4BatchCount;
+            Properties.Settings.Default["Karman4BatchNumber"] = _karman4BatchNumber;
+            Properties.Settings.Default["Karman4BatchCount"] = _karman4BatchCount;
 
             Properties.Settings.Default.Save();
         }
 
-        private void LoadKarmanBatchSettings()
-        {
-            _karman1BatchNumber = Properties.Settings.Default.Karman1BatchNumber;
-            _karman1BatchCount = Properties.Settings.Default.Karman1BatchCount;
-
-            _karman2BatchNumber = Properties.Settings.Default.Karman2BatchNumber;
-            _karman2BatchCount = Properties.Settings.Default.Karman2BatchCount;
-
-            _karman3BatchNumber = Properties.Settings.Default.Karman3BatchNumber;
-            _karman3BatchCount = Properties.Settings.Default.Karman3BatchCount;
-
-            _karman4BatchNumber = Properties.Settings.Default.Karman4BatchNumber;
-            _karman4BatchCount = Properties.Settings.Default.Karman4BatchCount;
-
-            UpdateKarmanUI(); // Обновим интерфейс
-        }
+       
 
         private void UpdateKarmanUI()
         {
@@ -1193,43 +768,6 @@ public MainForm()
             };
         }
 
-        private void IncrementKarmanBatchNumber(int karmanNumber)
-        {
-            switch (karmanNumber)
-            {
-                case 1:
-                    _karman1BatchNumber++;
-                    break;
-                case 2:
-                    _karman2BatchNumber++;
-                    break;
-                case 3:
-                    _karman3BatchNumber++;
-                    break;
-                case 4:
-                    _karman4BatchNumber++;
-                    break;
-            }
-        }
-
-        private void ResetKarmanBatchCount(int karmanNumber)
-        {
-            switch (karmanNumber)
-            {
-                case 1:
-                    _karman1BatchCount = 0;
-                    break;
-                case 2:
-                    _karman2BatchCount = 0;
-                    break;
-                case 3:
-                    _karman3BatchCount = 0;
-                    break;
-                case 4:
-                    _karman4BatchCount = 0;
-                    break;
-            }
-        }
 
 
         private void SetKarmanModbusRegister(string ipAddress, int port, int register)
@@ -1253,7 +791,384 @@ public MainForm()
             }
        
          }
-    }
+
+        /// <summary>
+        /// Участок иницилазации компонентов и настрок
+        /// </summary>
+
+        private void InitCombobox() //инициализируем установки в ComboBox карманов
+        {
+            comboBoxK1Diameter.Items.AddRange(new object[] { "60", "73", "89" });
+            comboBoxK1Diameter.SelectedIndex = 0;
+
+            comboBoxK1Material.Items.AddRange(new object[] { "CR", "ГС" });
+            comboBoxK1Material.SelectedIndex = 0;
+
+            comboBoxK1Group.Items.AddRange(new object[] { "E", "L" });
+            comboBoxK1Group.SelectedIndex = 0;
+
+            comboBoxK2Diameter.Items.AddRange(new object[] { "60", "73", "89" });
+            comboBoxK2Diameter.SelectedIndex = 0;
+
+            comboBoxK2Material.Items.AddRange(new object[] { "CR", "ГС" });
+            comboBoxK2Material.SelectedIndex = 0;
+
+            comboBoxK2Group.Items.AddRange(new object[] { "E", "L" });
+            comboBoxK2Group.SelectedIndex = 0;
+
+            comboBoxK3Diameter.Items.AddRange(new object[] { "60", "73", "89" });
+            comboBoxK3Diameter.SelectedIndex = 0;
+
+            comboBoxK3Material.Items.AddRange(new object[] { "CR", "ГС" });
+            comboBoxK3Material.SelectedIndex = 0;
+
+            comboBoxK3Group.Items.AddRange(new object[] { "E", "L" });
+            comboBoxK3Group.SelectedIndex = 0;
+
+            comboBoxK4Diameter.Items.AddRange(new object[] { "60", "73", "89" });
+            comboBoxK4Diameter.SelectedIndex = 0;
+
+            comboBoxK4Material.Items.AddRange(new object[] { "CR", "ГС" });
+            comboBoxK4Material.SelectedIndex = 0;
+
+            comboBoxK4Group.Items.AddRange(new object[] { "E", "L" });
+            comboBoxK4Group.SelectedIndex = 0;
+        }
+
+
+        private void InitLogs() //инициализация для логов и бракованных труб
+        {
+
+            // Логи
+            listViewLog.Columns.Add("Сообщение", -2);
+            listViewLog.View = View.Details;
+
+            // Бракованные трубы
+            listViewRejected.Columns.Add("Время", 200);
+            listViewRejected.Columns.Add("Участок", 200);
+            listViewRejected.View = View.Details;
+            listViewLog.KeyDown += listViewLog_KeyDown;
+        }
+
+        private void InitLogsReceived()
+        {
+            _httpServerService = new HttpServerService();
+            _httpServerService.LogMessageReceived += (sender, msg) =>
+            {
+                LogMessage(msg); // Вызов вашего метода LogMessage, который обновляет listViewLog в форме
+            };
+
+            _httpServerService.MarkingDataReceived += HttpServerService_MarkingDataReceived;
+        }
+
+
+        private void InitializeCounters()
+        {
+            // Добавляем "Брак" тоже в список участков
+            _sectionCounters = new Dictionary<string, int>
+            {
+                {"Шарошка", 0},
+                {"НК", 0},
+                {"Отворот", 0},
+                {"Опрессовка", 0},
+                {"Маркировка", 0},
+                {"Карманы", 0},
+                {"Брак", 0}
+            };
+        }
+
+        private void InitializeManualTrackers()
+        {
+            _manualAdditions = new Dictionary<string, int>();
+            _manualRemovals = new Dictionary<string, int>();
+
+            foreach (var section in _sectionCounters.Keys)
+            {
+                _manualAdditions[section] = 0;
+                _manualRemovals[section] = 0;
+            }
+        }
+
+        private void InitializeContextMenu()
+        {
+            _contextMenuSection = new ContextMenuStrip();
+            _contextMenuSection.Opening += _contextMenuSection_Opening;
+
+            var addItem = new ToolStripMenuItem("Добавить трубу");
+            addItem.Click += (s, e) => ChangePipeCountForSection(1);
+
+            var removeItem = new ToolStripMenuItem("Удалить трубу");
+            removeItem.Click += (s, e) => ChangePipeCountForSection(-1);
+
+            _contextMenuSection.Items.Add(addItem);
+            _contextMenuSection.Items.Add(removeItem);
+        }
+
+        private void CreateSectionLabels()
+        {
+            _sectionLabels = new Dictionary<string, Label>();
+            string[] sections = { "Шарошка", "НК", "Отворот", "Опрессовка", "Маркировка", "Карманы", "Брак" };
+
+            panelCounters.FlowDirection = FlowDirection.TopDown;
+            panelCounters.WrapContents = true;
+            panelCounters.AutoSize = true;
+            panelCounters.AutoScroll = true;
+
+            foreach (var section in sections)
+            {
+                var lbl = new Label();
+                lbl.Tag = section;
+                lbl.AutoSize = false;
+                lbl.Height = 30;
+                lbl.Font = new Font(lbl.Font.FontFamily, 12.0f, FontStyle.Bold);
+                lbl.TextAlign = ContentAlignment.MiddleLeft;
+                lbl.ContextMenuStrip = _contextMenuSection;
+
+                // Если это "Брак", меняем стиль
+                if (section == "Брак")
+                {
+                    lbl.BackColor = Color.LightCoral;
+                    lbl.ForeColor = Color.White;
+                }
+
+                panelCounters.Controls.Add(lbl);
+                _sectionLabels[section] = lbl;
+            }
+
+            AdjustLabelWidths();
+        }
+
+        private void LoadSettings()
+        {
+            textBoxTriggerDelay.Text = Properties.Settings.Default.TriggerDelay.ToString();
+
+            textBoxServerIP.Text = Properties.Settings.Default.ServerIP;
+            textBoxServerPort.Text = Properties.Settings.Default.ServerPort.ToString();
+
+            textBoxCreation_IP.Text = Properties.Settings.Default["Создание_IP"] as string;
+            textBoxCreation_Port.Text = Properties.Settings.Default["Создание_Port"].ToString();
+            textBoxCreation_Register.Text = Properties.Settings.Default["Создание_Register"].ToString();
+
+            textBoxSharoshkaGood_IP.Text = Properties.Settings.Default["Шарошка_Good_IP"] as string;
+            textBoxSharoshkaGood_Port.Text = Properties.Settings.Default["Шарошка_Good_Port"].ToString();
+            textBoxSharoshkaGood_Register.Text = Properties.Settings.Default["Шарошка_Good_Register"].ToString();
+
+            textBoxSharoshkaReject_IP.Text = Properties.Settings.Default["Шарошка_Reject_IP"] as string;
+            textBoxSharoshkaReject_Port.Text = Properties.Settings.Default["Шарошка_Reject_Port"].ToString();
+            textBoxSharoshkaReject_Register.Text = Properties.Settings.Default["Шарошка_Reject_Register"].ToString();
+
+            textBoxНКGood_IP.Text = Properties.Settings.Default["НК_Good_IP"] as string;
+            textBoxНКGood_Port.Text = Properties.Settings.Default["НК_Good_Port"].ToString();
+            textBoxНКGood_Register.Text = Properties.Settings.Default["НК_Good_Register"].ToString();
+
+            textBoxНКReject_IP.Text = Properties.Settings.Default["НК_Reject_IP"] as string;
+            textBoxНКReject_Port.Text = Properties.Settings.Default["НК_Reject_Port"].ToString();
+            textBoxНКReject_Register.Text = Properties.Settings.Default["НК_Reject_Register"].ToString();
+
+            textBoxOtvorot_IP.Text = Properties.Settings.Default["Отворот_IP"] as string;
+            textBoxOtvorot_Port.Text = Properties.Settings.Default["Отворот_Port"].ToString();
+            textBoxOtvorot_Register.Text = Properties.Settings.Default["Отворот_Register"].ToString();
+
+            textBoxOpressovkaGood_IP.Text = Properties.Settings.Default["Опрессовка_Good_IP"] as string;
+            textBoxOpressovkaGood_Port.Text = Properties.Settings.Default["Опрессовка_Good_Port"].ToString();
+            textBoxOpressovkaGood_Register.Text = Properties.Settings.Default["Опрессовка_Good_Register"].ToString();
+
+            textBoxOpressovkaReject_IP.Text = Properties.Settings.Default["Опрессовка_Reject_IP"] as string;
+            textBoxOpressovkaReject_Port.Text = Properties.Settings.Default["Опрессовка_Reject_Port"].ToString();
+            textBoxOpressovkaReject_Register.Text = Properties.Settings.Default["Опрессовка_Reject_Register"].ToString();
+
+
+            textBoxKarman_IP.Text = Properties.Settings.Default["Карманы_IP"] as string;
+            textBoxKarman_Port.Text = Properties.Settings.Default["Карманы_Port"].ToString();
+            textBoxKarman_Register.Text = Properties.Settings.Default["Карманы_Register"].ToString();
+
+
+
+
+
+            textBoxKarmanIp1.Text = Properties.Settings.Default["textBoxKarmanIp1"] as string;
+            textBoxKarmanPort1.Text = Properties.Settings.Default["textBoxKarmanPort1"].ToString();
+            textBoxKarmanRegister1.Text = Properties.Settings.Default["textBoxKarmanRegister1"].ToString();
+
+            textBoxKarmanIp2.Text = Properties.Settings.Default["textBoxKarmanIp2"] as string;
+            textBoxKarmanPort2.Text = Properties.Settings.Default["textBoxKarmanPort2"].ToString();
+            textBoxKarmanRegister2.Text = Properties.Settings.Default["textBoxKarmanRegister2"].ToString();
+
+            textBoxKarmanIp3.Text = Properties.Settings.Default["textBoxKarmanIp3"] as string;
+            textBoxKarmanPort3.Text = Properties.Settings.Default["textBoxKarmanPort3"].ToString();
+            textBoxKarmanRegister3.Text = Properties.Settings.Default["textBoxKarmanRegister3"].ToString();
+
+            textBoxKarmanIp4.Text = Properties.Settings.Default["textBoxKarmanIp4"] as string;
+            textBoxKarmanPort4.Text = Properties.Settings.Default["textBoxKarmanPort4"].ToString();
+            textBoxKarmanRegister4.Text = Properties.Settings.Default["textBoxKarmanRegister4"].ToString();
+
+
+        }
+
+        private void LoadKarmanBatchSettings()
+        {
+            _karman1BatchNumber = int.Parse(Properties.Settings.Default["Karman1BatchNumber"].ToString());
+            _karman1BatchCount = int.Parse(Properties.Settings.Default["Karman1BatchCount"].ToString());
+
+            _karman2BatchNumber = int.Parse(Properties.Settings.Default["Karman2BatchNumber"].ToString());
+            _karman2BatchCount = int.Parse(Properties.Settings.Default["Karman2BatchCount"].ToString());
+
+            _karman3BatchNumber = int.Parse(Properties.Settings.Default["Karman3BatchNumber"].ToString());
+            _karman3BatchCount = int.Parse(Properties.Settings.Default["Karman3BatchCount"].ToString());
+
+            _karman4BatchNumber = int.Parse(Properties.Settings.Default["Karman4BatchNumber"].ToString());
+            _karman4BatchCount = int.Parse(Properties.Settings.Default["Karman4BatchCount"].ToString());
+
+            UpdateKarmanUI(); // Обновим интерфейс
+        }
+
+        private void InitializeModbusServices()
+        {
+            try
+            {
+                _modbusServices.Clear();
+
+                _modbusServices["Создание"] = new ModbusService(
+                    Properties.Settings.Default["Создание_IP"] as string,
+                    (int)Properties.Settings.Default["Создание_Port"],
+                    (int)Properties.Settings.Default["Создание_Register"]
+                );
+
+                _modbusServices["Шарошка_Good"] = new ModbusService(
+                    Properties.Settings.Default["Шарошка_Good_IP"] as string,
+                    (int)Properties.Settings.Default["Шарошка_Good_Port"],
+                    (int)Properties.Settings.Default["Шарошка_Good_Register"]
+                );
+
+                _modbusServices["Шарошка_Reject"] = new ModbusService(
+                    Properties.Settings.Default["Шарошка_Reject_IP"] as string,
+                    (int)Properties.Settings.Default["Шарошка_Reject_Port"],
+                    (int)Properties.Settings.Default["Шарошка_Reject_Register"]
+                );
+
+                _modbusServices["НК_Good"] = new ModbusService(
+                    Properties.Settings.Default["НК_Good_IP"] as string,
+                    (int)Properties.Settings.Default["НК_Good_Port"],
+                    (int)Properties.Settings.Default["НК_Good_Register"]
+                );
+
+                _modbusServices["НК_Reject"] = new ModbusService(
+                    Properties.Settings.Default["НК_Reject_IP"] as string,
+                    (int)Properties.Settings.Default["НК_Reject_Port"],
+                    (int)Properties.Settings.Default["НК_Reject_Register"]
+                );
+
+
+                _modbusServices["Отворот"] = new ModbusService(
+                    Properties.Settings.Default["Отворот_IP"] as string,
+                    (int)Properties.Settings.Default["Отворот_Port"],
+                    (int)Properties.Settings.Default["Отворот_Register"]
+                );
+
+                _modbusServices["Опрессовка_Good"] = new ModbusService(
+                    Properties.Settings.Default["Опрессовка_Good_IP"] as string,
+                    (int)Properties.Settings.Default["Опрессовка_Good_Port"],
+                    (int)Properties.Settings.Default["Опрессовка_Good_Register"]
+                );
+
+                _modbusServices["Опрессовка_Reject"] = new ModbusService(
+                    Properties.Settings.Default["Опрессовка_Reject_IP"] as string,
+                    (int)Properties.Settings.Default["Опрессовка_Reject_Port"],
+                    (int)Properties.Settings.Default["Опрессовка_Reject_Register"]
+                );
+
+                _modbusServices["Маркировка"] = new ModbusService(
+                    Properties.Settings.Default["Маркировка_IP"] as string,
+                    (int)Properties.Settings.Default["Маркировка_Port"],
+                    (int)Properties.Settings.Default["Маркировка_Register"]
+                );
+
+                _modbusServices["Карманы"] = new ModbusService(
+                    Properties.Settings.Default["Карманы_IP"] as string,
+                    (int)Properties.Settings.Default["Карманы_Port"],
+                    (int)Properties.Settings.Default["Карманы_Register"]
+                );
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Ошибка при инициализации Modbus-сервисов: {ex.Message}");
+            }
+        }
+
+        private void LoadState()
+        {
+            if (!File.Exists(_stateFilePath)) return;
+
+            try
+            {
+                var json = File.ReadAllText(_stateFilePath);
+                var state = JsonSerializer.Deserialize<SaveState>(json);
+
+                if (state != null)
+                {
+                    _sectionCounters = state.SectionCounters;
+                    _manualAdditions = state.ManualAdditions;
+                    _manualRemovals = state.ManualRemovals;
+                    _rejectedCount = state.RejectedCount;
+
+                    listViewRejected.Items.Clear();
+                    foreach (var rec in state.RejectedRecords)
+                    {
+                        var item = new ListViewItem(rec.Time);
+                        item.SubItems.Add(rec.Section);
+                        listViewRejected.Items.Add(item);
+                    }
+
+                    LogMessage("Состояние загружено.");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Ошибка при загрузке состояния: {ex.Message}");
+            }
+        }
+
+        private void UpdateSectionLabels()
+        {
+            foreach (var section in _sectionLabels.Keys)
+            {
+                int count = _sectionCounters[section];
+                int addCount = _manualAdditions[section];
+                int removeCount = _manualRemovals[section];
+
+                _sectionLabels[section].Text = $"{section}: {count}         (руками:{addCount - removeCount})";
+            }
+        }
+
+        private void UpdateGlobalStats()
+        {
+            int totalAdd = _manualAdditions.Values.Sum();
+            int totalRemove = _manualRemovals.Values.Sum();
+            int totalInKarmany = _sectionCounters["Карманы"];
+            int totalInBrak = _sectionCounters["Брак"];
+
+            labelGlobalStats.Height = 30;
+            labelGlobalStats.Font = new Font(labelGlobalStats.Font.FontFamily, 12.0f, FontStyle.Bold);
+
+            // Допустим, у нас есть labelGlobalStats на форме
+            labelGlobalStats.Text =
+                $"Глобальная статистика:\n" +
+                $"Ручное редактирование: {totalAdd - totalRemove}\n" +
+                $"Всего в Карманы: {totalInKarmany}\n" +
+                $"Ручное добавление в Брак: {totalInBrak}\n" +
+                $"Всего бракованных: {_rejectedCount + totalInBrak}";
+        }
+
+
+
+
+        private void InitMigration()
+        {
+            using (var dbContext = new AppDbContext())
+            {
+                dbContext.Database.Migrate();
+            }
+        }
 
     public class SaveState
     {

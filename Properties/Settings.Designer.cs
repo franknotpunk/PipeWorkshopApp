@@ -23,687 +23,516 @@ namespace PipeWorkshopApp.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Создание_IP {
             get {
                 return ((string)(this["Создание_IP"]));
             }
-            set {
-                this["Создание_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Создание_Port {
             get {
                 return ((int)(this["Создание_Port"]));
             }
-            set {
-                this["Создание_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Создание_Register {
             get {
                 return ((int)(this["Создание_Register"]));
             }
-            set {
-                this["Создание_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Шарошка_Good_IP {
             get {
                 return ((string)(this["Шарошка_Good_IP"]));
             }
-            set {
-                this["Шарошка_Good_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Шарошка_Good_Port {
             get {
                 return ((int)(this["Шарошка_Good_Port"]));
             }
-            set {
-                this["Шарошка_Good_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Шарошка_Good_Register {
             get {
                 return ((int)(this["Шарошка_Good_Register"]));
             }
-            set {
-                this["Шарошка_Good_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Шарошка_Reject_IP {
             get {
                 return ((string)(this["Шарошка_Reject_IP"]));
             }
-            set {
-                this["Шарошка_Reject_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Шарошка_Reject_Port {
             get {
                 return ((int)(this["Шарошка_Reject_Port"]));
             }
-            set {
-                this["Шарошка_Reject_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Шарошка_Reject_Register {
             get {
                 return ((int)(this["Шарошка_Reject_Register"]));
             }
-            set {
-                this["Шарошка_Reject_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Токарка_IP {
             get {
                 return ((string)(this["Токарка_IP"]));
             }
-            set {
-                this["Токарка_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Токарка_Port {
             get {
                 return ((int)(this["Токарка_Port"]));
             }
-            set {
-                this["Токарка_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Токарка_Register {
             get {
                 return ((int)(this["Токарка_Register"]));
             }
-            set {
-                this["Токарка_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Отворот_IP {
             get {
                 return ((string)(this["Отворот_IP"]));
             }
-            set {
-                this["Отворот_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Отворот_Port {
             get {
                 return ((int)(this["Отворот_Port"]));
             }
-            set {
-                this["Отворот_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Отворот_Register {
             get {
                 return ((int)(this["Отворот_Register"]));
             }
-            set {
-                this["Отворот_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Опрессовка_Good_IP {
             get {
                 return ((string)(this["Опрессовка_Good_IP"]));
             }
-            set {
-                this["Опрессовка_Good_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Опрессовка_Good_Port {
             get {
                 return ((int)(this["Опрессовка_Good_Port"]));
             }
-            set {
-                this["Опрессовка_Good_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Опрессовка_Good_Register {
             get {
                 return ((int)(this["Опрессовка_Good_Register"]));
             }
-            set {
-                this["Опрессовка_Good_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Опрессовка_Reject_IP {
             get {
                 return ((string)(this["Опрессовка_Reject_IP"]));
             }
-            set {
-                this["Опрессовка_Reject_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Опрессовка_Reject_Port {
             get {
                 return ((int)(this["Опрессовка_Reject_Port"]));
             }
-            set {
-                this["Опрессовка_Reject_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Опрессовка_Reject_Register {
             get {
                 return ((int)(this["Опрессовка_Reject_Register"]));
             }
-            set {
-                this["Опрессовка_Reject_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Маркировка_IP {
             get {
                 return ((string)(this["Маркировка_IP"]));
             }
-            set {
-                this["Маркировка_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Маркировка_Port {
             get {
                 return ((int)(this["Маркировка_Port"]));
             }
-            set {
-                this["Маркировка_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Маркировка_Register {
             get {
                 return ((int)(this["Маркировка_Register"]));
             }
-            set {
-                this["Маркировка_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Карманы_IP {
             get {
                 return ((string)(this["Карманы_IP"]));
             }
-            set {
-                this["Карманы_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Карманы_Port {
             get {
                 return ((int)(this["Карманы_Port"]));
             }
-            set {
-                this["Карманы_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Карманы_Register {
             get {
                 return ((int)(this["Карманы_Register"]));
             }
-            set {
-                this["Карманы_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ServerIP {
             get {
                 return ((string)(this["ServerIP"]));
             }
-            set {
-                this["ServerIP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int ServerPort {
             get {
                 return ((int)(this["ServerPort"]));
             }
-            set {
-                this["ServerPort"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Otvorot_DeviceURL4 {
             get {
                 return ((string)(this["Otvorot_DeviceURL4"]));
             }
-            set {
-                this["Otvorot_DeviceURL4"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string НК_Good_IP {
             get {
                 return ((string)(this["НК_Good_IP"]));
             }
-            set {
-                this["НК_Good_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int НК_Good_Port {
             get {
                 return ((int)(this["НК_Good_Port"]));
             }
-            set {
-                this["НК_Good_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int НК_Good_Register {
             get {
                 return ((int)(this["НК_Good_Register"]));
             }
-            set {
-                this["НК_Good_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string НК_Reject_IP {
             get {
                 return ((string)(this["НК_Reject_IP"]));
             }
-            set {
-                this["НК_Reject_IP"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int НК_Reject_Port {
             get {
                 return ((int)(this["НК_Reject_Port"]));
             }
-            set {
-                this["НК_Reject_Port"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int НК_Reject_Register {
             get {
                 return ((int)(this["НК_Reject_Register"]));
             }
-            set {
-                this["НК_Reject_Register"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int TriggerDelay {
             get {
                 return ((int)(this["TriggerDelay"]));
             }
-            set {
-                this["TriggerDelay"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int Karman1BatchNumber {
             get {
                 return ((int)(this["Karman1BatchNumber"]));
             }
-            set {
-                this["Karman1BatchNumber"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Karman1BatchCount {
             get {
                 return ((int)(this["Karman1BatchCount"]));
             }
-            set {
-                this["Karman1BatchCount"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int Karman2BatchNumber {
             get {
                 return ((int)(this["Karman2BatchNumber"]));
             }
-            set {
-                this["Karman2BatchNumber"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Karman2BatchCount {
             get {
                 return ((int)(this["Karman2BatchCount"]));
             }
-            set {
-                this["Karman2BatchCount"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int Karman3BatchNumber {
             get {
                 return ((int)(this["Karman3BatchNumber"]));
             }
-            set {
-                this["Karman3BatchNumber"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Karman3BatchCount {
             get {
                 return ((int)(this["Karman3BatchCount"]));
             }
-            set {
-                this["Karman3BatchCount"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int Karman4BatchNumber {
             get {
                 return ((int)(this["Karman4BatchNumber"]));
             }
-            set {
-                this["Karman4BatchNumber"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Karman4BatchCount {
             get {
                 return ((int)(this["Karman4BatchCount"]));
             }
-            set {
-                this["Karman4BatchCount"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string textBoxKarmanIp1 {
             get {
                 return ((string)(this["textBoxKarmanIp1"]));
             }
-            set {
-                this["textBoxKarmanIp1"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanPort1 {
             get {
                 return ((int)(this["textBoxKarmanPort1"]));
             }
-            set {
-                this["textBoxKarmanPort1"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanRegister1 {
             get {
                 return ((int)(this["textBoxKarmanRegister1"]));
             }
-            set {
-                this["textBoxKarmanRegister1"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string textBoxKarmanIp2 {
             get {
                 return ((string)(this["textBoxKarmanIp2"]));
             }
-            set {
-                this["textBoxKarmanIp2"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanPort2 {
             get {
                 return ((int)(this["textBoxKarmanPort2"]));
             }
-            set {
-                this["textBoxKarmanPort2"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanRegister2 {
             get {
                 return ((int)(this["textBoxKarmanRegister2"]));
             }
-            set {
-                this["textBoxKarmanRegister2"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string textBoxKarmanIp3 {
             get {
                 return ((string)(this["textBoxKarmanIp3"]));
             }
-            set {
-                this["textBoxKarmanIp3"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanPort3 {
             get {
                 return ((int)(this["textBoxKarmanPort3"]));
             }
-            set {
-                this["textBoxKarmanPort3"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanRegister3 {
             get {
                 return ((int)(this["textBoxKarmanRegister3"]));
             }
-            set {
-                this["textBoxKarmanRegister3"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string textBoxKarmanIp4 {
             get {
                 return ((string)(this["textBoxKarmanIp4"]));
             }
-            set {
-                this["textBoxKarmanIp4"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanPort4 {
             get {
                 return ((int)(this["textBoxKarmanPort4"]));
             }
-            set {
-                this["textBoxKarmanPort4"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int textBoxKarmanRegister4 {
             get {
                 return ((int)(this["textBoxKarmanRegister4"]));
-            }
-            set {
-                this["textBoxKarmanRegister4"] = value;
             }
         }
     }
