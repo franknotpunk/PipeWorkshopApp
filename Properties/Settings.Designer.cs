@@ -754,5 +754,149 @@ namespace PipeWorkshopApp.Properties {
                 this["Karman4BatchSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman1_Diameter {
+            get {
+                return ((string)(this["Karman1_Diameter"]));
+            }
+            set {
+                this["Karman1_Diameter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman1_Material {
+            get {
+                return ((string)(this["Karman1_Material"]));
+            }
+            set {
+                this["Karman1_Material"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman1_Group {
+            get {
+                return ((string)(this["Karman1_Group"]));
+            }
+            set {
+                this["Karman1_Group"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman2_Diameter {
+            get {
+                return ((string)(this["Karman2_Diameter"]));
+            }
+            set {
+                this["Karman2_Diameter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman2_Material {
+            get {
+                return ((string)(this["Karman2_Material"]));
+            }
+            set {
+                this["Karman2_Material"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman2_Group {
+            get {
+                return ((string)(this["Karman2_Group"]));
+            }
+            set {
+                this["Karman2_Group"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman3_Diameter {
+            get {
+                return ((string)(this["Karman3_Diameter"]));
+            }
+            set {
+                this["Karman3_Diameter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman3_Material {
+            get {
+                return ((string)(this["Karman3_Material"]));
+            }
+            set {
+                this["Karman3_Material"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman3_Group {
+            get {
+                return ((string)(this["Karman3_Group"]));
+            }
+            set {
+                this["Karman3_Group"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman4_Diameter {
+            get {
+                return ((string)(this["Karman4_Diameter"]));
+            }
+            set {
+                this["Karman4_Diameter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman4_Material {
+            get {
+                return ((string)(this["Karman4_Material"]));
+            }
+            set {
+                this["Karman4_Material"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Karman4_Group {
+            get {
+                return ((string)(this["Karman4_Group"]));
+            }
+            set {
+                this["Karman4_Group"] = value;
+            }
+        }
     }
 }

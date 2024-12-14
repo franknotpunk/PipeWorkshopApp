@@ -546,6 +546,23 @@ namespace PipeWorkshopApp
                 SaveKarmanIntSetting("KarmanPort4", int.Parse(textBoxKarmanPort4.Text));
                 SaveKarmanIntSetting("KarmanRegister4", int.Parse(textBoxKarmanRegister4.Text));
 
+                Properties.Settings.Default.Karman1_Diameter = comboBoxK1Diameter.SelectedItem?.ToString() ?? "60";
+                Properties.Settings.Default.Karman1_Material = comboBoxK1Material.SelectedItem?.ToString() ?? "CR";
+                Properties.Settings.Default.Karman1_Group = comboBoxK1Group.SelectedItem?.ToString() ?? "E";
+
+                Properties.Settings.Default.Karman2_Diameter = comboBoxK2Diameter.SelectedItem?.ToString() ?? "60";
+                Properties.Settings.Default.Karman2_Material = comboBoxK2Material.SelectedItem?.ToString() ?? "CR";
+                Properties.Settings.Default.Karman2_Group = comboBoxK2Group.SelectedItem?.ToString() ?? "E";
+
+                Properties.Settings.Default.Karman3_Diameter = comboBoxK3Diameter.SelectedItem?.ToString() ?? "60";
+                Properties.Settings.Default.Karman3_Material = comboBoxK3Material.SelectedItem?.ToString() ?? "CR";
+                Properties.Settings.Default.Karman3_Group = comboBoxK3Group.SelectedItem?.ToString() ?? "E";
+
+                Properties.Settings.Default.Karman4_Diameter = comboBoxK4Diameter.SelectedItem?.ToString() ?? "60";
+                Properties.Settings.Default.Karman4_Material = comboBoxK4Material.SelectedItem?.ToString() ?? "CR";
+                Properties.Settings.Default.Karman4_Group = comboBoxK4Group.SelectedItem?.ToString() ?? "E";
+
+
                 Properties.Settings.Default.Save();
                 LogMessage("Параметры карманов и пакетных настроек сохранены.");
             }
@@ -597,6 +614,22 @@ namespace PipeWorkshopApp
                 textBoxKarmanPort4.Text = Properties.Settings.Default["KarmanPort4"].ToString();
                 textBoxKarmanRegister4.Text = Properties.Settings.Default["KarmanRegister4"].ToString();
 
+                SetComboBoxSelectedItem(comboBoxK1Diameter, Properties.Settings.Default.Karman1_Diameter);
+                SetComboBoxSelectedItem(comboBoxK1Material, Properties.Settings.Default.Karman1_Material);
+                SetComboBoxSelectedItem(comboBoxK1Group, Properties.Settings.Default.Karman1_Group);
+
+                SetComboBoxSelectedItem(comboBoxK2Diameter, Properties.Settings.Default.Karman2_Diameter);
+                SetComboBoxSelectedItem(comboBoxK2Material, Properties.Settings.Default.Karman2_Material);
+                SetComboBoxSelectedItem(comboBoxK2Group, Properties.Settings.Default.Karman2_Group);
+
+                SetComboBoxSelectedItem(comboBoxK3Diameter, Properties.Settings.Default.Karman3_Diameter);
+                SetComboBoxSelectedItem(comboBoxK3Material, Properties.Settings.Default.Karman3_Material);
+                SetComboBoxSelectedItem(comboBoxK3Group, Properties.Settings.Default.Karman3_Group);
+
+                SetComboBoxSelectedItem(comboBoxK4Diameter, Properties.Settings.Default.Karman4_Diameter);
+                SetComboBoxSelectedItem(comboBoxK4Material, Properties.Settings.Default.Karman4_Material);
+                SetComboBoxSelectedItem(comboBoxK4Group, Properties.Settings.Default.Karman4_Group);
+
                 UpdateKarmanUI(); // Обновляем интерфейс
 
                 LogMessage("Параметры карманов загружены.");
@@ -604,6 +637,20 @@ namespace PipeWorkshopApp
             catch (Exception ex)
             {
                 LogMessage($"Ошибка при загрузке параметров карманов: {ex.Message}");
+            }
+        }
+
+        private void SetComboBoxSelectedItem(ComboBox comboBox, string selectedItem)
+        {
+            if (comboBox.Items.Contains(selectedItem))
+            {
+                comboBox.SelectedItem = selectedItem;
+            }
+            else
+            {
+                // Установите значение по умолчанию, если сохраненное значение отсутствует в списке
+                comboBox.SelectedIndex = 0;
+                LogMessage($"Сохраненный элемент '{selectedItem}' не найден в ComboBox '{comboBox.Name}'. Установлен элемент по умолчанию.");
             }
         }
 
@@ -643,40 +690,63 @@ namespace PipeWorkshopApp
 
         private void CloseBatch(int karmanNumber)
         {
-            using (var dbContext = new AppDbContext())
+            try
             {
-                // Генерируем документ для текущей пачки
-                GenerateDocumentForBatch(karmanNumber, GetKarmanBatchNumber(karmanNumber));
-
-                // Получаем максимальный номер пачки из базы данных
-                var maxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
-                var newBatchNumber = maxBatchNumber + 1;
-
-                // Увеличиваем номер пачки и сбрасываем счетчик
-                switch (karmanNumber)
+                using (var dbContext = new AppDbContext())
                 {
-                    case 1:
-                        _karman1BatchNumber = newBatchNumber;
-                        _karman1BatchCount = 0;
-                        break;
-                    case 2:
-                        _karman2BatchNumber = newBatchNumber;
-                        _karman2BatchCount = 0;
-                        break;
-                    case 3:
-                        _karman3BatchNumber = newBatchNumber;
-                        _karman3BatchCount = 0;
-                        break;
-                    case 4:
-                        _karman4BatchNumber = newBatchNumber;
-                        _karman4BatchCount = 0;
-                        break;
+                    // Генерируем документ для текущей пачки
+                    GenerateDocumentForBatch(karmanNumber, GetKarmanBatchNumber(karmanNumber));
+
+                    // Получаем максимальный номер пачки из базы данных
+                    var dbMaxBatchNumber = dbContext.Pipes.Max(p => (int?)p.BatchNumber) ?? 0;
+
+                    // Получаем текущие номера пачек всех карманов на форме
+                    var currentKarmanBatchNumbers = new List<int>
+                    {
+                        _karman1BatchNumber,
+                        _karman2BatchNumber,
+                        _karman3BatchNumber,
+                        _karman4BatchNumber
+                    };
+
+                    var karmanMaxBatchNumber = currentKarmanBatchNumbers.Max();
+
+                    // Определяем новый уникальный номер пачки
+                    var newBatchNumber = Math.Max(dbMaxBatchNumber, karmanMaxBatchNumber) + 1;
+
+                    // Увеличиваем номер пачки и сбрасываем счетчик для соответствующего кармана
+                    switch (karmanNumber)
+                    {
+                        case 1:
+                            _karman1BatchNumber = newBatchNumber;
+                            _karman1BatchCount = 0;
+                            break;
+                        case 2:
+                            _karman2BatchNumber = newBatchNumber;
+                            _karman2BatchCount = 0;
+                            break;
+                        case 3:
+                            _karman3BatchNumber = newBatchNumber;
+                            _karman3BatchCount = 0;
+                            break;
+                        case 4:
+                            _karman4BatchNumber = newBatchNumber;
+                            _karman4BatchCount = 0;
+                            break;
+                        default:
+                            LogMessage("Неверный номер кармана при закрытии пачки.");
+                            return;
+                    }
+
+                    UpdateKarmanUI();             // Обновляем интерфейс
+                    SaveKarmanSettings();        // Сохраняем настройки
+
+                    LogMessage($"Пачка {karmanNumber} закрыта. Новый BatchNumber: {GetKarmanBatchNumber(karmanNumber)}.");
                 }
-
-                UpdateKarmanUI();             // Обновляем интерфейс
-                SaveKarmanSettings();        // Сохраняем настройки
-
-                LogMessage($"Пачка {karmanNumber} закрыта. Новый BatchNumber: {GetKarmanBatchNumber(karmanNumber)}.");
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Ошибка при закрытии пачки {karmanNumber}: {ex.Message}");
             }
         }
 
