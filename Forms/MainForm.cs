@@ -4,7 +4,13 @@ using System.ComponentModel;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using EasyModbus;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System.Configuration;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using Xceed.Words.NET;
+using Xceed.Document.NET;
 
 namespace PipeWorkshopApp
 {
@@ -247,12 +253,12 @@ namespace PipeWorkshopApp
         {
             // Логи
             listViewLog.Columns.Add("Сообщение", -2);
-            listViewLog.View = View.Details;
+            listViewLog.View = System.Windows.Forms.View.Details;
 
             // Бракованные трубы
             listViewRejected.Columns.Add("Время", 200);
             listViewRejected.Columns.Add("Участок", 200);
-            listViewRejected.View = View.Details;
+            listViewRejected.View = System.Windows.Forms.View.Details;
             listViewLog.KeyDown += listViewLog_KeyDown;
         }
 
@@ -325,15 +331,15 @@ namespace PipeWorkshopApp
                 lbl.Tag = section;
                 lbl.AutoSize = false;
                 lbl.Height = 30;
-                lbl.Font = new Font(lbl.Font.FontFamily, 12.0f, FontStyle.Bold);
+                lbl.Font = new System.Drawing.Font(lbl.Font.FontFamily, 12.0f, FontStyle.Bold);
                 lbl.TextAlign = ContentAlignment.MiddleLeft;
                 lbl.ContextMenuStrip = _contextMenuSection;
 
                 // Если это "Брак", меняем стиль
                 if (section == "Брак")
                 {
-                    lbl.BackColor = Color.LightCoral;
-                    lbl.ForeColor = Color.White;
+                    lbl.BackColor = System.Drawing.Color.LightCoral;
+                    lbl.ForeColor = System.Drawing.Color.White;
                 }
 
                 panelCounters.Controls.Add(lbl);
@@ -920,10 +926,186 @@ namespace PipeWorkshopApp
             }
         }
 
+
+        public static void ReplacePlaceholders(string templatePath, string outputPath, Dictionary<string, string> replacements)
+        {
+            try
+            {
+                // Копируем шаблон в новый файл
+                File.Copy(templatePath, outputPath, overwrite: true);
+
+                // Открываем скопированный документ
+                using (DocX document = DocX.Load(outputPath))
+                {
+                    foreach (var placeholder in replacements)
+                    {
+                        // Заменяем все вхождения ключевого слова на значение
+                        document.ReplaceText(placeholder.Key, placeholder.Value, false, RegexOptions.IgnoreCase);
+                    }
+
+                    // Сохраняем изменения
+                    document.Save();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки (опционально)
+                // LogMessage($"Ошибка при замене плейсхолдеров: {ex.Message}");
+                throw; // Или обработайте ошибку соответствующим образом
+            }
+        }
+
+        public void InsertTableAtPlaceholder(string documentPath, List<PipeData> pipes)
+        {
+            try
+            {
+                using (DocX document = DocX.Load(documentPath))
+                {
+                    // Найти параграф с плейсхолдером "таблица"
+                    var tableParagraph = document.Paragraphs.FirstOrDefault(p => p.Text.Contains("таблица"));
+
+                    if (tableParagraph == null)
+                    {
+                        LogMessage("Не найден плейсхолдер 'таблица' в документе.");
+                        return;
+                    }
+
+                    // Создаём таблицу с нужным количеством колонок
+                    int numberOfColumns = 7;
+                    var table = document.AddTable(pipes.Count + 1, numberOfColumns);
+
+                    // Настройка стилей таблицы (опционально)
+                    table.Design = TableDesign.LightShadingAccent1;
+
+                    // Заполнение заголовков
+                    table.Rows[0].Cells[0].Paragraphs[0].Append("№ п/п");
+                    table.Rows[0].Cells[1].Paragraphs[0].Append("№-НКТ");
+                    table.Rows[0].Cells[2].Paragraphs[0].Append("Диаметр");
+                    table.Rows[0].Cells[3].Paragraphs[0].Append("Группа прочности ГОСТ 633-80");
+                    table.Rows[0].Cells[4].Paragraphs[0].Append("Минимальная толщина стенки, в мм");
+                    table.Rows[0].Cells[5].Paragraphs[0].Append("Месяц и год выпуска");
+                    table.Rows[0].Cells[6].Paragraphs[0].Append("Длина, в мм");
+
+                    // Заполнение данных
+                    for (int i = 0; i < pipes.Count; i++)
+                    {
+                        var pipe = pipes[i];
+                        table.Rows[i + 1].Cells[0].Paragraphs[0].Append((i + 1).ToString());
+                        table.Rows[i + 1].Cells[1].Paragraphs[0].Append(pipe.PipeNumber.ToString());
+                        table.Rows[i + 1].Cells[2].Paragraphs[0].Append(pipe.Diameter);
+                        table.Rows[i + 1].Cells[3].Paragraphs[0].Append(pipe.Group);
+                        table.Rows[i + 1].Cells[4].Paragraphs[0].Append(pipe.Thickness.ToString(CultureInfo.InvariantCulture));
+                        table.Rows[i + 1].Cells[5].Paragraphs[0].Append(DateTime.Now.ToString("MM.yyyy"));
+                        var length = (double.Parse(pipe.PipeLength) * 10).ToString();
+                        table.Rows[i + 1].Cells[6].Paragraphs[0].Append(length);
+                    }
+
+                    
+
+                    // Вставить таблицу после параграфа
+                    tableParagraph.InsertTableAfterSelf(table);
+                    // Удалить слово "таблица" из параграфа
+                    tableParagraph.ReplaceText("таблица", string.Empty, false, RegexOptions.None);
+
+                    // Удалить параграф, если он пустой после удаления плейсхолдера
+                    //if (string.IsNullOrWhiteSpace(tableParagraph.Text))
+                    //{
+                    //    tableParagraph.Remove(false);
+                    //}
+
+                    // Сохранить изменения
+                    document.Save();
+                }
+
+                // Логирование успешной вставки таблицы (опционально)
+                LogMessage("Таблица успешно вставлена в документ.");
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Ошибка при вставке таблицы: {ex.Message}");
+            }
+        }
+
         private void GenerateDocumentForBatch(int karmanNumber, int batchNumber)
         {
-            LogMessage($"Формируем документ для кармана {karmanNumber}, партия {batchNumber}...");
-            // Здесь будет логика формирования документа, пока пусто.
+            try
+            {
+                using (var dbContext = new AppDbContext())
+                {
+                    // Получить все трубы с заданным номером пачки
+                    var pipes = dbContext.Pipes
+                        .Where(p => p.BatchNumber == batchNumber)
+                        .ToList();
+
+                    if (pipes.Count == 0)
+                    {
+                        LogMessage($"Нет труб с номером пачки {batchNumber}.");
+                        return;
+                    }
+
+                    // Предполагается, что все трубы в пачке имеют одинаковые свойства
+                    var firstPipe = pipes.First();
+
+                    // Вычислить общие показатели
+                    int totalCount = pipes.Count;
+                    double totalLength = Math.Round(pipes.Sum(p => double.Parse(p.PipeLength) / 100), 2);
+                    double totalTonnage = 0;
+                    if (firstPipe.Diameter == "73")
+                    {
+                        totalTonnage = totalLength * 9.48 / 1000;
+                    }
+                    else
+                    {
+                        totalTonnage = totalLength * 13.62 / 1000;
+                    }
+                    totalTonnage = Math.Round(totalTonnage, 2);
+                    double thickness = double.Parse(firstPipe.Thickness, CultureInfo.InvariantCulture); // Убедитесь, что Thickness - string, иначе измените тип
+                    string steel;
+                    if(firstPipe.Material == "CR")
+                    {
+                        steel = "CS (хром)";
+                    }
+                    else
+                    {
+                        steel = "30Г2";
+                    }
+
+                    string group = firstPipe.Group;
+                    string date = DateTime.Now.ToString("dd.MM.yyyy");
+
+                    // Подготовить словарь замен
+                    var replacements = new Dictionary<string, string>
+                    {
+                        { "пачка", batchNumber.ToString() },
+                        { "материал", steel },
+                        { "группа", group },
+                        { "count", totalCount.ToString() },
+                        { "метры", totalLength.ToString("F2", CultureInfo.InvariantCulture) },
+                        { "тоннаж", totalTonnage.ToString("F2", CultureInfo.InvariantCulture) },
+                        { "толщина", thickness.ToString("F1", CultureInfo.InvariantCulture) },
+                        { "дата", date }
+                    };
+
+                    string projectRoot = AppContext.BaseDirectory;
+
+                    // Указание пути к шаблону и выходному файлу
+                    string templatePath = Path.Combine(projectRoot, "templates", "template.docx"); // Папка "templates" в корне проекта
+                    string outputPath = Path.Combine(projectRoot, "output", $"{batchNumber}.docx"); // Папка "output" в корне проекта
+
+                    // Заменить плейсхолдеры
+                    ReplacePlaceholders(templatePath, outputPath, replacements);
+
+                    // Вставить таблицу
+                    InsertTableAtPlaceholder(outputPath, pipes);
+
+                    LogMessage($"Документ для пачки {batchNumber} успешно создан: {outputPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Ошибка при генерации документа для пачки {batchNumber}: {ex.Message}");
+            }
         }
 
         private int GetKarmanBatchNumber(int karmanNumber)
@@ -1438,7 +1620,7 @@ namespace PipeWorkshopApp
             int totalInBrak = _sectionCounters["Брак"];
 
             labelGlobalStats.Height = 60;
-            labelGlobalStats.Font = new Font(labelGlobalStats.Font.FontFamily, 12.0f, FontStyle.Bold);
+            labelGlobalStats.Font = new System.Drawing.Font(labelGlobalStats.Font.FontFamily, 12.0f, FontStyle.Bold);
 
             // Допустим, у нас есть labelGlobalStats на форме
             labelGlobalStats.Text =
