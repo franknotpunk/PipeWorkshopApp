@@ -2,175 +2,187 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PipeWorkshopApp.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Создание_IP" Type="System.String" Scope="Application">
+    <Setting Name="Создание_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Создание_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Создание_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Создание_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Создание_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Шарошка_Good_IP" Type="System.String" Scope="Application">
+    <Setting Name="Шарошка_Good_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Шарошка_Good_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Шарошка_Good_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Шарошка_Good_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Шарошка_Good_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Шарошка_Reject_IP" Type="System.String" Scope="Application">
+    <Setting Name="Шарошка_Reject_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Шарошка_Reject_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Шарошка_Reject_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Шарошка_Reject_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Шарошка_Reject_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Токарка_IP" Type="System.String" Scope="Application">
+    <Setting Name="Токарка_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Токарка_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Токарка_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Токарка_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Токарка_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Отворот_IP" Type="System.String" Scope="Application">
+    <Setting Name="Отворот_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Отворот_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Отворот_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Отворот_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Отворот_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Опрессовка_Good_IP" Type="System.String" Scope="Application">
+    <Setting Name="Опрессовка_Good_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Опрессовка_Good_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Опрессовка_Good_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Опрессовка_Good_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Опрессовка_Good_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Опрессовка_Reject_IP" Type="System.String" Scope="Application">
+    <Setting Name="Опрессовка_Reject_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Опрессовка_Reject_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Опрессовка_Reject_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Опрессовка_Reject_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Опрессовка_Reject_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Маркировка_IP" Type="System.String" Scope="Application">
+    <Setting Name="Маркировка_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Маркировка_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Маркировка_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Маркировка_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Маркировка_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Карманы_IP" Type="System.String" Scope="Application">
+    <Setting Name="Карманы_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Карманы_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="Карманы_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Карманы_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="Карманы_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="ServerIP" Type="System.String" Scope="Application">
+    <Setting Name="ServerIP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ServerPort" Type="System.Int32" Scope="Application">
+    <Setting Name="ServerPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Otvorot_DeviceURL4" Type="System.String" Scope="Application">
+    <Setting Name="Otvorot_DeviceURL4" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="НК_Good_IP" Type="System.String" Scope="Application">
+    <Setting Name="НК_Good_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="НК_Good_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="НК_Good_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="НК_Good_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="НК_Good_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="НК_Reject_IP" Type="System.String" Scope="Application">
+    <Setting Name="НК_Reject_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="НК_Reject_Port" Type="System.Int32" Scope="Application">
+    <Setting Name="НК_Reject_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="НК_Reject_Register" Type="System.Int32" Scope="Application">
+    <Setting Name="НК_Reject_Register" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="TriggerDelay" Type="System.Int32" Scope="Application">
+    <Setting Name="TriggerDelay" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Karman1BatchNumber" Type="System.Int32" Scope="Application">
+    <Setting Name="Karman1BatchNumber" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="Karman1BatchCount" Type="System.Int32" Scope="Application">
+    <Setting Name="Karman1BatchCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Karman2BatchNumber" Type="System.Int32" Scope="Application">
+    <Setting Name="Karman2BatchNumber" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="Karman2BatchCount" Type="System.Int32" Scope="Application">
+    <Setting Name="Karman2BatchCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Karman3BatchNumber" Type="System.Int32" Scope="Application">
+    <Setting Name="Karman3BatchNumber" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="Karman3BatchCount" Type="System.Int32" Scope="Application">
+    <Setting Name="Karman3BatchCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Karman4BatchNumber" Type="System.Int32" Scope="Application">
+    <Setting Name="Karman4BatchNumber" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="Karman4BatchCount" Type="System.Int32" Scope="Application">
+    <Setting Name="Karman4BatchCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="textBoxKarmanIp1" Type="System.String" Scope="Application">
+    <Setting Name="KarmanIp1" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="textBoxKarmanPort1" Type="System.Int32" Scope="Application">
+    <Setting Name="KarmanPort1" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="textBoxKarmanRegister1" Type="System.Int32" Scope="Application">
+    <Setting Name="KarmanRegister1" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="textBoxKarmanIp2" Type="System.String" Scope="Application">
+    <Setting Name="KarmanIp2" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="textBoxKarmanPort2" Type="System.Int32" Scope="Application">
+    <Setting Name="KarmanPort2" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="textBoxKarmanRegister2" Type="System.Int32" Scope="Application">
+    <Setting Name="KarmanRegister2" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="textBoxKarmanIp3" Type="System.String" Scope="Application">
+    <Setting Name="KarmanIp3" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="textBoxKarmanPort3" Type="System.Int32" Scope="Application">
+    <Setting Name="KarmanPort3" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="textBoxKarmanRegister3" Type="System.Int32" Scope="Application">
+    <Setting Name="KarmanRegister3" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="textBoxKarmanIp4" Type="System.String" Scope="Application">
+    <Setting Name="KarmanIp4" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="textBoxKarmanPort4" Type="System.Int32" Scope="Application">
+    <Setting Name="KarmanPort4" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="textBoxKarmanRegister4" Type="System.Int32" Scope="Application">
+    <Setting Name="KarmanRegister4" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Karman1BatchSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Karman2BatchSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Karman3BatchSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Karman4BatchSize" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>

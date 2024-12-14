@@ -1014,6 +1014,7 @@
             Controls.Add(textBoxServerIP);
             Name = "MainForm";
             Text = "Form1";
+            FormClosed += MainForm_FormClosed;
             groupBox_sharoska.ResumeLayout(false);
             groupBox_sharoska.PerformLayout();
             groupBox_NK.ResumeLayout(false);
