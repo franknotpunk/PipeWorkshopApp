@@ -612,24 +612,24 @@ namespace PipeWorkshopApp
             try
             {
                 // Карман 1
-                _karman1BatchNumber = int.Parse(textBoxK1CurrentBatch.Text);
-                _karman1BatchCount = int.Parse(textBoxK1CurrentCount.Text);
-                _karman1BatchSize = int.Parse(textBoxK1BatchSize.Text);
+                textBoxK1CurrentBatch.Text = _karman1BatchNumber.ToString();
+                textBoxK1CurrentCount.Text = _karman1BatchCount.ToString();
+                textBoxK1BatchSize.Text = _karman1BatchSize.ToString();
 
                 // Карман 2
-                _karman2BatchNumber = int.Parse(textBoxK2CurrentBatch.Text);
-                _karman2BatchCount = int.Parse(textBoxK2CurrentCount.Text);
-                _karman2BatchSize = int.Parse(textBoxK2BatchSize.Text);
+                textBoxK2CurrentBatch.Text = _karman2BatchNumber.ToString();
+                textBoxK2CurrentCount.Text = _karman2BatchCount.ToString();
+                textBoxK2BatchSize.Text = _karman2BatchSize.ToString();
 
                 // Карман 3
-                _karman3BatchNumber = int.Parse(textBoxK3CurrentBatch.Text);
-                _karman3BatchCount = int.Parse(textBoxK3CurrentCount.Text);
-                _karman3BatchSize = int.Parse(textBoxK3BatchSize.Text);
+                textBoxK3CurrentBatch.Text = _karman3BatchNumber.ToString();
+                textBoxK3CurrentCount.Text = _karman3BatchCount.ToString();
+                textBoxK3BatchSize.Text = _karman3BatchSize.ToString();
 
                 // Карман 4
-                _karman4BatchNumber = int.Parse(textBoxK4CurrentBatch.Text);
-                _karman4BatchCount = int.Parse(textBoxK4CurrentCount.Text);
-                _karman4BatchSize = int.Parse(textBoxK4BatchSize.Text);
+                textBoxK4CurrentBatch.Text = _karman4BatchNumber.ToString();
+                textBoxK4CurrentCount.Text = _karman4BatchCount.ToString();
+                textBoxK4BatchSize.Text = _karman4BatchSize.ToString();
             }
             catch (FormatException ex)
             {
