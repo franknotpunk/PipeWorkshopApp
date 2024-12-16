@@ -35,6 +35,8 @@
             textBoxCreation_IP = new TextBox();
             textBoxCreation_Port = new TextBox();
             groupBox_sharoska = new GroupBox();
+            label6 = new Label();
+            label5 = new Label();
             groupBox_NK = new GroupBox();
             textBoxSharoshkaGood_Port = new TextBox();
             textBoxSharoshkaGood_IP = new TextBox();
@@ -128,8 +130,6 @@
             textBoxK2BatchSize = new TextBox();
             textBoxK3BatchSize = new TextBox();
             textBoxK4BatchSize = new TextBox();
-            label5 = new Label();
-            label6 = new Label();
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
@@ -154,6 +154,8 @@
             label28 = new Label();
             label29 = new Label();
             label30 = new Label();
+            label31 = new Label();
+            label32 = new Label();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
@@ -218,6 +220,24 @@
             groupBox_sharoska.TabIndex = 10;
             groupBox_sharoska.TabStop = false;
             groupBox_sharoska.Text = "Создание";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(254, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(50, 15);
+            label6.TabIndex = 4;
+            label6.Text = "Регистр";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(184, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(35, 15);
+            label5.TabIndex = 3;
+            label5.Text = "Порт";
             // 
             // groupBox_NK
             // 
@@ -353,7 +373,7 @@
             // 
             // button_save
             // 
-            button_save.Location = new Point(900, 725);
+            button_save.Location = new Point(900, 744);
             button_save.Name = "button_save";
             button_save.Size = new Size(154, 54);
             button_save.TabIndex = 12;
@@ -363,7 +383,7 @@
             // 
             // button_load
             // 
-            button_load.Location = new Point(1060, 725);
+            button_load.Location = new Point(1060, 744);
             button_load.Name = "button_load";
             button_load.Size = new Size(154, 54);
             button_load.TabIndex = 13;
@@ -472,7 +492,7 @@
             // 
             // button_start
             // 
-            button_start.Location = new Point(901, 785);
+            button_start.Location = new Point(901, 804);
             button_start.Name = "button_start";
             button_start.Size = new Size(153, 53);
             button_start.TabIndex = 23;
@@ -482,7 +502,7 @@
             // 
             // button_stop
             // 
-            button_stop.Location = new Point(1060, 785);
+            button_stop.Location = new Point(1060, 804);
             button_stop.Name = "button_stop";
             button_stop.Size = new Size(153, 53);
             button_stop.TabIndex = 24;
@@ -510,7 +530,7 @@
             // 
             // listViewLog
             // 
-            listViewLog.Location = new Point(453, 459);
+            listViewLog.Location = new Point(453, 478);
             listViewLog.Name = "listViewLog";
             listViewLog.Size = new Size(437, 379);
             listViewLog.TabIndex = 25;
@@ -518,7 +538,7 @@
             // 
             // listViewRejected
             // 
-            listViewRejected.Location = new Point(12, 459);
+            listViewRejected.Location = new Point(12, 478);
             listViewRejected.Name = "listViewRejected";
             listViewRejected.Size = new Size(435, 379);
             listViewRejected.TabIndex = 27;
@@ -978,24 +998,6 @@
             textBoxK4BatchSize.Size = new Size(121, 23);
             textBoxK4BatchSize.TabIndex = 66;
             // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(184, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(35, 15);
-            label5.TabIndex = 3;
-            label5.Text = "Порт";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(254, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(50, 15);
-            label6.TabIndex = 4;
-            label6.Text = "Регистр";
-            // 
             // label7
             // 
             label7.AutoSize = true;
@@ -1212,11 +1214,31 @@
             label30.TabIndex = 84;
             label30.Text = "Кол-во в пачке";
             // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(12, 460);
+            label31.Name = "label31";
+            label31.Size = new Size(69, 15);
+            label31.TabIndex = 89;
+            label31.Text = "Логи брака";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(453, 460);
+            label32.Name = "label32";
+            label32.Size = new Size(76, 15);
+            label32.TabIndex = 90;
+            label32.Text = "Общие логи";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1748, 899);
+            Controls.Add(label32);
+            Controls.Add(label31);
             Controls.Add(label25);
             Controls.Add(label26);
             Controls.Add(label27);
@@ -1454,5 +1476,7 @@
         private Label label28;
         private Label label29;
         private Label label30;
+        private Label label31;
+        private Label label32;
     }
 }
