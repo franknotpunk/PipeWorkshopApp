@@ -442,7 +442,6 @@ namespace PipeWorkshopApp
             {
                 // Запускаем HTTP сервер
                 _httpServerService.StartServer(Properties.Settings.Default.ServerIP, Properties.Settings.Default.ServerPort);
-                LogMessage("Сервер запущен.");
 
                 // Запускаем основной цикл
                 StartMainLoop();
@@ -476,7 +475,6 @@ namespace PipeWorkshopApp
 
                 // Останавливаем HTTP сервер
                 _httpServerService.StopServer();
-                LogMessage("Сервер остановлен.");
 
                 _isRunning = false;
 
@@ -493,14 +491,12 @@ namespace PipeWorkshopApp
         private void button_save_Click(object sender, EventArgs e)
         {
             SaveSettings();
-            LogMessage("Сохранили общие настройки");
             SaveKarmanSettings();
-            LogMessage("Сохранили пачки настройки");
+            LogMessage("Настройки сохранены");
         }
 
         private void button_load_Click(object sender, EventArgs e)
         {
-            LogMessage("Загружаю настройки");
             LoadSettings();
             LoadKarmanBatchSettings();
             InitializeModbusServices();
@@ -577,7 +573,6 @@ namespace PipeWorkshopApp
 
 
                 Properties.Settings.Default.Save();
-                LogMessage("Параметры карманов и пакетных настроек сохранены.");
             }
             catch (FormatException ex)
             {
@@ -645,7 +640,6 @@ namespace PipeWorkshopApp
 
                 UpdateKarmanUI(); // Обновляем интерфейс
 
-                LogMessage("Параметры карманов загружены.");
             }
             catch (Exception ex)
             {
@@ -754,7 +748,6 @@ namespace PipeWorkshopApp
                     UpdateKarmanUI();             // Обновляем интерфейс
                     SaveKarmanSettings();        // Сохраняем настройки
 
-                    LogMessage($"Пачка {karmanNumber} закрыта. Новый BatchNumber: {GetKarmanBatchNumber(karmanNumber)}.");
                 }
             }
             catch (Exception ex)
@@ -924,7 +917,7 @@ namespace PipeWorkshopApp
             UpdateKarmanUI();             // Обновляем интерфейс
             SaveKarmanSettings();        // Сохраняем настройки
 
-            LogMessage($"Труба {pipe.PipeNumber} -> Карман {karmanNumber}, Партия {GetKarmanBatchNumber(karmanNumber)}, в партии {GetKarmanBatchCount(karmanNumber)}/{batchSize}.");
+            //LogMessage($"Труба {pipe.PipeNumber} -> Карман {karmanNumber}, Партия {GetKarmanBatchNumber(karmanNumber)}, в партии {GetKarmanBatchCount(karmanNumber)}/{batchSize}.");
 
             // Если достигли размера партии - закрываем её
             if (GetKarmanBatchCount(karmanNumber) >= batchSize)
@@ -1025,7 +1018,6 @@ namespace PipeWorkshopApp
                 }
 
                 // Логирование успешной вставки таблицы (опционально)
-                LogMessage("Таблица успешно вставлена в документ.");
             }
             catch (Exception ex)
             {
@@ -1221,7 +1213,6 @@ namespace PipeWorkshopApp
                     int.TryParse(textBoxKarman_Register.Text, out int karmanyRegister) ? karmanyRegister : 109
                 );
 
-                LogMessage("Modbus-сервисы инициализированы.");
             }
             catch (Exception ex)
             {
@@ -1237,7 +1228,6 @@ namespace PipeWorkshopApp
                 client.Connect();
                 client.WriteSingleRegister(register, 1);
                 client.Disconnect();
-                LogMessage($"Modbus-регистратор установлен для IP: {ipAddress}, Port: {port}, Register: {register}.");
             }
             catch (Exception ex)
             {
@@ -1363,8 +1353,7 @@ namespace PipeWorkshopApp
             {
                 _sectionCounters[fromSection]--;
                 _sectionCounters[toSection]++;
-                LogMessage($"Труба перемещена из '{fromSection}' в '{toSection}'. " +
-                           $"'{fromSection}': {_sectionCounters[fromSection]}, '{toSection}': {_sectionCounters[toSection]}");
+                
             }
             else
             {
@@ -1400,7 +1389,7 @@ namespace PipeWorkshopApp
                 item.SubItems.Add(sectionName);
                 listViewRejected.Items.Add(item);
 
-                LogMessage($"Труба забракована на участке '{sectionName}'. Всего бракованных: {_rejectedCount}");
+                
             }
             else
             {
@@ -1433,7 +1422,7 @@ namespace PipeWorkshopApp
             {
                 _sectionCounters["Маркировка"]--;
                 _sectionCounters["Карманы"]++;
-                LogMessage($"Маркировка завершена для трубы {markingData.PipeNumber}. 'Маркировка': {_sectionCounters["Маркировка"]}, 'Карманы': {_sectionCounters["Карманы"]}");
+                
                 SaveMarkedPipeData(markingData); // Возможно, тут сразу вызывать отправку в карман
             }
             else
@@ -1459,7 +1448,7 @@ namespace PipeWorkshopApp
             dbContext.Pipes.Add(pipeData);
             dbContext.SaveChanges();
 
-            LogMessage($"Данные о маркировке сохранены в БД для трубы {markingData.PipeNumber}.");
+            
         }
 
         #endregion
@@ -1488,7 +1477,7 @@ namespace PipeWorkshopApp
                 SaveKarmanSettings();
                 var json = JsonSerializer.Serialize(state, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(_stateFilePath, json);
-                LogMessage("Состояние сохранено.");
+                
             }
             catch (Exception ex)
             {
@@ -1523,7 +1512,6 @@ namespace PipeWorkshopApp
                         listViewRejected.Items.Add(item);
                     }
 
-                    LogMessage("Состояние загружено.");
                 }
             }
             catch (Exception ex)
@@ -1580,7 +1568,7 @@ namespace PipeWorkshopApp
                 // Настройки карманов 1-4 сохраняются автоматически через обработчики событий
 
                 Properties.Settings.Default.Save();
-                LogMessage("Общие настройки сохранены.");
+                
             }
             catch (Exception ex)
             {
@@ -1635,7 +1623,7 @@ namespace PipeWorkshopApp
 
                 LoadKarmanBatchSettings();
 
-                LogMessage("Общие настройки загружены.");
+                
             }
             catch (Exception ex)
             {
@@ -1740,13 +1728,11 @@ namespace PipeWorkshopApp
             if (delta > 0)
             {
                 _manualAdditions[section] += delta;
-                LogMessage($"{delta} труб добавлено на '{section}'. Всего: {_sectionCounters[section]}");
             }
             else
             {
                 int absDelta = Math.Abs(delta);
                 _manualRemovals[section] += absDelta;
-                LogMessage($"{absDelta} труб удалено с '{section}'. Всего: {_sectionCounters[section]}");
             }
 
             UpdateSectionLabels();
