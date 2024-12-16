@@ -1663,7 +1663,7 @@ namespace PipeWorkshopApp
                 $"Ручное редактирование: {totalAdd - totalRemove}\n" +
                 $"Готовых труб: {totalInKarmany}\n" +
                 $"Ручное добавление в Брак: {totalInBrak}\n" +
-                $"Брак по Шарошке: {_rejectedCountShablon}\n" +
+                $"Брак по Шаблону: {_rejectedCountShablon}\n" +
                 $"Брак по НК: {_rejectedCountNK}\n" +
                 $"Брак по Опрессовке: {_rejectedCountPressed}\n" +
                 $"Всего бракованных: {_rejectedCount + totalInBrak}";
