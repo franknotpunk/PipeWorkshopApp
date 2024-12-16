@@ -25,6 +25,10 @@ namespace PipeWorkshopApp
         private Dictionary<string, int> _manualRemovals;     // Ручные удаления по участкам
 
         private int _rejectedCount = 0; // Количество бракованных труб
+        private int _rejectedCountShablon = 0; // Количество бракованных труб
+        private int _rejectedCountNK = 0; // Количество бракованных труб
+        private int _rejectedCountPressed = 0; // Количество бракованных труб
+
 
         private bool _isRunning = false;
 
@@ -416,6 +420,9 @@ namespace PipeWorkshopApp
                 _manualRemovals[key] = 0;
 
             _rejectedCount = 0;
+            _rejectedCountShablon = 0;
+            _rejectedCountNK = 0;
+            _rejectedCountPressed = 0;
             listViewRejected.Items.Clear();
 
             UpdateSectionLabels();
@@ -1289,7 +1296,6 @@ namespace PipeWorkshopApp
             {
                 case "Создание":
                     _sectionCounters["Шарошка"]++;
-                    LogMessage($"Труба добавлена на 'Шарошка'. Всего: {_sectionCounters["Шарошка"]}");
                     break;
 
                 case "Шарошка_Good":
@@ -1321,7 +1327,6 @@ namespace PipeWorkshopApp
                     break;
 
                 case "Карманы":
-                    LogMessage("Вот мы попали в карманы");
                     KarmanFunction();
                     break;
 
@@ -1369,10 +1374,27 @@ namespace PipeWorkshopApp
 
         private void RejectPipe(string sectionName)
         {
-            if (_sectionCounters[sectionName] > 0)
+            if (_sectionCounters.ContainsKey(sectionName) && _sectionCounters[sectionName] > 0)
             {
                 _sectionCounters[sectionName]--;
-                _rejectedCount++;
+
+                switch (sectionName)
+                {
+                    case "Шарошка":
+                        _rejectedCountShablon++;
+                        break;
+                    case "НК":
+                        _rejectedCountNK++;
+                        break;
+                    case "Опрессовка":
+                        _rejectedCountPressed++;
+                        break;
+                    default:
+                        // Если есть другие секции, можно добавить обработку здесь
+                        break;
+                }
+
+                _rejectedCount++; // Общее количество брака
 
                 var item = new ListViewItem(DateTime.Now.ToString("HH:mm:ss"));
                 item.SubItems.Add(sectionName);
@@ -1448,10 +1470,14 @@ namespace PipeWorkshopApp
         {
             var state = new SaveState
             {
-                SectionCounters = _sectionCounters,
-                ManualAdditions = _manualAdditions,
-                ManualRemovals = _manualRemovals,
+                SectionCounters = new Dictionary<string, int>(_sectionCounters),
+                ManualAdditions = new Dictionary<string, int>(_manualAdditions),
+                ManualRemovals = new Dictionary<string, int>(_manualRemovals),
                 RejectedCount = _rejectedCount,
+                RejectedCountShablon = _rejectedCountShablon,
+                RejectedCountNK = _rejectedCountNK,
+                RejectedCountPressed = _rejectedCountPressed,
+
                 RejectedRecords = listViewRejected.Items.Cast<ListViewItem>()
                     .Select(it => new RejectedRecord { Time = it.Text, Section = it.SubItems[1].Text })
                     .ToList()
@@ -1481,10 +1507,13 @@ namespace PipeWorkshopApp
 
                 if (state != null)
                 {
-                    _sectionCounters = state.SectionCounters;
-                    _manualAdditions = state.ManualAdditions;
-                    _manualRemovals = state.ManualRemovals;
+                    _sectionCounters = new Dictionary<string, int>(state.SectionCounters);
+                    _manualAdditions = new Dictionary<string, int>(state.ManualAdditions);
+                    _manualRemovals = new Dictionary<string, int>(state.ManualRemovals);
                     _rejectedCount = state.RejectedCount;
+                    _rejectedCountShablon = state.RejectedCountShablon;
+                    _rejectedCountNK = state.RejectedCountNK;
+                    _rejectedCountPressed = state.RejectedCountPressed;
 
                     listViewRejected.Items.Clear();
                     foreach (var rec in state.RejectedRecords)
@@ -1634,18 +1663,21 @@ namespace PipeWorkshopApp
         {
             int totalAdd = _manualAdditions.Values.Sum();
             int totalRemove = _manualRemovals.Values.Sum();
-            int totalInKarmany = _sectionCounters["Карманы"];
-            int totalInBrak = _sectionCounters["Брак"];
+            int totalInKarmany = _sectionCounters.ContainsKey("Карманы") ? _sectionCounters["Карманы"] : 0;
+            int totalInBrak = _sectionCounters.ContainsKey("Брак") ? _sectionCounters["Брак"] : 0;
 
             labelGlobalStats.Height = 60;
             labelGlobalStats.Font = new System.Drawing.Font(labelGlobalStats.Font.FontFamily, 12.0f, FontStyle.Bold);
 
-            // Допустим, у нас есть labelGlobalStats на форме
+            // Обновление текста с учетом новых переменных брака
             labelGlobalStats.Text =
                 $"Глобальная статистика:\n" +
                 $"Ручное редактирование: {totalAdd - totalRemove}\n" +
-                $"Всего в Карманы: {totalInKarmany}\n" +
+                $"Готовых труб: {totalInKarmany}\n" +
                 $"Ручное добавление в Брак: {totalInBrak}\n" +
+                $"Брак по Шарошке: {_rejectedCountShablon}\n" +
+                $"Брак по НК: {_rejectedCountNK}\n" +
+                $"Брак по Опрессовке: {_rejectedCountPressed}\n" +
                 $"Всего бракованных: {_rejectedCount + totalInBrak}";
         }
 
@@ -1752,6 +1784,10 @@ namespace PipeWorkshopApp
             public Dictionary<string, int> ManualAdditions { get; set; }
             public Dictionary<string, int> ManualRemovals { get; set; }
             public int RejectedCount { get; set; }
+            public int RejectedCountShablon { get; set; }
+            public int RejectedCountNK { get; set; }
+            public int RejectedCountPressed { get; set; }
+
             public List<RejectedRecord> RejectedRecords { get; set; } = new List<RejectedRecord>();
         }
 

@@ -128,6 +128,32 @@
             textBoxK2BatchSize = new TextBox();
             textBoxK3BatchSize = new TextBox();
             textBoxK4BatchSize = new TextBox();
+            label5 = new Label();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            label9 = new Label();
+            label10 = new Label();
+            label11 = new Label();
+            label12 = new Label();
+            label13 = new Label();
+            label14 = new Label();
+            label15 = new Label();
+            label16 = new Label();
+            label17 = new Label();
+            label18 = new Label();
+            label19 = new Label();
+            label20 = new Label();
+            label21 = new Label();
+            label22 = new Label();
+            label23 = new Label();
+            label24 = new Label();
+            label25 = new Label();
+            label26 = new Label();
+            label27 = new Label();
+            label28 = new Label();
+            label29 = new Label();
+            label30 = new Label();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
@@ -181,6 +207,8 @@
             // 
             // groupBox_sharoska
             // 
+            groupBox_sharoska.Controls.Add(label6);
+            groupBox_sharoska.Controls.Add(label5);
             groupBox_sharoska.Controls.Add(textBoxCreation_Port);
             groupBox_sharoska.Controls.Add(textBoxCreation_IP);
             groupBox_sharoska.Controls.Add(textBoxCreation_Register);
@@ -201,7 +229,7 @@
             groupBox_NK.Size = new Size(332, 57);
             groupBox_NK.TabIndex = 11;
             groupBox_NK.TabStop = false;
-            groupBox_NK.Text = "Шарошка_Good";
+            groupBox_NK.Text = "Шаблон";
             // 
             // textBoxSharoshkaGood_Port
             // 
@@ -234,7 +262,7 @@
             groupBox_Tokarka.Size = new Size(332, 57);
             groupBox_Tokarka.TabIndex = 11;
             groupBox_Tokarka.TabStop = false;
-            groupBox_Tokarka.Text = "Шарошка_Reject";
+            groupBox_Tokarka.Text = "Шаблон Брак";
             // 
             // textBoxSharoshkaReject_Port
             // 
@@ -267,7 +295,7 @@
             groupBox_Otvorot.Size = new Size(332, 57);
             groupBox_Otvorot.TabIndex = 11;
             groupBox_Otvorot.TabStop = false;
-            groupBox_Otvorot.Text = "НК_Good";
+            groupBox_Otvorot.Text = "НК";
             // 
             // textBoxНКGood_Port
             // 
@@ -353,7 +381,7 @@
             groupBox1.Size = new Size(332, 57);
             groupBox1.TabIndex = 12;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Опрессовка_Good";
+            groupBox1.Text = "Опрессовка";
             // 
             // textBoxOpressovkaGood_Port
             // 
@@ -419,7 +447,7 @@
             groupBox4.Size = new Size(332, 57);
             groupBox4.TabIndex = 13;
             groupBox4.TabStop = false;
-            groupBox4.Text = "Опрессовка_Reject";
+            groupBox4.Text = "Опрессовка Брак";
             // 
             // textBoxOpressovkaReject_Port
             // 
@@ -532,7 +560,7 @@
             НК_Reject.Size = new Size(332, 57);
             НК_Reject.TabIndex = 12;
             НК_Reject.TabStop = false;
-            НК_Reject.Text = "НК";
+            НК_Reject.Text = "НК Брак";
             // 
             // textBoxНКReject_Port
             // 
@@ -711,7 +739,7 @@
             groupBox7.Controls.Add(comboBoxK4Diameter);
             groupBox7.Controls.Add(comboBoxK4Group);
             groupBox7.Controls.Add(comboBoxK4Material);
-            groupBox7.Location = new Point(1253, 725);
+            groupBox7.Location = new Point(1253, 706);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(388, 57);
             groupBox7.TabIndex = 41;
@@ -744,7 +772,7 @@
             // 
             // buttonCloseBatch1
             // 
-            buttonCloseBatch1.Location = new Point(1374, 158);
+            buttonCloseBatch1.Location = new Point(1374, 179);
             buttonCloseBatch1.Name = "buttonCloseBatch1";
             buttonCloseBatch1.Size = new Size(121, 23);
             buttonCloseBatch1.TabIndex = 42;
@@ -754,7 +782,7 @@
             // 
             // buttonCloseBatch2
             // 
-            buttonCloseBatch2.Location = new Point(1374, 398);
+            buttonCloseBatch2.Location = new Point(1374, 419);
             buttonCloseBatch2.Name = "buttonCloseBatch2";
             buttonCloseBatch2.Size = new Size(121, 24);
             buttonCloseBatch2.TabIndex = 43;
@@ -764,7 +792,7 @@
             // 
             // buttonCloseBatch3
             // 
-            buttonCloseBatch3.Location = new Point(1380, 616);
+            buttonCloseBatch3.Location = new Point(1380, 640);
             buttonCloseBatch3.Name = "buttonCloseBatch3";
             buttonCloseBatch3.Size = new Size(121, 21);
             buttonCloseBatch3.TabIndex = 44;
@@ -774,7 +802,7 @@
             // 
             // buttonCloseBatch4
             // 
-            buttonCloseBatch4.Location = new Point(1365, 844);
+            buttonCloseBatch4.Location = new Point(1365, 858);
             buttonCloseBatch4.Name = "buttonCloseBatch4";
             buttonCloseBatch4.Size = new Size(121, 21);
             buttonCloseBatch4.TabIndex = 45;
@@ -784,177 +812,435 @@
             // 
             // textBoxK1CurrentBatch
             // 
-            textBoxK1CurrentBatch.Location = new Point(1508, 97);
+            textBoxK1CurrentBatch.Location = new Point(1508, 106);
             textBoxK1CurrentBatch.Name = "textBoxK1CurrentBatch";
             textBoxK1CurrentBatch.Size = new Size(121, 23);
             textBoxK1CurrentBatch.TabIndex = 46;
             // 
             // textBoxK1CurrentCount
             // 
-            textBoxK1CurrentCount.Location = new Point(1253, 97);
+            textBoxK1CurrentCount.Location = new Point(1253, 106);
             textBoxK1CurrentCount.Name = "textBoxK1CurrentCount";
             textBoxK1CurrentCount.Size = new Size(121, 23);
             textBoxK1CurrentCount.TabIndex = 47;
             // 
             // textBoxK2CurrentCount
             // 
-            textBoxK2CurrentCount.Location = new Point(1253, 335);
+            textBoxK2CurrentCount.Location = new Point(1253, 340);
             textBoxK2CurrentCount.Name = "textBoxK2CurrentCount";
             textBoxK2CurrentCount.Size = new Size(121, 23);
             textBoxK2CurrentCount.TabIndex = 49;
             // 
             // textBoxK2CurrentBatch
             // 
-            textBoxK2CurrentBatch.Location = new Point(1514, 335);
+            textBoxK2CurrentBatch.Location = new Point(1514, 340);
             textBoxK2CurrentBatch.Name = "textBoxK2CurrentBatch";
             textBoxK2CurrentBatch.Size = new Size(121, 23);
             textBoxK2CurrentBatch.TabIndex = 48;
             // 
             // textBoxK3CurrentCount
             // 
-            textBoxK3CurrentCount.Location = new Point(1253, 558);
+            textBoxK3CurrentCount.Location = new Point(1253, 570);
             textBoxK3CurrentCount.Name = "textBoxK3CurrentCount";
             textBoxK3CurrentCount.Size = new Size(121, 23);
             textBoxK3CurrentCount.TabIndex = 51;
             // 
             // textBoxK3CurrentBatch
             // 
-            textBoxK3CurrentBatch.Location = new Point(1514, 558);
+            textBoxK3CurrentBatch.Location = new Point(1514, 570);
             textBoxK3CurrentBatch.Name = "textBoxK3CurrentBatch";
             textBoxK3CurrentBatch.Size = new Size(121, 23);
             textBoxK3CurrentBatch.TabIndex = 50;
             // 
             // textBoxK4CurrentCount
             // 
-            textBoxK4CurrentCount.Location = new Point(1259, 785);
+            textBoxK4CurrentCount.Location = new Point(1259, 782);
             textBoxK4CurrentCount.Name = "textBoxK4CurrentCount";
             textBoxK4CurrentCount.Size = new Size(121, 23);
             textBoxK4CurrentCount.TabIndex = 53;
             // 
             // textBoxK4CurrentBatch
             // 
-            textBoxK4CurrentBatch.Location = new Point(1520, 785);
+            textBoxK4CurrentBatch.Location = new Point(1520, 782);
             textBoxK4CurrentBatch.Name = "textBoxK4CurrentBatch";
             textBoxK4CurrentBatch.Size = new Size(121, 23);
             textBoxK4CurrentBatch.TabIndex = 52;
             // 
             // textBoxKarmanPort1
             // 
-            textBoxKarmanPort1.Location = new Point(1431, 129);
+            textBoxKarmanPort1.Location = new Point(1431, 150);
             textBoxKarmanPort1.Name = "textBoxKarmanPort1";
             textBoxKarmanPort1.Size = new Size(64, 23);
             textBoxKarmanPort1.TabIndex = 4;
             // 
             // textBoxKarmanIp1
             // 
-            textBoxKarmanIp1.Location = new Point(1253, 129);
+            textBoxKarmanIp1.Location = new Point(1253, 150);
             textBoxKarmanIp1.Name = "textBoxKarmanIp1";
             textBoxKarmanIp1.Size = new Size(172, 23);
             textBoxKarmanIp1.TabIndex = 3;
             // 
             // textBoxKarmanRegister1
             // 
-            textBoxKarmanRegister1.Location = new Point(1501, 129);
+            textBoxKarmanRegister1.Location = new Point(1501, 150);
             textBoxKarmanRegister1.Name = "textBoxKarmanRegister1";
             textBoxKarmanRegister1.Size = new Size(64, 23);
             textBoxKarmanRegister1.TabIndex = 5;
             // 
             // textBoxKarmanPort2
             // 
-            textBoxKarmanPort2.Location = new Point(1431, 364);
+            textBoxKarmanPort2.Location = new Point(1431, 385);
             textBoxKarmanPort2.Name = "textBoxKarmanPort2";
             textBoxKarmanPort2.Size = new Size(64, 23);
             textBoxKarmanPort2.TabIndex = 55;
             // 
             // textBoxKarmanIp2
             // 
-            textBoxKarmanIp2.Location = new Point(1253, 364);
+            textBoxKarmanIp2.Location = new Point(1253, 385);
             textBoxKarmanIp2.Name = "textBoxKarmanIp2";
             textBoxKarmanIp2.Size = new Size(172, 23);
             textBoxKarmanIp2.TabIndex = 54;
             // 
             // textBoxKarmanRegister2
             // 
-            textBoxKarmanRegister2.Location = new Point(1501, 364);
+            textBoxKarmanRegister2.Location = new Point(1501, 385);
             textBoxKarmanRegister2.Name = "textBoxKarmanRegister2";
             textBoxKarmanRegister2.Size = new Size(64, 23);
             textBoxKarmanRegister2.TabIndex = 56;
             // 
             // textBoxKarmanPort3
             // 
-            textBoxKarmanPort3.Location = new Point(1431, 587);
+            textBoxKarmanPort3.Location = new Point(1431, 611);
             textBoxKarmanPort3.Name = "textBoxKarmanPort3";
             textBoxKarmanPort3.Size = new Size(64, 23);
             textBoxKarmanPort3.TabIndex = 58;
             // 
             // textBoxKarmanIp3
             // 
-            textBoxKarmanIp3.Location = new Point(1253, 587);
+            textBoxKarmanIp3.Location = new Point(1253, 611);
             textBoxKarmanIp3.Name = "textBoxKarmanIp3";
             textBoxKarmanIp3.Size = new Size(172, 23);
             textBoxKarmanIp3.TabIndex = 57;
             // 
             // textBoxKarmanRegister3
             // 
-            textBoxKarmanRegister3.Location = new Point(1501, 587);
+            textBoxKarmanRegister3.Location = new Point(1501, 611);
             textBoxKarmanRegister3.Name = "textBoxKarmanRegister3";
             textBoxKarmanRegister3.Size = new Size(64, 23);
             textBoxKarmanRegister3.TabIndex = 59;
             // 
             // textBoxKarmanPort4
             // 
-            textBoxKarmanPort4.Location = new Point(1437, 815);
+            textBoxKarmanPort4.Location = new Point(1437, 829);
             textBoxKarmanPort4.Name = "textBoxKarmanPort4";
             textBoxKarmanPort4.Size = new Size(64, 23);
             textBoxKarmanPort4.TabIndex = 61;
             // 
             // textBoxKarmanIp4
             // 
-            textBoxKarmanIp4.Location = new Point(1259, 815);
+            textBoxKarmanIp4.Location = new Point(1259, 829);
             textBoxKarmanIp4.Name = "textBoxKarmanIp4";
             textBoxKarmanIp4.Size = new Size(172, 23);
             textBoxKarmanIp4.TabIndex = 60;
             // 
             // textBoxKarmanRegister4
             // 
-            textBoxKarmanRegister4.Location = new Point(1507, 815);
+            textBoxKarmanRegister4.Location = new Point(1507, 829);
             textBoxKarmanRegister4.Name = "textBoxKarmanRegister4";
             textBoxKarmanRegister4.Size = new Size(64, 23);
             textBoxKarmanRegister4.TabIndex = 62;
             // 
             // textBoxK1BatchSize
             // 
-            textBoxK1BatchSize.Location = new Point(1381, 97);
+            textBoxK1BatchSize.Location = new Point(1381, 106);
             textBoxK1BatchSize.Name = "textBoxK1BatchSize";
             textBoxK1BatchSize.Size = new Size(121, 23);
             textBoxK1BatchSize.TabIndex = 63;
             // 
             // textBoxK2BatchSize
             // 
-            textBoxK2BatchSize.Location = new Point(1381, 335);
+            textBoxK2BatchSize.Location = new Point(1381, 340);
             textBoxK2BatchSize.Name = "textBoxK2BatchSize";
             textBoxK2BatchSize.Size = new Size(121, 23);
             textBoxK2BatchSize.TabIndex = 64;
             // 
             // textBoxK3BatchSize
             // 
-            textBoxK3BatchSize.Location = new Point(1380, 558);
+            textBoxK3BatchSize.Location = new Point(1380, 570);
             textBoxK3BatchSize.Name = "textBoxK3BatchSize";
             textBoxK3BatchSize.Size = new Size(121, 23);
             textBoxK3BatchSize.TabIndex = 65;
             // 
             // textBoxK4BatchSize
             // 
-            textBoxK4BatchSize.Location = new Point(1386, 786);
+            textBoxK4BatchSize.Location = new Point(1386, 783);
             textBoxK4BatchSize.Name = "textBoxK4BatchSize";
             textBoxK4BatchSize.Size = new Size(121, 23);
             textBoxK4BatchSize.TabIndex = 66;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(184, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(35, 15);
+            label5.TabIndex = 3;
+            label5.Text = "Порт";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(254, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(50, 15);
+            label6.TabIndex = 4;
+            label6.Text = "Регистр";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(1253, 88);
+            label7.Name = "label7";
+            label7.Size = new Size(90, 15);
+            label7.TabIndex = 5;
+            label7.Text = "Кол-во в пачке";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(1386, 88);
+            label8.Name = "label8";
+            label8.Size = new Size(80, 15);
+            label8.TabIndex = 67;
+            label8.Text = "Обьем пачки";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(1508, 88);
+            label9.Name = "label9";
+            label9.Size = new Size(81, 15);
+            label9.TabIndex = 68;
+            label9.Text = "Номер пачки";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(1259, 132);
+            label10.Name = "label10";
+            label10.Size = new Size(40, 15);
+            label10.TabIndex = 69;
+            label10.Text = "Адрес";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(1437, 132);
+            label11.Name = "label11";
+            label11.Size = new Size(35, 15);
+            label11.TabIndex = 70;
+            label11.Text = "Порт";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(1501, 132);
+            label12.Name = "label12";
+            label12.Size = new Size(50, 15);
+            label12.TabIndex = 5;
+            label12.Text = "Регистр";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(1495, 367);
+            label13.Name = "label13";
+            label13.Size = new Size(50, 15);
+            label13.TabIndex = 71;
+            label13.Text = "Регистр";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(1431, 367);
+            label14.Name = "label14";
+            label14.Size = new Size(35, 15);
+            label14.TabIndex = 76;
+            label14.Text = "Порт";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(1253, 367);
+            label15.Name = "label15";
+            label15.Size = new Size(40, 15);
+            label15.TabIndex = 75;
+            label15.Text = "Адрес";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(1502, 323);
+            label16.Name = "label16";
+            label16.Size = new Size(81, 15);
+            label16.TabIndex = 74;
+            label16.Text = "Номер пачки";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(1380, 323);
+            label17.Name = "label17";
+            label17.Size = new Size(80, 15);
+            label17.TabIndex = 73;
+            label17.Text = "Обьем пачки";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(1253, 323);
+            label18.Name = "label18";
+            label18.Size = new Size(90, 15);
+            label18.TabIndex = 72;
+            label18.Text = "Кол-во в пачке";
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(1501, 596);
+            label19.Name = "label19";
+            label19.Size = new Size(50, 15);
+            label19.TabIndex = 77;
+            label19.Text = "Регистр";
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new Point(1437, 596);
+            label20.Name = "label20";
+            label20.Size = new Size(35, 15);
+            label20.TabIndex = 82;
+            label20.Text = "Порт";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(1259, 596);
+            label21.Name = "label21";
+            label21.Size = new Size(40, 15);
+            label21.TabIndex = 81;
+            label21.Text = "Адрес";
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new Point(1508, 552);
+            label22.Name = "label22";
+            label22.Size = new Size(81, 15);
+            label22.TabIndex = 80;
+            label22.Text = "Номер пачки";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new Point(1386, 552);
+            label23.Name = "label23";
+            label23.Size = new Size(80, 15);
+            label23.TabIndex = 79;
+            label23.Text = "Обьем пачки";
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(1259, 552);
+            label24.Name = "label24";
+            label24.Size = new Size(90, 15);
+            label24.TabIndex = 78;
+            label24.Text = "Кол-во в пачке";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(1501, 808);
+            label25.Name = "label25";
+            label25.Size = new Size(50, 15);
+            label25.TabIndex = 83;
+            label25.Text = "Регистр";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new Point(1437, 808);
+            label26.Name = "label26";
+            label26.Size = new Size(35, 15);
+            label26.TabIndex = 88;
+            label26.Text = "Порт";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(1259, 808);
+            label27.Name = "label27";
+            label27.Size = new Size(40, 15);
+            label27.TabIndex = 87;
+            label27.Text = "Адрес";
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(1508, 764);
+            label28.Name = "label28";
+            label28.Size = new Size(81, 15);
+            label28.TabIndex = 86;
+            label28.Text = "Номер пачки";
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(1386, 764);
+            label29.Name = "label29";
+            label29.Size = new Size(80, 15);
+            label29.TabIndex = 85;
+            label29.Text = "Обьем пачки";
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(1259, 764);
+            label30.Name = "label30";
+            label30.Size = new Size(90, 15);
+            label30.TabIndex = 84;
+            label30.Text = "Кол-во в пачке";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1748, 899);
+            Controls.Add(label25);
+            Controls.Add(label26);
+            Controls.Add(label27);
+            Controls.Add(label28);
+            Controls.Add(label29);
+            Controls.Add(label30);
+            Controls.Add(label19);
+            Controls.Add(label20);
+            Controls.Add(label21);
+            Controls.Add(label22);
+            Controls.Add(label23);
+            Controls.Add(label24);
+            Controls.Add(label13);
+            Controls.Add(label14);
+            Controls.Add(label15);
+            Controls.Add(label16);
+            Controls.Add(label17);
+            Controls.Add(label18);
+            Controls.Add(label12);
+            Controls.Add(label11);
+            Controls.Add(label10);
+            Controls.Add(label9);
+            Controls.Add(label8);
+            Controls.Add(label7);
             Controls.Add(textBoxK4BatchSize);
             Controls.Add(textBoxK3BatchSize);
             Controls.Add(textBoxK2BatchSize);
@@ -1142,5 +1428,31 @@
         private TextBox textBoxK2BatchSize;
         private TextBox textBoxK3BatchSize;
         private TextBox textBoxK4BatchSize;
+        private Label label6;
+        private Label label5;
+        private Label label7;
+        private Label label8;
+        private Label label9;
+        private Label label10;
+        private Label label11;
+        private Label label12;
+        private Label label13;
+        private Label label14;
+        private Label label15;
+        private Label label16;
+        private Label label17;
+        private Label label18;
+        private Label label19;
+        private Label label20;
+        private Label label21;
+        private Label label22;
+        private Label label23;
+        private Label label24;
+        private Label label25;
+        private Label label26;
+        private Label label27;
+        private Label label28;
+        private Label label29;
+        private Label label30;
     }
 }
