@@ -1097,7 +1097,7 @@ namespace PipeWorkshopApp
                         { "макс", max },
                         { "count", totalCount.ToString() },
                         { "толщина", thickness.ToString("F1", CultureInfo.InvariantCulture) },
-                        { "диаметр", diam },
+                        { "diam", diam },
                         { "date", date },
                         { "length", totalLength.ToString() }
                     };
