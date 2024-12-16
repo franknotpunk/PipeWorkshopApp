@@ -767,7 +767,7 @@ namespace PipeWorkshopApp
 
                 if (pipe == null)
                 {
-                    LogMessage("Нет труб для распределения по карманам.");
+                    LogMessage("Нет труб в базе данных для распределения по карманам.");
                     return;
                 }
 
@@ -1420,17 +1420,50 @@ namespace PipeWorkshopApp
         {
             if (_sectionCounters["Маркировка"] > 0)
             {
+                // Есть трубы в разделе "Маркировка", обрабатываем как обычно
                 _sectionCounters["Маркировка"]--;
                 _sectionCounters["Карманы"]++;
-                
-                SaveMarkedPipeData(markingData); // Возможно, тут сразу вызывать отправку в карман
+
+                SaveMarkedPipeData(markingData); // Сохраняем данные о трубе
             }
             else
             {
-                LogMessage("Нет труб на участке 'Маркировка' для завершения маркировки.");
+                // Нет труб в разделе "Маркировка", добавляем трубу вручную
+                LogMessage("Нет труб на участке 'Маркировка' для завершения маркировки. Добавляем трубу вручную.");
+                AddPipeToSectionProgrammatically("Маркировка");
+
+                // Теперь обрабатываем добавленную трубу
+                _sectionCounters["Маркировка"]--;
+                _sectionCounters["Карманы"]++;
+
+                SaveMarkedPipeData(markingData); // Сохраняем данные о трубе
             }
+
+            // Добавляем запись в список бракованных труб
+            var item = new ListViewItem(DateTime.Now.ToString("HH:mm:ss"));
+            item.SubItems.Add("Маркировка");
+            listViewRejected.Items.Add(item);
+
             UpdateSectionLabels();
             UpdateGlobalStats();
+        }
+
+        private void AddPipeToSectionProgrammatically(string sectionName)
+        {
+            if (!_sectionCounters.ContainsKey(sectionName))
+            {
+                LogMessage($"Раздел '{sectionName}' не существует.");
+                return;
+            }
+
+            _sectionCounters[sectionName]++;
+            _manualAdditions[sectionName]++;
+
+            // Обновляем интерфейс и статистику
+            UpdateSectionLabels();
+            UpdateGlobalStats();
+
+            LogMessage($"Труба добавлена вручную в раздел '{sectionName}'.");
         }
 
         private void SaveMarkedPipeData(MarkingData markingData)
