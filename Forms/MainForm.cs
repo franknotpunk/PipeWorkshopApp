@@ -11,6 +11,8 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Xceed.Words.NET;
 using Xceed.Document.NET;
+using System.Security.Policy;
+using System.Text;
 
 namespace PipeWorkshopApp
 {
@@ -390,25 +392,25 @@ namespace PipeWorkshopApp
         private void buttonCloseBatch1_Click(object sender, EventArgs e)
         {
             CloseBatch(1);
-            SendGetRequestAsync().ConfigureAwait(false);
+            SendPostWarningAsync(true).ConfigureAwait(false);
         }
 
         private void buttonCloseBatch2_Click(object sender, EventArgs e)
         {
             CloseBatch(2);
-            SendGetRequestAsync().ConfigureAwait(false);
+            SendPostWarningAsync(true).ConfigureAwait(false);
         }
 
         private void buttonCloseBatch3_Click(object sender, EventArgs e)
         {
             CloseBatch(3);
-            SendGetRequestAsync().ConfigureAwait(false);
+            SendPostWarningAsync(true).ConfigureAwait(false);
         }
 
         private void buttonCloseBatch4_Click(object sender, EventArgs e)
         {
             CloseBatch(4);
-            SendGetRequestAsync().ConfigureAwait(false);
+            SendPostWarningAsync(true).ConfigureAwait(false);
         }
 
         private void buttonResetState_Click(object sender, EventArgs e)
@@ -829,7 +831,7 @@ namespace PipeWorkshopApp
                 {
 
                     LogMessage("Не удалось сопоставить трубу ни одному карману.");
-                    SendGetRequestAsync().ConfigureAwait(false);
+                    SendPostWarningAsync(false).ConfigureAwait(false);
                 }
             }
         }
@@ -838,21 +840,31 @@ namespace PipeWorkshopApp
         /// Отправляет GET-запрос на сервер при неудачной попытке сопоставления трубы.
         /// </summary>
         /// <param name="pipe">Объект трубы, которая не была сопоставлена.</param>
-        private async Task SendGetRequestAsync()
+        private async Task SendPostWarningAsync(bool isFullBatch)
         {
+            // Выбираем нужный путь в зависимости от параметра
+            // Предполагается, что в настройках ServerRejectAddres задан базовый адрес без конечного слеша,
+            // например "http://192.168.0.111:8080"
+            string baseUrl = Properties.Settings.Default.ServerRejectAddres;
+            string route = isFullBatch ? "/warnFullBatch" : "/warnNoPocket";
+            string url = baseUrl + route;
+
             try
             {
                 using (var client = new HttpClient())
                 {
-                    // Формируем URL. При необходимости добавьте параметры запроса.
-                    string url =  $"http://{Properties.Settings.Default.ServerRejectAddres}/"; // Замените на нужный URL, если отличается
+                    // Формируем простое содержимое JSON. Например, поле "warning" и параметр
+                    var warningData = new { warning = true };
+                    string json = JsonSerializer.Serialize(warningData);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    
-                    var response = await client.GetAsync(url);
+                    var response = await client.PostAsync(url, content);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        LogMessage("Был отправлено предупреждение маркировщику!");
+                        LogMessage(isFullBatch
+                            ? "Было отправлено предупреждение о заполненной пачке (POST)!!!"
+                            : "Было отправлено предупреждение о невозможности сопоставить трубу ни одному карману (POST)!!!");
                     }
                     else
                     {
@@ -862,7 +874,7 @@ namespace PipeWorkshopApp
             }
             catch (Exception ex)
             {
-                LogMessage($"Ошибка при отправке GET-запроса: {ex.Message}");
+                LogMessage($"Ошибка при отправке POST-запроса (предупреждение): {ex.Message} {url}");
             }
         }
 
@@ -967,7 +979,7 @@ namespace PipeWorkshopApp
             if (GetKarmanBatchCount(karmanNumber) >= batchSize)
             {
                 CloseBatch(karmanNumber);
-                SendGetRequestAsync().ConfigureAwait(false);
+                SendPostWarningAsync(true).ConfigureAwait(false);
             }
         }
 
