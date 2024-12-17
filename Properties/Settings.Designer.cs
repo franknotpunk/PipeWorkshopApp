@@ -898,5 +898,17 @@ namespace PipeWorkshopApp.Properties {
                 this["Karman4_Group"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ServerRejectAddres {
+            get {
+                return ((string)(this["ServerRejectAddres"]));
+            }
+            set {
+                this["ServerRejectAddres"] = value;
+            }
+        }
     }
 }

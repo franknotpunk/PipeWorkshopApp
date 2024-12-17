@@ -390,21 +390,25 @@ namespace PipeWorkshopApp
         private void buttonCloseBatch1_Click(object sender, EventArgs e)
         {
             CloseBatch(1);
+            SendGetRequestAsync().ConfigureAwait(false);
         }
 
         private void buttonCloseBatch2_Click(object sender, EventArgs e)
         {
             CloseBatch(2);
+            SendGetRequestAsync().ConfigureAwait(false);
         }
 
         private void buttonCloseBatch3_Click(object sender, EventArgs e)
         {
             CloseBatch(3);
+            SendGetRequestAsync().ConfigureAwait(false);
         }
 
         private void buttonCloseBatch4_Click(object sender, EventArgs e)
         {
             CloseBatch(4);
+            SendGetRequestAsync().ConfigureAwait(false);
         }
 
         private void buttonResetState_Click(object sender, EventArgs e)
@@ -572,7 +576,10 @@ namespace PipeWorkshopApp
                 Properties.Settings.Default.Karman4_Group = comboBoxK4Group.SelectedItem?.ToString() ?? "E";
 
 
-                Properties.Settings.Default.Save();
+                Properties.Settings.Default.ServerRejectAddres = textBoxServerReject.Text;
+
+
+               Properties.Settings.Default.Save();
             }
             catch (FormatException ex)
             {
@@ -637,6 +644,8 @@ namespace PipeWorkshopApp
                 SetComboBoxSelectedItem(comboBoxK4Diameter, Properties.Settings.Default.Karman4_Diameter);
                 SetComboBoxSelectedItem(comboBoxK4Material, Properties.Settings.Default.Karman4_Material);
                 SetComboBoxSelectedItem(comboBoxK4Group, Properties.Settings.Default.Karman4_Group);
+
+                textBoxServerReject.Text = Properties.Settings.Default.ServerRejectAddres;
 
                 UpdateKarmanUI(); // Обновляем интерфейс
 
@@ -792,24 +801,25 @@ namespace PipeWorkshopApp
                 string k4Group = comboBoxK4Group.SelectedItem?.ToString();
                 int k4BatchSize = int.TryParse(textBoxK4BatchSize.Text, out int temp4) ? temp4 : 100;
 
+
                 bool assigned = false;
 
-                if (pipe.Diameter == k1Diameter && pipe.Material == k1Material && pipe.Group == k1Group)
+                if (pipe.Diameter == k1Diameter && pipe.Material == k1Material && pipe.Group == k1Group &&  !checkBox1.Checked)
                 {
                     AssignPipeToKarman(dbContext, pipe, 1, k1BatchSize);
                     assigned = true;
                 }
-                else if (pipe.Diameter == k2Diameter && pipe.Material == k2Material && pipe.Group == k2Group)
+                else if (pipe.Diameter == k2Diameter && pipe.Material == k2Material && pipe.Group == k2Group && !checkBox2.Checked)
                 {
                     AssignPipeToKarman(dbContext, pipe, 2, k2BatchSize);
                     assigned = true;
                 }
-                else if (pipe.Diameter == k3Diameter && pipe.Material == k3Material && pipe.Group == k3Group)
+                else if (pipe.Diameter == k3Diameter && pipe.Material == k3Material && pipe.Group == k3Group && !checkBox3.Checked)
                 {
                     AssignPipeToKarman(dbContext, pipe, 3, k3BatchSize);
                     assigned = true;
                 }
-                else if (pipe.Diameter == k4Diameter && pipe.Material == k4Material && pipe.Group == k4Group)
+                else if (pipe.Diameter == k4Diameter && pipe.Material == k4Material && pipe.Group == k4Group && !checkBox4.Checked)
                 {
                     AssignPipeToKarman(dbContext, pipe, 4, k4BatchSize);
                     assigned = true;
@@ -817,8 +827,42 @@ namespace PipeWorkshopApp
 
                 if (!assigned)
                 {
+
                     LogMessage("Не удалось сопоставить трубу ни одному карману.");
+                    SendGetRequestAsync().ConfigureAwait(false);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Отправляет GET-запрос на сервер при неудачной попытке сопоставления трубы.
+        /// </summary>
+        /// <param name="pipe">Объект трубы, которая не была сопоставлена.</param>
+        private async Task SendGetRequestAsync()
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    // Формируем URL. При необходимости добавьте параметры запроса.
+                    string url =  $"http://{Properties.Settings.Default.ServerRejectAddres}/"; // Замените на нужный URL, если отличается
+
+                    
+                    var response = await client.GetAsync(url);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        LogMessage("Был отправлено предупреждение маркировщику!");
+                    }
+                    else
+                    {
+                        LogMessage($"Ошибка при отправке предупреждения маркировщику. Статус код: {response.StatusCode}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Ошибка при отправке GET-запроса: {ex.Message}");
             }
         }
 
@@ -923,6 +967,7 @@ namespace PipeWorkshopApp
             if (GetKarmanBatchCount(karmanNumber) >= batchSize)
             {
                 CloseBatch(karmanNumber);
+                SendGetRequestAsync().ConfigureAwait(false);
             }
         }
 
@@ -1034,6 +1079,7 @@ namespace PipeWorkshopApp
                     // Получить все трубы с заданным номером пачки
                     var pipes = dbContext.Pipes
                         .Where(p => p.BatchNumber == batchNumber)
+                        .OrderBy(p => p.PipeNumber)
                         .ToList();
 
                     if (pipes.Count == 0)

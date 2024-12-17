@@ -156,6 +156,12 @@
             label30 = new Label();
             label31 = new Label();
             label32 = new Label();
+            checkBox1 = new CheckBox();
+            checkBox2 = new CheckBox();
+            checkBox3 = new CheckBox();
+            checkBox4 = new CheckBox();
+            textBoxServerReject = new TextBox();
+            label33 = new Label();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
@@ -792,7 +798,7 @@
             // 
             // buttonCloseBatch1
             // 
-            buttonCloseBatch1.Location = new Point(1374, 179);
+            buttonCloseBatch1.Location = new Point(1508, 180);
             buttonCloseBatch1.Name = "buttonCloseBatch1";
             buttonCloseBatch1.Size = new Size(121, 23);
             buttonCloseBatch1.TabIndex = 42;
@@ -802,7 +808,7 @@
             // 
             // buttonCloseBatch2
             // 
-            buttonCloseBatch2.Location = new Point(1374, 419);
+            buttonCloseBatch2.Location = new Point(1514, 415);
             buttonCloseBatch2.Name = "buttonCloseBatch2";
             buttonCloseBatch2.Size = new Size(121, 24);
             buttonCloseBatch2.TabIndex = 43;
@@ -812,7 +818,7 @@
             // 
             // buttonCloseBatch3
             // 
-            buttonCloseBatch3.Location = new Point(1380, 640);
+            buttonCloseBatch3.Location = new Point(1514, 640);
             buttonCloseBatch3.Name = "buttonCloseBatch3";
             buttonCloseBatch3.Size = new Size(121, 21);
             buttonCloseBatch3.TabIndex = 44;
@@ -822,7 +828,7 @@
             // 
             // buttonCloseBatch4
             // 
-            buttonCloseBatch4.Location = new Point(1365, 858);
+            buttonCloseBatch4.Location = new Point(1514, 858);
             buttonCloseBatch4.Name = "buttonCloseBatch4";
             buttonCloseBatch4.Size = new Size(121, 21);
             buttonCloseBatch4.TabIndex = 45;
@@ -1232,11 +1238,73 @@
             label32.TabIndex = 90;
             label32.Text = "Общие логи";
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(1253, 182);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(134, 19);
+            checkBox1.TabIndex = 91;
+            checkBox1.Text = "Ручная блокировка";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(1253, 420);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(134, 19);
+            checkBox2.TabIndex = 92;
+            checkBox2.Text = "Ручная блокировка";
+            checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            checkBox3.AutoSize = true;
+            checkBox3.Location = new Point(1253, 642);
+            checkBox3.Name = "checkBox3";
+            checkBox3.Size = new Size(134, 19);
+            checkBox3.TabIndex = 93;
+            checkBox3.Text = "Ручная блокировка";
+            checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            checkBox4.AutoSize = true;
+            checkBox4.Location = new Point(1259, 858);
+            checkBox4.Name = "checkBox4";
+            checkBox4.Size = new Size(134, 19);
+            checkBox4.TabIndex = 94;
+            checkBox4.Text = "Ручная блокировка";
+            checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // textBoxServerReject
+            // 
+            textBoxServerReject.Location = new Point(902, 623);
+            textBoxServerReject.Name = "textBoxServerReject";
+            textBoxServerReject.Size = new Size(329, 23);
+            textBoxServerReject.TabIndex = 3;
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new Point(902, 605);
+            label33.Name = "label33";
+            label33.Size = new Size(241, 15);
+            label33.TabIndex = 95;
+            label33.Text = "Адрес на котором работает маркировщик";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1748, 899);
+            Controls.Add(label33);
+            Controls.Add(textBoxServerReject);
+            Controls.Add(checkBox4);
+            Controls.Add(checkBox3);
+            Controls.Add(checkBox2);
+            Controls.Add(checkBox1);
             Controls.Add(label32);
             Controls.Add(label31);
             Controls.Add(label25);
@@ -1478,5 +1546,11 @@
         private Label label30;
         private Label label31;
         private Label label32;
+        private CheckBox checkBox1;
+        private CheckBox checkBox2;
+        private CheckBox checkBox3;
+        private CheckBox checkBox4;
+        private TextBox textBoxServerReject;
+        private Label label33;
     }
 }
