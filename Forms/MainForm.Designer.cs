@@ -162,6 +162,8 @@
             checkBox4 = new CheckBox();
             textBoxServerReject = new TextBox();
             label33 = new Label();
+            button1 = new Button();
+            button2 = new Button();
             groupBox_sharoska.SuspendLayout();
             groupBox_NK.SuspendLayout();
             groupBox_Tokarka.SuspendLayout();
@@ -1294,11 +1296,33 @@
             label33.TabIndex = 95;
             label33.Text = "Адрес на котором работает маркировщик";
             // 
+            // button1
+            // 
+            button1.Location = new Point(927, 679);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 96;
+            button1.Text = "Нет турбы";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(1028, 679);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 97;
+            button2.Text = "фул пачка";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1748, 899);
+            Controls.Add(button2);
+            Controls.Add(button1);
             Controls.Add(label33);
             Controls.Add(textBoxServerReject);
             Controls.Add(checkBox4);
@@ -1552,5 +1576,7 @@
         private CheckBox checkBox4;
         private TextBox textBoxServerReject;
         private Label label33;
+        private Button button1;
+        private Button button2;
     }
 }

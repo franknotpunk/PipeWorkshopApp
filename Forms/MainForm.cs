@@ -581,7 +581,7 @@ namespace PipeWorkshopApp
                 Properties.Settings.Default.ServerRejectAddres = textBoxServerReject.Text;
 
 
-               Properties.Settings.Default.Save();
+                Properties.Settings.Default.Save();
             }
             catch (FormatException ex)
             {
@@ -806,7 +806,7 @@ namespace PipeWorkshopApp
 
                 bool assigned = false;
 
-                if (pipe.Diameter == k1Diameter && pipe.Material == k1Material && pipe.Group == k1Group &&  !checkBox1.Checked)
+                if (pipe.Diameter == k1Diameter && pipe.Material == k1Material && pipe.Group == k1Group && !checkBox1.Checked)
                 {
                     AssignPipeToKarman(dbContext, pipe, 1, k1BatchSize);
                     assigned = true;
@@ -846,7 +846,7 @@ namespace PipeWorkshopApp
             // Предполагается, что в настройках ServerRejectAddres задан базовый адрес без конечного слеша,
             // например "http://192.168.0.111:8080"
             string baseUrl = Properties.Settings.Default.ServerRejectAddres;
-            string route = isFullBatch ? "/warnFullBatch" : "/warnNoPocket";
+            string route = isFullBatch ? "warnFullBatch" : "warnNoPocket";
             string url = baseUrl + route;
 
             try
@@ -1118,7 +1118,7 @@ namespace PipeWorkshopApp
                     totalTonnage = Math.Round(totalTonnage, 2);
                     double thickness = double.Parse(firstPipe.Thickness, CultureInfo.InvariantCulture); // Убедитесь, что Thickness - string, иначе измените тип
                     string steel;
-                    if(firstPipe.Material == "CR")
+                    if (firstPipe.Material == "CR")
                     {
                         steel = "CS (хром)";
                     }
@@ -1411,7 +1411,7 @@ namespace PipeWorkshopApp
             {
                 _sectionCounters[fromSection]--;
                 _sectionCounters[toSection]++;
-                
+
             }
             else
             {
@@ -1447,7 +1447,7 @@ namespace PipeWorkshopApp
                 item.SubItems.Add(sectionName);
                 listViewRejected.Items.Add(item);
 
-                
+
             }
             else
             {
@@ -1539,7 +1539,7 @@ namespace PipeWorkshopApp
             dbContext.Pipes.Add(pipeData);
             dbContext.SaveChanges();
 
-            
+
         }
 
         #endregion
@@ -1568,7 +1568,7 @@ namespace PipeWorkshopApp
                 SaveKarmanSettings();
                 var json = JsonSerializer.Serialize(state, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(_stateFilePath, json);
-                
+
             }
             catch (Exception ex)
             {
@@ -1659,7 +1659,7 @@ namespace PipeWorkshopApp
                 // Настройки карманов 1-4 сохраняются автоматически через обработчики событий
 
                 Properties.Settings.Default.Save();
-                
+
             }
             catch (Exception ex)
             {
@@ -1714,7 +1714,7 @@ namespace PipeWorkshopApp
 
                 LoadKarmanBatchSettings();
 
-                
+
             }
             catch (Exception ex)
             {
@@ -1889,6 +1889,16 @@ namespace PipeWorkshopApp
                 modbusService.Disconnect();
 
             SaveStateFunk(); // Сохраняем состояние при закрытии
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SendPostWarningAsync(false).ConfigureAwait(false);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SendPostWarningAsync(true).ConfigureAwait(false);
         }
     }
 }
